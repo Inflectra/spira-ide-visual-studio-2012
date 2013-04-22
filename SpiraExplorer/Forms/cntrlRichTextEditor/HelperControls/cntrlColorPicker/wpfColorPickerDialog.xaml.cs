@@ -9,7 +9,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
     /// <summary>
     /// Interaction logic for ColorPickerDialog.xaml

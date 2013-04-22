@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 	/// <summary>
 	/// Interaction logic for AnchorDialogue.xaml

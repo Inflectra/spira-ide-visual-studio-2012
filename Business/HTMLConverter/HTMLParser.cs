@@ -65,7 +65,7 @@ using System.Xml;
 // deals with it
 
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 	/// <summary>
 	/// HtmlParser class accepts a string of possibly badly formed Html, parses it and returns a string

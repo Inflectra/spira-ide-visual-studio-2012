@@ -1,11 +1,11 @@
-﻿using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls;
+﻿using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls;
 using Microsoft.VisualStudio.Shell;
 using System.Windows;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
 using System;
 using Inflectra.Global;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 {
 	/// <summary>
 	/// This class implements the tool window exposed by this package and hosts a user control.

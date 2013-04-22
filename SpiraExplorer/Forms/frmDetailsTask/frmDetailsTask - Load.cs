@@ -6,11 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Shapes;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 {
 	public partial class frmDetailsTask : UserControl
 	{

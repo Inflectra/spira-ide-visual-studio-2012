@@ -10,7 +10,7 @@ using System.Collections;
 //---------------------------------------------------------------------------
 using System.Diagnostics;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 
 	/// <summary>HtmlSchema class maintains static information about HTML structure can be used by HtmlParser to check conditions under which an element starts or ends, etc.</summary>

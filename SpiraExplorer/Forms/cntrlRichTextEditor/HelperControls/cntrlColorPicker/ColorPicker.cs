@@ -18,7 +18,7 @@ using System.Windows.Data;
 using System.Windows.Markup;
 using System.Text;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 
 

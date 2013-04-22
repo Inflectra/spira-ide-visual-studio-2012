@@ -1,6 +1,6 @@
 <Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	x:Class="Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls.cntrlColorPicker"
-	xmlns:me="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls"
+	x:Class="Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls.cntrlColorPicker"
+	xmlns:me="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls"
 	xmlns:PresentationOptions="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options"  
 	Title="Select Color"
 	Width="400" Height="Auto"

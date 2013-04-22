@@ -14,7 +14,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 
 	/// <summary> HtmlToXamlConverter is a static class that takes an HTML string and converts it into XAML </summary>

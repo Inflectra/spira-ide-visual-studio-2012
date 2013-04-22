@@ -6,14 +6,14 @@ using System.ServiceModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties;
 using Inflectra.Global;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Linq;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	public static class StaticFuncs
 	{
@@ -31,7 +31,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
 					string resAssName = "";
 					foreach (string resName in satelliteAssembly.GetManifestResourceNames())
 					{
-						if (resName.ToLowerInvariant().Trim() == "Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Resources.Properties.Resources.resources".ToLowerInvariant())
+						if (resName.ToLowerInvariant().Trim() == "Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Resources.Properties.Resources.resources".ToLowerInvariant())
 							resAssName = resName.Substring(0, resName.LastIndexOf("."));
 					}
 
@@ -139,7 +139,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
 					wsDualHttp.Security.Transport.ClientCredentialType = HttpClientCredentialType.None;
 
 					//Allow self-signed certificates
-					Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.Spira_ImportExport.PermissiveCertificatePolicy.Enact("");
+					Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Spira_ImportExport.PermissiveCertificatePolicy.Enact("");
 				}
 
 				retClient = new SpiraTeam_Client.ImportExportClient(wsDualHttp, EndPtAddr);

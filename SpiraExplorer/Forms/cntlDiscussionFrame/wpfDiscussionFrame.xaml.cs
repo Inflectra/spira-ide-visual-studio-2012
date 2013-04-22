@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 	/// <summary>
 	/// Interaction logic for wpfDiscussionFrame.xaml

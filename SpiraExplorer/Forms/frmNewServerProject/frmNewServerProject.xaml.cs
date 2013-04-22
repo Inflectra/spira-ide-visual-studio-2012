@@ -6,10 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 {
 	/// <summary>
 	/// Interaction logic for frmNewSpiraProject.xaml

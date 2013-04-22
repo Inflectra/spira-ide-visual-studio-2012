@@ -13,7 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Text;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 	/// <summary>lexical analyzer class recognizes tokens as groups of characters separated by arbitrary amounts of whitespace also classifies tokens according to type </summary>
 

@@ -11,7 +11,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Xml;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 	/// <summary>Interaction logic for cntrlRichTextEditor.xaml</summary>
 	public partial class cntrlRichTextEditor : UserControl

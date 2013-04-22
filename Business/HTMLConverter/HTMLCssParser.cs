@@ -15,7 +15,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Xml;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 
 	internal static class HtmlCssParser

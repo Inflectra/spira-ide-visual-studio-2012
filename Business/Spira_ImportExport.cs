@@ -4,9 +4,9 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.ServiceModel;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	public partial class Spira_ImportExport : IDisposable
 	{

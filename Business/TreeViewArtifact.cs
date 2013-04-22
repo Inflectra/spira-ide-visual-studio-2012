@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.Forms;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Forms;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	public class TreeViewArtifact
 	{

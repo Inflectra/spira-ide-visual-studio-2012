@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Forms
 {
 	/// <summary>
 	/// Interaction logic for cntlTTipTask.xaml

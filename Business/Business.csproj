@@ -8,7 +8,7 @@
     <ProjectGuid>{256C278A-66AC-40CD-BB71-598586F6FA1C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business</RootNamespace>
+    <RootNamespace>Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business</RootNamespace>
     <AssemblyName>Business</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -191,126 +191,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Service References\SpiraTeam_Client\ImportExport1.wsdl" />
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteAssociation.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteAutomatedTestRun.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteAutomationEngine.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteAutomationHost.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteBuild.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteComment.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteCustomList.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteCustomListValue.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteCustomProperty.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteDataMapping.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteDocument.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteDocumentFolder.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteDocumentType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteDocumentVersion.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteIncident.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteIncidentPriority.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteIncidentSeverity.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteIncidentStatus.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteIncidentType.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteManualTestRun.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteProject.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteProjectRole.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteProjectUser.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteRelease.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteReleaseTestCaseMapping.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteRequirement.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteRequirementTestCaseMapping.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteSetting.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTask.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestCase.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestCaseParameter.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestRun.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestSet.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestSetTestCaseMapping.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteTestStep.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteUser.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteVersion.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteWorkflowIncidentCustomProperties.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteWorkflowIncidentFields.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
-    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client.RemoteWorkflowIncidentTransition.datasource">
-      <DependentUpon>Reference.svcmap</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\SpiraTeam_Client\" />
@@ -322,6 +202,126 @@
     <None Include="Service References\SpiraTeam_Client\configuration.svcinfo" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteAssociation.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteAutomatedTestRun.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteAutomationEngine.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteAutomationHost.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteBuild.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteComment.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteCustomList.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteCustomListValue.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteCustomProperty.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteDataMapping.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteDocument.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteDocumentFolder.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteDocumentType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteDocumentVersion.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteIncident.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteIncidentPriority.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteIncidentSeverity.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteIncidentStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteIncidentType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteManualTestRun.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteProject.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteProjectRole.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteProjectUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteRelease.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteReleaseTestCaseMapping.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteRequirement.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteRequirementTestCaseMapping.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteSetting.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTask.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestCase.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestCaseParameter.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestRun.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestSet.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestSetTestCaseMapping.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteTestStep.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteUser.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteVersion.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteWorkflowIncidentCustomProperties.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteWorkflowIncidentFields.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\SpiraTeam_Client\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client.RemoteWorkflowIncidentTransition.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
     <None Include="Service References\SpiraTeam_Client\Reference.svcmap">
       <Generator>WCF Proxy Generator</Generator>
       <LastGenOutput>Reference.cs</LastGenOutput>
@@ -381,7 +381,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_DetectChanges="False" BuildVersion_ConfigurationName="Release" BuildVersion_StartDate="2000/1/1" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_UseGlobalSettings="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" />
+      <UserProperties BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UseGlobalSettings="True" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_StartDate="2000/1/1" BuildVersion_ConfigurationName="Release" BuildVersion_DetectChanges="False" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

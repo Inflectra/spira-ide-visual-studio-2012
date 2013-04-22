@@ -8,7 +8,7 @@
 //
 //---------------------------------------------------------------------------
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.HTMLandXAML
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXAML
 {
 	/// <summary>types of lexical tokens for html-to-xaml converter</summary>
 	internal enum HtmlTokenType

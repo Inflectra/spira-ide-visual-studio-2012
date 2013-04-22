@@ -1,7 +1,7 @@
 ﻿using System;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	public class SpiraProject
 	{

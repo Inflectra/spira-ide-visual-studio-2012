@@ -2,7 +2,7 @@
 using System.Xml.Serialization;
 using System.Xml;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	[XmlRoot("list")]
 	public class SerializableList<TValue>

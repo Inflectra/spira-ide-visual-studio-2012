@@ -4,11 +4,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties;
 using Microsoft.VisualStudio.Shell;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 {
 	/// <summary>Interaction logic for cntlSpiraExplorer.xaml</summary>
 	public partial class cntlSpiraExplorer : UserControl

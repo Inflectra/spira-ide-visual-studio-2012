@@ -2,7 +2,7 @@
 // MUST match PkgCmdID.h
 using System;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012
 {
     static class PkgCmdIDList
     {

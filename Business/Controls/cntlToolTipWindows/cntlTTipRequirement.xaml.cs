@@ -1,7 +1,7 @@
 ﻿using System.Windows.Controls;
 using System;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Forms
 {
 	/// <summary>
 	/// Interaction logic for cntlTTipRequirement.xaml

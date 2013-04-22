@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SpiraTeam_Client;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 {
 	/// <summary>Holds the saving functions for frmDetailsIncident</summary>
 	public partial class frmDetailsIncident : UserControl

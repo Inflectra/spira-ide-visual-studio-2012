@@ -7,14 +7,14 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using EnvDTE;
 using Inflectra.Global;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Forms;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012
 {
 	/// <summary>This is the class that implements the package exposed by this assembly.
 	///

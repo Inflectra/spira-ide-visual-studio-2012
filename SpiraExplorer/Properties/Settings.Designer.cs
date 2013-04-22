@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties
 {
 
 
@@ -29,11 +29,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties
 
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SerializableDictionary<string, string> AssignedProjects
+		public global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SerializableDictionary<string, string> AssignedProjects
 		{
 			get
 			{
-				return ((global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SerializableDictionary<string, string>)(this["AssignedProjects"]));
+				return ((global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SerializableDictionary<string, string>)(this["AssignedProjects"]));
 			}
 			set
 			{
@@ -43,11 +43,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Properties
 
 		[global::System.Configuration.UserScopedSettingAttribute()]
 		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		public global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SerializableList<string> AllProjects
+		public global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SerializableList<string> AllProjects
 		{
 			get
 			{
-				return ((global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business.SerializableList<string>)(this["AllProjects"]));
+				return ((global::Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SerializableList<string>)(this["AllProjects"]));
 			}
 			set
 			{

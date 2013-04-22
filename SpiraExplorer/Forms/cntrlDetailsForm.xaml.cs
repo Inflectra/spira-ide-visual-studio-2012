@@ -2,9 +2,9 @@
 using System;
 using Inflectra.Global;
 using System.Windows;
-using Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Business;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business;
 
-namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2010.Controls
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 	/// <summary>
 	/// Interaction logic for UserControl1.xaml

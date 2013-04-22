@@ -167,7 +167,6 @@
     <Compile Include="Forms\cntrlRichTextEditor\HelperControls\cntrlColorPicker\wpfColorPickerDialog.xaml.cs">
       <DependentUpon>wpfColorPickerDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\cntrlNumericTextBox.cs" />
     <Compile Include="Forms\frmDetailsRequirement\frmDetailsRequirement - Load.cs">
       <SubType>Code</SubType>
     </Compile>
