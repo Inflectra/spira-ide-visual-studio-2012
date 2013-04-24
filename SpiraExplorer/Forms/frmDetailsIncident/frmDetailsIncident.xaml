@@ -625,21 +625,8 @@
 							<Expander.Header>
 								<TextBlock Name="lblExpanderCustom" VerticalAlignment="Center" />
 							</Expander.Header>
-							<Grid Name="gridCustomProperties" Background="{DynamicResource {x:Static vsfx:VsBrushes.DesignerBackgroundKey}}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<!-- COL0: Left Labels -->
-									<ColumnDefinition Width="6*" />
-									<!-- COL1: Left Dropdowns -->
-									<ColumnDefinition Width="10" />
-									<!-- COL2: Empty Space (Pink Floyd) -->
-									<ColumnDefinition Width="Auto" />
-									<!-- COL3: Right Labels -->
-									<ColumnDefinition Width="6*" />
-									<!-- COL4: Right Dropdowns -->
-								</Grid.ColumnDefinitions>
-							</Grid>
-						</Expander>
+                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" />
+                        </Expander>
 						<!-- Attachments -->
 						<Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
 							<Expander.Header>

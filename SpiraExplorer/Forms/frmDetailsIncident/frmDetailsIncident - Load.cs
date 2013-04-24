@@ -34,6 +34,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		private List<RemoteIncidentType> _IncType;
 		private List<RemoteIncidentStatus> _IncStatus;
 		private List<RemoteDocument> _IncDocuments;
+		private List<RemoteCustomList> _CustLists;
+		private List<RemoteCustomProperty> _IncProperties;
 		private string _IncDocumentsUrl;
 		private string _IncidentUrl;
 		private int? _tempHoursWorked;
@@ -71,23 +73,24 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this._client = StaticFuncs.CreateClient(((SpiraProject)this.ArtifactDetail.ArtifactParentProject.ArtifactTag).ServerURL.ToString());
 
 					//Set client events.
-					this._client.Connection_Authenticate2Completed += new EventHandler<Connection_Authenticate2CompletedEventArgs>(_client_Connection_Authenticate2Completed);
-					this._client.Connection_ConnectToProjectCompleted += new EventHandler<Connection_ConnectToProjectCompletedEventArgs>(_client_Connection_ConnectToProjectCompleted);
-					this._client.Connection_DisconnectCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(_client_Connection_DisconnectCompleted);
-					this._client.Incident_RetrieveByIdCompleted += new EventHandler<Incident_RetrieveByIdCompletedEventArgs>(_client_Incident_RetrieveByIdCompleted);
+					this._client.Connection_Authenticate2Completed += _client_Connection_Authenticate2Completed;
+					this._client.Connection_ConnectToProjectCompleted += _client_Connection_ConnectToProjectCompleted;
+					this._client.Connection_DisconnectCompleted += _client_Connection_DisconnectCompleted;
+					this._client.Document_RetrieveForArtifactCompleted += _client_Document_RetrieveForArtifactCompleted;
+					this._client.Release_RetrieveCompleted += _client_Release_RetrieveCompleted;
+					this._client.Project_RetrieveUserMembershipCompleted += _client_Project_RetrieveUserMembershipCompleted;
+					this._client.System_GetArtifactUrlCompleted += _client_System_GetArtifactUrlCompleted;
+					this._client.Incident_RetrieveByIdCompleted += _client_Incident_RetrieveByIdCompleted;
 					this._client.Incident_RetrieveCommentsCompleted+= _client_Incident_RetrieveResolutionsCompleted;
-					this._client.Incident_RetrieveSeveritiesCompleted += new EventHandler<Incident_RetrieveSeveritiesCompletedEventArgs>(_client_Incident_RetrieveSeveritiesCompleted);
-					this._client.Incident_RetrievePrioritiesCompleted += new EventHandler<Incident_RetrievePrioritiesCompletedEventArgs>(_client_Incident_RetrievePrioritiesCompleted);
-					this._client.Incident_RetrieveStatusesCompleted += new EventHandler<Incident_RetrieveStatusesCompletedEventArgs>(_client_Incident_RetrieveStatusesCompleted);
-					this._client.Incident_RetrieveTypesCompleted += new EventHandler<Incident_RetrieveTypesCompletedEventArgs>(_client_Incident_RetrieveTypesCompleted);
-					this._client.Incident_RetrieveWorkflowCustomPropertiesCompleted += new EventHandler<Incident_RetrieveWorkflowCustomPropertiesCompletedEventArgs>(_client_Incident_RetrieveWorkflowCustomPropertiesCompleted);
-					this._client.Incident_RetrieveWorkflowFieldsCompleted += new EventHandler<Incident_RetrieveWorkflowFieldsCompletedEventArgs>(_client_Incident_RetrieveWorkflowFieldsCompleted);
-					this._client.Incident_RetrieveWorkflowTransitionsCompleted += new EventHandler<Incident_RetrieveWorkflowTransitionsCompletedEventArgs>(_client_Incident_RetrieveWorkflowTransitionsCompleted);
-					this._client.Document_RetrieveForArtifactCompleted += new EventHandler<Document_RetrieveForArtifactCompletedEventArgs>(_client_Document_RetrieveForArtifactCompleted);
-					this._client.Release_RetrieveCompleted += new EventHandler<Release_RetrieveCompletedEventArgs>(_client_Release_RetrieveCompleted);
-					this._client.Project_RetrieveUserMembershipCompleted += new EventHandler<Project_RetrieveUserMembershipCompletedEventArgs>(_client_Project_RetrieveUserMembershipCompleted);
-					this._client.System_GetArtifactUrlCompleted += new EventHandler<System_GetArtifactUrlCompletedEventArgs>(_client_System_GetArtifactUrlCompleted);
-					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += new EventHandler<CustomProperty_RetrieveForArtifactTypeCompletedEventArgs>(_client_CustomProperty_RetrieveForArtifactTypeCompleted);
+					this._client.Incident_RetrieveSeveritiesCompleted += _client_Incident_RetrieveSeveritiesCompleted;
+					this._client.Incident_RetrievePrioritiesCompleted += _client_Incident_RetrievePrioritiesCompleted;
+					this._client.Incident_RetrieveStatusesCompleted += _client_Incident_RetrieveStatusesCompleted;
+					this._client.Incident_RetrieveTypesCompleted += _client_Incident_RetrieveTypesCompleted;
+					this._client.Incident_RetrieveWorkflowCustomPropertiesCompleted += _client_Incident_RetrieveWorkflowCustomPropertiesCompleted;
+					this._client.Incident_RetrieveWorkflowFieldsCompleted += _client_Incident_RetrieveWorkflowFieldsCompleted;
+					this._client.Incident_RetrieveWorkflowTransitionsCompleted += _client_Incident_RetrieveWorkflowTransitionsCompleted;
+					this._client.CustomProperty_RetrieveForArtifactTypeCompleted +=_client_CustomProperty_RetrieveForArtifactTypeCompleted;
+					this._client.CustomProperty_RetrieveCustomListsCompleted += _client_CustomProperty_RetrieveCustomListsCompleted;
 
 					//Fire the connection off here.
 					this._clientNumRunning++;
@@ -206,22 +209,19 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (e.Error == null && e.Result)
 					{
-						this._clientNumRunning += 9;
+						this._clientNumRunning += 11;
 						//Here we need to fire off all data retrieval functions:
-						// - Project users.
 						this._client.Project_RetrieveUserMembershipAsync(this._clientNum++);
-						// - Incident Statuses, Types, Priorities, Severities
+						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
+						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
+						this._client.Release_RetrieveAsync(true, this._clientNum++);
+						this._client.System_GetArtifactUrlAsync(-14, this._Project.ProjectID, -2, null, this._clientNum++);
 						this._client.Incident_RetrievePrioritiesAsync(this._clientNum++);
 						this._client.Incident_RetrieveSeveritiesAsync(this._clientNum++);
 						this._client.Incident_RetrieveStatusesAsync(this._clientNum++);
 						this._client.Incident_RetrieveTypesAsync(this._clientNum++);
 						this._client.CustomProperty_RetrieveForArtifactTypeAsync(3, false,  this._clientNum++);
-						// - Available Releases
-						this._client.Release_RetrieveAsync(true, this._clientNum++);
-						// - Resolutions / Comments
 						this._client.Incident_RetrieveCommentsAsync(this.ArtifactDetail.ArtifactId, this._clientNum++);
-						// - System URL
-						this._client.System_GetArtifactUrlAsync(-14, this._Project.ProjectID, -2, null, this._clientNum++);
 					}
 					else
 					{
@@ -779,80 +779,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (e.Error == null)
 					{
-						//Clear our WorkflowCustom field..
-						this._WorkflowCustom = new Dictionary<int, WorkflowField>();
-
-						//Here create the grid to hold the data.
-						this.gridCustomProperties.Children.Clear();
-						this.gridCustomProperties.RowDefinitions.Clear();
-						for (int i = 0; i < Math.Ceiling(e.Result.Count / 2D); i++)
-							this.gridCustomProperties.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-						//Here, create the contols..
-						bool IsOnFirst = true;
-						for (int j = 0; j < e.Result.Count; j++)
-						{
-							//** The label first.
-							TextBlock lblCustProp = new TextBlock();
-							lblCustProp.Text = e.Result[j].Alias + ":";
-							lblCustProp.Style = (Style)this.FindResource("PaddedLabel");
-							lblCustProp.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-
-							//Add it to the row/column.
-							Grid.SetColumn(lblCustProp, ((IsOnFirst) ? 0 : 3));
-							Grid.SetRow(lblCustProp, (int)Math.Floor(j / 2D));
-							//Add it to the grid.
-							this.gridCustomProperties.Children.Add(lblCustProp);
-
-							//** Now the control.
-							Control custControl = null;
-							if (e.Result[j].CustomPropertyTypeId == 1) //Text field.
-							{
-								TextBox txtControl = new TextBox();
-								txtControl.AcceptsReturn = true;
-								txtControl.AcceptsTab = true;
-								txtControl.MaxLines = 2;
-								txtControl.MinLines = 2;
-								txtControl.TextChanged += new TextChangedEventHandler(_cntrl_TextChanged);
-								custControl = txtControl;
-							}
-							else if (e.Result[j].CustomPropertyTypeId == 2) //List field.
-							{
-								ComboBox lsbControl = new ComboBox();
-								lsbControl.SelectedValuePath = "Key";
-								lsbControl.DisplayMemberPath = "Value";
-								lsbControl.SelectionChanged += new SelectionChangedEventHandler(_cntrl_TextChanged);
-
-								//Load selectable items.
-								lsbControl.Items.Add(new KeyValuePair<int, string>(-1, ""));
-								foreach (RemoteCustomListValue list in e.Result[j].CustomList.Values)
-								{
-									KeyValuePair<int, string> item = new KeyValuePair<int, string>(list.CustomPropertyValueId.Value, list.Name);
-									lsbControl.Items.Add(item);
-								}
-
-								custControl = lsbControl;
-							}
-							custControl.Style = (Style)this.FindResource("PaddedControl");
-							custControl.Tag = e.Result[j];
-							custControl.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-							custControl.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-							//Add it to the row/column.
-							Grid.SetColumn(custControl, ((IsOnFirst) ? 1 : 4));
-							Grid.SetRow(custControl, (int)Math.Floor(j / 2D));
-							//Add it to the grid.
-							this.gridCustomProperties.Children.Add(custControl);
-
-							//** Create our record for the field.
-							WorkflowField wkfCustom = new WorkflowField(e.Result[j].CustomPropertyId, e.Result[j].Alias, custControl, false, false, lblCustProp);
-							this._WorkflowCustom.Add(wkfCustom.FieldID, wkfCustom);
-
-							//Flip the IsOnFirst..
-							IsOnFirst = !IsOnFirst;
-						}
+						//Save the definitions.
+						this._IncProperties = e.Result;
 
 						//See if we're ready to get the actual data.
-						this.load_IsReadyToGetMainData();
+						this.load_IsReadyToDisplayData();
 					}
 					else
 					{
@@ -958,6 +889,42 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				Logger.LogMessage(ex, "_client_System_GetArtifactUrlCompleted()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private void _client_CustomProperty_RetrieveCustomListsCompleted(object sender, CustomProperty_RetrieveCustomListsCompletedEventArgs e)
+		{
+			const string METHOD = "_client_CustomProperty_RetrieveCustomListsCompleted()";
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+
+			this._clientNumRunning--;
+			this.barLoadingIncident.Value++;
+
+			if (!e.Cancelled)
+			{
+				if (e.Error == null)
+				{
+					//Save the custom lists.
+					this._CustLists = e.Result;
+
+					//See if we're ready to get the actual data.
+					this.load_IsReadyToDisplayData();
+				}
+				else
+				{
+					Logger.LogMessage(e.Error);
+					this._client.Connection_DisconnectAsync();
+
+					//Display the error panel.
+					this.display_ShowErrorPanel(
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessage") +
+						Environment.NewLine +
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessageDetails") +
+						Environment.NewLine +
+						e.Error.Message.Truncate(250, Strings.TruncateOptionsEnum.AllowLastWordToGoOverMaxLength & Strings.TruncateOptionsEnum.FinishWord & Strings.TruncateOptionsEnum.IncludeEllipsis));
+				}
+			}
+
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 		}
 
 		#endregion
@@ -1233,16 +1200,6 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		}
 		#endregion
 
-
-
-
-
-
-
-
-
-
-
 		/// <summary>Load the specified task into the data fields.</summary>
 		/// <param name="task">The task details to load into fields.</param>
 		private void loadItem_DisplayInformation(Business.SpiraTeam_Client.RemoteIncident incident)
@@ -1425,81 +1382,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					#endregion
 
 					#region Custom Properties
-					// We search backwards.
-					foreach (UIElement cntCustom in this.gridCustomProperties.Children)
-					{
-						if ((cntCustom as Control) != null)
-						{
-							if ((cntCustom as Control).Tag.GetType() == typeof(RemoteCustomProperty))
-							{
-								dynamic dynControl = cntCustom;
-								RemoteCustomProperty custProp = (RemoteCustomProperty)((Control)cntCustom).Tag;
-								switch (custProp.CustomPropertyName)
-								{
-									case "TEXT_01":
-										dynControl.Text = incident.Text01;
-										break;
-									case "TEXT_02":
-										dynControl.Text = incident.Text02;
-										break;
-									case "TEXT_03":
-										dynControl.Text = incident.Text03;
-										break;
-									case "TEXT_04":
-										dynControl.Text = incident.Text04;
-										break;
-									case "TEXT_05":
-										dynControl.Text = incident.Text05;
-										break;
-									case "TEXT_06":
-										dynControl.Text = incident.Text06;
-										break;
-									case "TEXT_07":
-										dynControl.Text = incident.Text07;
-										break;
-									case "TEXT_08":
-										dynControl.Text = incident.Text08;
-										break;
-									case "TEXT_09":
-										dynControl.Text = incident.Text09;
-										break;
-									case "TEXT_10":
-										dynControl.Text = incident.Text10;
-										break;
-									case "LIST_01":
-										dynControl.SelectedValue = incident.List01;
-										break;
-									case "LIST_02":
-										dynControl.SelectedValue = incident.List02;
-										break;
-									case "LIST_03":
-										dynControl.SelectedValue = incident.List03;
-										break;
-									case "LIST_04":
-										dynControl.SelectedValue = incident.List04;
-										break;
-									case "LIST_05":
-										dynControl.SelectedValue = incident.List05;
-										break;
-									case "LIST_06":
-										dynControl.SelectedValue = incident.List06;
-										break;
-									case "LIST_07":
-										dynControl.SelectedValue = incident.List07;
-										break;
-									case "LIST_08":
-										dynControl.SelectedValue = incident.List08;
-										break;
-									case "LIST_09":
-										dynControl.SelectedValue = incident.List09;
-										break;
-									case "LIST_10":
-										dynControl.SelectedValue = incident.List10;
-										break;
-								}
-							}
-						}
-					}
+					this.cntCustomProps.SetItemsSource(incident, this._IncProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
 					#endregion
 
 					//Set the tab title.

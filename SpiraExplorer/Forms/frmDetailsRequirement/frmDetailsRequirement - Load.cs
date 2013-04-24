@@ -31,7 +31,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		private List<RemoteRelease> _ProjReleases;
 		private List<RemoteDocument> _IncDocuments;
 		private List<RemoteCustomList> _CustLists;
-		private List<RemoteCustomProperty> _IncProperties;
+		private List<RemoteCustomProperty> _ReqProperties;
 		private string _ReqDocumentsUrl;
 		private string _RequirementUrl;
 
@@ -78,7 +78,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 					//Fire the connection off here.
 					this._clientNumRunning++;
-					this.barLoadingReq.Maximum = 10;
+					this.barLoadingReq.Maximum = 13;
 					this._client.Connection_Authenticate2Async(this._Project.UserName, this._Project.UserPass, StaticFuncs.getCultureResource.GetString("app_ReportName"), this._clientNum++);
 				}
 
@@ -192,25 +192,16 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (e.Error == null && e.Result)
 					{
-						this._clientNumRunning += 8;
+						this._clientNumRunning += 9;
 						//Here we need to fire off all data retrieval functions:
-						// - Project users.
 						this._client.Project_RetrieveUserMembershipAsync(this._clientNum++);
-						// - Custom Properties
 						this._client.CustomProperty_RetrieveForArtifactTypeAsync(1,false, this._clientNum++);
-						// - Custom Lists
 						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
-						// - Available Releases
 						this._client.Release_RetrieveAsync(true, this._clientNum++);
-						// - Resolutions / Comments
-						this._client.Requirement_RetrieveCommentsAsync(this.ArtifactDetail.ArtifactId, this._clientNum++);
-						// - System URL
 						this._client.System_GetArtifactUrlAsync(-14, this._Project.ProjectID, -2, null, this._clientNum++);
-						// - Get the Requirement.
-						this._client.Requirement_RetrieveByIdAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
-						// - Get documents for the item.
 						this._client.Document_RetrieveForArtifactAsync(1, this._ArtifactDetails.ArtifactId, new List<RemoteFilter> { }, new RemoteSort(), this._clientNum++);
-						// - Get the linked tasks.
+						this._client.Requirement_RetrieveCommentsAsync(this.ArtifactDetail.ArtifactId, this._clientNum++);
+						this._client.Requirement_RetrieveByIdAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
 						this._client.Task_RetrieveAsync(
 							new List<RemoteFilter> { new RemoteFilter() { IntValue = this._ArtifactDetails.ArtifactId, PropertyName = "RequirementId" } },
 							new RemoteSort() { PropertyName = "StartDate", SortAscending = true },
@@ -346,7 +337,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				if (e.Error == null)
 				{
 					//Save the definitions.
-					this._IncProperties = e.Result;
+					this._ReqProperties = e.Result;
 
 					//See if we're ready to get the actual data.
 					this.load_IsReadyToDisplayData();
@@ -1100,7 +1091,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					#endregion
 
 					#region Custom Properties
-					this.cntCustomProps.SetItemsSource(requirement, this._IncProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
+					this.cntCustomProps.SetItemsSource(requirement, this._ReqProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
 					#endregion
 
 					//Set the tab title.

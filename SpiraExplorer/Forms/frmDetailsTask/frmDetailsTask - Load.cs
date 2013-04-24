@@ -65,22 +65,22 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this._client = StaticFuncs.CreateClient(((SpiraProject)this.ArtifactDetail.ArtifactParentProject.ArtifactTag).ServerURL.ToString());
 
 					//Set client events.
-					this._client.Connection_Authenticate2Completed += new EventHandler<Connection_Authenticate2CompletedEventArgs>(_client_Connection_Authenticate2Completed);
-					this._client.Connection_ConnectToProjectCompleted += new EventHandler<Connection_ConnectToProjectCompletedEventArgs>(_client_Connection_ConnectToProjectCompleted);
-					this._client.Connection_DisconnectCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(_client_Connection_DisconnectCompleted);
-					this._client.Task_RetrieveByIdCompleted += new EventHandler<Task_RetrieveByIdCompletedEventArgs>(_client_Task_RetrieveByIdCompleted);
-					this._client.Task_RetrieveCommentsCompleted += new EventHandler<Task_RetrieveCommentsCompletedEventArgs>(_client_Task_RetrieveCommentsCompleted);
-					this._client.Requirement_RetrieveByIdCompleted += new EventHandler<Requirement_RetrieveByIdCompletedEventArgs>(_client_Requirement_RetrieveByIdCompleted);
-					this._client.Document_RetrieveForArtifactCompleted += new EventHandler<Document_RetrieveForArtifactCompletedEventArgs>(_client_Document_RetrieveForArtifactCompleted);
-					this._client.Release_RetrieveCompleted += new EventHandler<Release_RetrieveCompletedEventArgs>(_client_Release_RetrieveCompleted);
-					this._client.Project_RetrieveUserMembershipCompleted += new EventHandler<Project_RetrieveUserMembershipCompletedEventArgs>(_client_Project_RetrieveUserMembershipCompleted);
-					this._client.System_GetArtifactUrlCompleted += new EventHandler<System_GetArtifactUrlCompletedEventArgs>(_client_System_GetArtifactUrlCompleted);
-					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += new EventHandler<CustomProperty_RetrieveForArtifactTypeCompletedEventArgs>(_client_CustomProperty_RetrieveForArtifactTypeCompleted);
-
+					this._client.Connection_Authenticate2Completed += _client_Connection_Authenticate2Completed;
+					this._client.Connection_ConnectToProjectCompleted += _client_Connection_ConnectToProjectCompleted;
+					this._client.Connection_DisconnectCompleted += _client_Connection_DisconnectCompleted;
+					this._client.Document_RetrieveForArtifactCompleted +=_client_Document_RetrieveForArtifactCompleted;
+					this._client.Release_RetrieveCompleted += _client_Release_RetrieveCompleted;
+					this._client.Project_RetrieveUserMembershipCompleted += _client_Project_RetrieveUserMembershipCompleted;
+					this._client.System_GetArtifactUrlCompleted += _client_System_GetArtifactUrlCompleted;
+					this._client.Task_RetrieveByIdCompleted +=_client_Task_RetrieveByIdCompleted;
+					this._client.Task_RetrieveCommentsCompleted += _client_Task_RetrieveCommentsCompleted;
+					this._client.Requirement_RetrieveByIdCompleted += _client_Requirement_RetrieveByIdCompleted;
+					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += _client_CustomProperty_RetrieveForArtifactTypeCompleted;
+					this._client.CustomProperty_RetrieveCustomListsCompleted += _client_CustomProperty_RetrieveCustomListsCompleted;
 
 					//Fire the connection off here.
 					this._clientNumRunning++;
-					this.barLoadingTask.Maximum = 10;
+					this.barLoadingTask.Maximum = 13;
 					this._client.Connection_Authenticate2Async(this._Project.UserName, this._Project.UserPass, StaticFuncs.getCultureResource.GetString("app_ReportName"));
 
 				}
@@ -198,22 +198,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						this._clientNumRunning += 8;
 						//Here we need to fire off all data retrieval functions:
-						// - The Task.
-						this._client.Task_RetrieveByIdAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
-						// - Task's Documents
-						this._client.Document_RetrieveForArtifactAsync(6, this._ArtifactDetails.ArtifactId, new List<RemoteFilter>(), new RemoteSort());
-						// - Project users.
 						this._client.Project_RetrieveUserMembershipAsync(this._clientNum++);
-						// - Task Custom Properties
-						this._client.CustomProperty_RetrieveForArtifactTypeAsync(6, false,this._clientNum++);
-						// - Custom Lists
+						this._client.CustomProperty_RetrieveForArtifactTypeAsync(6, false, this._clientNum++);
 						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
-						// - Available Releases
 						this._client.Release_RetrieveAsync(true, this._clientNum++);
-						// - Resolutions / Comments
-						this._client.Task_RetrieveCommentsAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
-						// - System URL
 						this._client.System_GetArtifactUrlAsync(-14, this._Project.ProjectID, -2, null, this._clientNum++);
+						this._client.Document_RetrieveForArtifactAsync(6, this._ArtifactDetails.ArtifactId, new List<RemoteFilter>(), new RemoteSort());
+						this._client.Task_RetrieveByIdAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
+						this._client.Task_RetrieveCommentsAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
 					}
 					else
 					{

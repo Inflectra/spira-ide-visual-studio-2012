@@ -71,7 +71,7 @@
 				<Trigger Property="TextBlock.IsMouseOver" Value="true">
 					<Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarMenuBackgroundGradientKey}}" />
 				</Trigger>
-			</Style.Triggers>
+            </Style.Triggers>
 		</Style>
 		<Style x:Key="RequiredStyle">
 			<Style.Triggers>
