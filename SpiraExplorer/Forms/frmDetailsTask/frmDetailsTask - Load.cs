@@ -29,7 +29,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		//Other project-specific items.
 		private List<RemoteProjectUser> _ProjUsers;
 		private List<RemoteRelease> _ProjReleases;
-		private List<RemoteDocument> _IncDocuments;
+		private List<RemoteDocument> _TskDocuments;
+		private List<RemoteCustomList> _CustLists;
+		private List<RemoteCustomProperty> _TskProperties;
 		private string _TskDocumentsUrl;
 		private string _TaskUrl;
 		private int? _tempHoursWorked;
@@ -74,6 +76,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this._client.Project_RetrieveUserMembershipCompleted += new EventHandler<Project_RetrieveUserMembershipCompletedEventArgs>(_client_Project_RetrieveUserMembershipCompleted);
 					this._client.System_GetArtifactUrlCompleted += new EventHandler<System_GetArtifactUrlCompletedEventArgs>(_client_System_GetArtifactUrlCompleted);
 					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += new EventHandler<CustomProperty_RetrieveForArtifactTypeCompletedEventArgs>(_client_CustomProperty_RetrieveForArtifactTypeCompleted);
+
 
 					//Fire the connection off here.
 					this._clientNumRunning++;
@@ -193,7 +196,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (e.Error == null && e.Result)
 					{
-						this._clientNumRunning += 7;
+						this._clientNumRunning += 8;
 						//Here we need to fire off all data retrieval functions:
 						// - The Task.
 						this._client.Task_RetrieveByIdAsync(this._ArtifactDetails.ArtifactId, this._clientNum++);
@@ -203,6 +206,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						this._client.Project_RetrieveUserMembershipAsync(this._clientNum++);
 						// - Task Custom Properties
 						this._client.CustomProperty_RetrieveForArtifactTypeAsync(6, false,this._clientNum++);
+						// - Custom Lists
+						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
 						// - Available Releases
 						this._client.Release_RetrieveAsync(true, this._clientNum++);
 						// - Resolutions / Comments
@@ -355,70 +360,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (e.Error == null)
 					{
-						//Here create the grid to hold the data.
-						this.gridCustomProperties.Children.Clear();
-						this.gridCustomProperties.RowDefinitions.Clear();
-						for (int i = 0; i < Math.Ceiling(e.Result.Count / 2D); i++)
-							this.gridCustomProperties.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-						//Here, create the contols..
-						bool IsOnFirst = true;
-						for (int j = 0; j < e.Result.Count; j++)
-						{
-							//** The label first.
-							TextBlock lblCustProp = new TextBlock();
-							lblCustProp.Text = e.Result[j].Alias + ":";
-							lblCustProp.Style = (Style)this.FindResource("PaddedLabel");
-							lblCustProp.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-
-							//Add it to the row/column.
-							Grid.SetColumn(lblCustProp, ((IsOnFirst) ? 0 : 3));
-							Grid.SetRow(lblCustProp, (int)Math.Floor(j / 2D));
-							//Add it to the grid.
-							this.gridCustomProperties.Children.Add(lblCustProp);
-
-							//** Now the control.
-							Control custControl = null;
-							if (e.Result[j].CustomPropertyTypeId == 1) //Text field.
-							{
-								TextBox txtControl = new TextBox();
-								txtControl.AcceptsReturn = true;
-								txtControl.AcceptsTab = true;
-								txtControl.MaxLines = 2;
-								txtControl.MinLines = 2;
-								txtControl.TextChanged += new TextChangedEventHandler(_cntrl_TextChanged);
-								custControl = txtControl;
-							}
-							else if (e.Result[j].CustomPropertyTypeId == 2) //List field.
-							{
-								ComboBox lsbControl = new ComboBox();
-								lsbControl.SelectedValuePath = "Key";
-								lsbControl.DisplayMemberPath = "Value";
-								lsbControl.SelectionChanged += new SelectionChangedEventHandler(_cntrl_TextChanged);
-
-								//Load selectable items.
-								lsbControl.Items.Add(new KeyValuePair<int, string>(-1, ""));
-								foreach (RemoteCustomListValue list in e.Result[j].CustomList.Values)
-								{
-									KeyValuePair<int, string> item = new KeyValuePair<int, string>(list.CustomPropertyValueId.Value, list.Name);
-									lsbControl.Items.Add(item);
-								}
-
-								custControl = lsbControl;
-							}
-							custControl.Style = (Style)this.FindResource("PaddedControl");
-							custControl.Tag = e.Result[j];
-							custControl.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-							custControl.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-							//Add it to the row/column.
-							Grid.SetColumn(custControl, ((IsOnFirst) ? 1 : 4));
-							Grid.SetRow(custControl, (int)Math.Floor(j / 2D));
-							//Add it to the grid.
-							this.gridCustomProperties.Children.Add(custControl);
-
-							//Flip the IsOnFirst..
-							IsOnFirst = !IsOnFirst;
-						}
+						//Save the definitions.
+						this._TskProperties = e.Result;
 
 						//See if we're ready to get the actual data.
 						this.load_IsReadyToDisplayData();
@@ -465,7 +408,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					if (e.Error == null)
 					{
 						//Get the results into our variable.
-						this._IncDocuments = e.Result;
+						this._TskDocuments = e.Result;
 						//We won't load them into display until the other information is displayed.
 
 						this.load_IsReadyToDisplayData();
@@ -681,6 +624,42 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				Logger.LogMessage(ex, "_client_Requirement_RetrieveByIdCompleted()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+		}
+
+		private void _client_CustomProperty_RetrieveCustomListsCompleted(object sender, CustomProperty_RetrieveCustomListsCompletedEventArgs e)
+		{
+			const string METHOD = "_client_CustomProperty_RetrieveCustomListsCompleted()";
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+
+			this._clientNumRunning--;
+			this.barLoadingTask.Value++;
+
+			if (!e.Cancelled)
+			{
+				if (e.Error == null)
+				{
+					//Save the custom lists.
+					this._CustLists = e.Result;
+
+					//See if we're ready to get the actual data.
+					this.load_IsReadyToDisplayData();
+				}
+				else
+				{
+					Logger.LogMessage(e.Error);
+					this._client.Connection_DisconnectAsync();
+
+					//Display the error panel.
+					this.display_ShowErrorPanel(
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessage") +
+						Environment.NewLine +
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessageDetails") +
+						Environment.NewLine +
+						e.Error.Message.Truncate(250, Strings.TruncateOptionsEnum.AllowLastWordToGoOverMaxLength & Strings.TruncateOptionsEnum.FinishWord & Strings.TruncateOptionsEnum.IncludeEllipsis));
+				}
+			}
+
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 		}
 
 		#endregion
@@ -904,9 +883,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					Logger.LogMessage(ex, CLASS + METHOD + " Clearing Attachments Grid");
 				}
 				//Add new rows.
-				if (this._IncDocuments != null)
+				if (this._TskDocuments != null)
 				{
-					foreach (RemoteDocument incidentAttachment in this._IncDocuments)
+					foreach (RemoteDocument incidentAttachment in this._TskDocuments)
 					{
 						int numAdding = this.gridAttachments.RowDefinitions.Count;
 						//Create textblocks..
@@ -1024,81 +1003,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				#endregion
 
 				#region Custom Properties
-				// We search backwards.
-				foreach (UIElement cntCustom in this.gridCustomProperties.Children)
-				{
-					if ((cntCustom as Control) != null)
-					{
-						if ((cntCustom as Control).Tag.GetType() == typeof(RemoteCustomProperty))
-						{
-							dynamic dynControl = cntCustom;
-							RemoteCustomProperty custProp = (RemoteCustomProperty)((Control)cntCustom).Tag;
-							switch (custProp.CustomPropertyName)
-							{
-								case "TEXT_01":
-									dynControl.Text = task.Text01;
-									break;
-								case "TEXT_02":
-									dynControl.Text = task.Text02;
-									break;
-								case "TEXT_03":
-									dynControl.Text = task.Text03;
-									break;
-								case "TEXT_04":
-									dynControl.Text = task.Text04;
-									break;
-								case "TEXT_05":
-									dynControl.Text = task.Text05;
-									break;
-								case "TEXT_06":
-									dynControl.Text = task.Text06;
-									break;
-								case "TEXT_07":
-									dynControl.Text = task.Text07;
-									break;
-								case "TEXT_08":
-									dynControl.Text = task.Text08;
-									break;
-								case "TEXT_09":
-									dynControl.Text = task.Text09;
-									break;
-								case "TEXT_10":
-									dynControl.Text = task.Text10;
-									break;
-								case "LIST_01":
-									dynControl.SelectedValue = task.List01;
-									break;
-								case "LIST_02":
-									dynControl.SelectedValue = task.List02;
-									break;
-								case "LIST_03":
-									dynControl.SelectedValue = task.List03;
-									break;
-								case "LIST_04":
-									dynControl.SelectedValue = task.List04;
-									break;
-								case "LIST_05":
-									dynControl.SelectedValue = task.List05;
-									break;
-								case "LIST_06":
-									dynControl.SelectedValue = task.List06;
-									break;
-								case "LIST_07":
-									dynControl.SelectedValue = task.List07;
-									break;
-								case "LIST_08":
-									dynControl.SelectedValue = task.List08;
-									break;
-								case "LIST_09":
-									dynControl.SelectedValue = task.List09;
-									break;
-								case "LIST_10":
-									dynControl.SelectedValue = task.List10;
-									break;
-							}
-						}
-					}
-				}
+				this.cntCustomProps.SetItemsSource(task, this._TskProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
 				#endregion
 
 				//Set the tab title.

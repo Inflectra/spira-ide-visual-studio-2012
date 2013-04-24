@@ -12,11 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
+using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls;
 using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms;
 using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit;
-using Test_CustomControl.ImportExport;
 
-namespace Test_CustomControl
+namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 {
 	/// <summary>
 	/// Interaction logic for cntlCustomProps.xaml
@@ -409,16 +410,17 @@ namespace Test_CustomControl
 
 					//The label properties..
 					propLabel.Text = prop.Name + ":";
-					//propLabel.Padding = this.LabelPadding;
 					propLabel.Margin = this.LabelMargin;
 					propLabel.VerticalAlignment = this.LabelVerticalAlignment;
 					propLabel.HorizontalAlignment = this.LabelHorizontalAlignment;
+					if (this.LabelStyle != null) propLabel.Style = this.LabelStyle;
 
 					//The other control properties..
 					propControl.Margin = this.ControlMargin;
 					propControl.Padding = this.ControlPadding;
 					propControl.VerticalAlignment = this.ControlVerticalAlignment;
 					propControl.HorizontalAlignment = this.ControlHorizontalAlignment;
+					if (this.ControlStyle != null) propControl.Style = this.ControlStyle;
 
 					// Get a new row, if necessary.
 					int useCols = (2 * ((twoCols) ? 2 : 1));
@@ -583,6 +585,15 @@ namespace Test_CustomControl
 		/// <summary>Vertical Alignment for controls.</summary>
 		public VerticalAlignment ControlVerticalAlignment
 		{ get; set; }
+
+		/// <summary>The Style to apply to Controls.</summary>
+		public Style ControlStyle
+		{ get; set; }
+
+		/// <summary>The style to apply to labels.</summary>
+		public Style LabelStyle
+		{ get; set; }
+
 		#endregion #Properties
 
 		#region Public Functions

@@ -30,6 +30,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		private List<RemoteProjectUser> _ProjUsers;
 		private List<RemoteRelease> _ProjReleases;
 		private List<RemoteDocument> _IncDocuments;
+		private List<RemoteCustomList> _CustLists;
+		private List<RemoteCustomProperty> _IncProperties;
 		private string _ReqDocumentsUrl;
 		private string _RequirementUrl;
 
@@ -52,7 +54,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 					//Set flag, reset vars..
 					this.IsLoading = true;
-					this.barLoadingIncident.Value = 0;
+					this.barLoadingReq.Value = 0;
 					this._ReqDocumentsUrl = null;
 					this._RequirementUrl = null;
 
@@ -61,23 +63,23 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this._client = StaticFuncs.CreateClient(((SpiraProject)this.ArtifactDetail.ArtifactParentProject.ArtifactTag).ServerURL.ToString());
 
 					//Set client events.
-					this._client.Connection_Authenticate2Completed += new EventHandler<Connection_Authenticate2CompletedEventArgs>(_client_Connection_Authenticate2Completed);
-					this._client.Connection_ConnectToProjectCompleted += new EventHandler<Connection_ConnectToProjectCompletedEventArgs>(_client_Connection_ConnectToProjectCompleted);
-					this._client.Connection_DisconnectCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(_client_Connection_DisconnectCompleted);
-					this._client.Document_RetrieveForArtifactCompleted += new EventHandler<Document_RetrieveForArtifactCompletedEventArgs>(_client_Document_RetrieveForArtifactCompleted);
-					this._client.Release_RetrieveCompleted += new EventHandler<Release_RetrieveCompletedEventArgs>(_client_Release_RetrieveCompleted);
-					this._client.Project_RetrieveUserMembershipCompleted += new EventHandler<Project_RetrieveUserMembershipCompletedEventArgs>(_client_Project_RetrieveUserMembershipCompleted);
-					this._client.System_GetArtifactUrlCompleted += new EventHandler<System_GetArtifactUrlCompletedEventArgs>(_client_System_GetArtifactUrlCompleted);
-					this._client.Requirement_RetrieveByIdCompleted += new EventHandler<Requirement_RetrieveByIdCompletedEventArgs>(_client_Requirement_RetrieveByIdCompleted);
-					this._client.Requirement_RetrieveCommentsCompleted += new EventHandler<Requirement_RetrieveCommentsCompletedEventArgs>(_client_Requirement_RetrieveCommentsCompleted);
-					this._client.Task_RetrieveCompleted += new EventHandler<Task_RetrieveCompletedEventArgs>(_client_Task_RetrieveCompleted);
-					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += new EventHandler<CustomProperty_RetrieveForArtifactTypeCompletedEventArgs>(_client_CustomProperty_RetrieveForArtifactTypeCompleted);
+					this._client.Connection_Authenticate2Completed += _client_Connection_Authenticate2Completed;
+					this._client.Connection_ConnectToProjectCompleted += _client_Connection_ConnectToProjectCompleted;
+					this._client.Connection_DisconnectCompleted += _client_Connection_DisconnectCompleted;
+					this._client.Document_RetrieveForArtifactCompleted += _client_Document_RetrieveForArtifactCompleted;
+					this._client.Release_RetrieveCompleted += _client_Release_RetrieveCompleted;
+					this._client.Project_RetrieveUserMembershipCompleted += _client_Project_RetrieveUserMembershipCompleted;
+					this._client.System_GetArtifactUrlCompleted += _client_System_GetArtifactUrlCompleted;
+					this._client.Requirement_RetrieveByIdCompleted += _client_Requirement_RetrieveByIdCompleted;
+					this._client.Requirement_RetrieveCommentsCompleted += _client_Requirement_RetrieveCommentsCompleted;
+					this._client.Task_RetrieveCompleted += _client_Task_RetrieveCompleted;
+					this._client.CustomProperty_RetrieveForArtifactTypeCompleted += _client_CustomProperty_RetrieveForArtifactTypeCompleted;
+					this._client.CustomProperty_RetrieveCustomListsCompleted += _client_CustomProperty_RetrieveCustomListsCompleted;
 
 					//Fire the connection off here.
 					this._clientNumRunning++;
-					this.barLoadingIncident.Maximum = 9;
+					this.barLoadingReq.Maximum = 10;
 					this._client.Connection_Authenticate2Async(this._Project.UserName, this._Project.UserPass, StaticFuncs.getCultureResource.GetString("app_ReportName"), this._clientNum++);
-
 				}
 
 				return retValue;
@@ -125,7 +127,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -184,7 +186,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -196,6 +198,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						this._client.Project_RetrieveUserMembershipAsync(this._clientNum++);
 						// - Custom Properties
 						this._client.CustomProperty_RetrieveForArtifactTypeAsync(1,false, this._clientNum++);
+						// - Custom Lists
+						this._client.CustomProperty_RetrieveCustomListsAsync(this._clientNum++);
 						// - Available Releases
 						this._client.Release_RetrieveAsync(true, this._clientNum++);
 						// - Resolutions / Comments
@@ -261,7 +265,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 			this._clientNumRunning--;
-			this.barLoadingIncident.Value++;
+			this.barLoadingReq.Value++;
 
 			if (!e.Cancelled)
 			{
@@ -298,7 +302,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 			this._clientNumRunning--;
-			this.barLoadingIncident.Value++;
+			this.barLoadingReq.Value++;
 
 			if (!e.Cancelled)
 			{
@@ -335,76 +339,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 			this._clientNumRunning--;
-			this.barLoadingIncident.Value++;
+			this.barLoadingReq.Value++;
 
 			if (!e.Cancelled)
 			{
 				if (e.Error == null)
 				{
-					//Here create the grid to hold the data.
-					this.gridCustomProperties.Children.Clear();
-					this.gridCustomProperties.RowDefinitions.Clear();
-					for (int i = 0; i < Math.Ceiling(e.Result.Count / 2D); i++)
-						this.gridCustomProperties.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-					//Here, create the contols..
-					bool IsOnFirst = true;
-					for (int j = 0; j < e.Result.Count; j++)
-					{
-						//** The label first.
-						TextBlock lblCustProp = new TextBlock();
-						lblCustProp.Text = e.Result[j].Alias + ":";
-						lblCustProp.Style = (Style)this.FindResource("PaddedLabel");
-						lblCustProp.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-
-						//Add it to the row/column.
-						Grid.SetColumn(lblCustProp, ((IsOnFirst) ? 0 : 3));
-						Grid.SetRow(lblCustProp, (int)Math.Floor(j / 2D));
-						//Add it to the grid.
-						this.gridCustomProperties.Children.Add(lblCustProp);
-
-						//** Now the control.
-						Control custControl = null;
-						if (e.Result[j].CustomPropertyTypeId == 1) //Text field.
-						{
-							TextBox txtControl = new TextBox();
-							txtControl.AcceptsReturn = true;
-							txtControl.AcceptsTab = true;
-							txtControl.MaxLines = 2;
-							txtControl.MinLines = 2;
-							txtControl.TextChanged += new TextChangedEventHandler(_cntrl_TextChanged);
-							custControl = txtControl;
-						}
-						else if (e.Result[j].CustomPropertyTypeId == 2) //List field.
-						{
-							ComboBox lsbControl = new ComboBox();
-							lsbControl.SelectedValuePath = "Key";
-							lsbControl.DisplayMemberPath = "Value";
-							lsbControl.SelectionChanged += new SelectionChangedEventHandler(_cntrl_TextChanged);
-
-							//Load selectable items.
-							lsbControl.Items.Add(new KeyValuePair<int, string>(-1, ""));
-							foreach (RemoteCustomListValue list in e.Result[j].CustomList.Values)
-							{
-								KeyValuePair<int, string> item = new KeyValuePair<int, string>(list.CustomPropertyValueId.Value, list.Name);
-								lsbControl.Items.Add(item);
-							}
-
-							custControl = lsbControl;
-						}
-						custControl.Style = (Style)this.FindResource("PaddedControl");
-						custControl.Tag = e.Result[j];
-						custControl.HorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-						custControl.VerticalAlignment = System.Windows.VerticalAlignment.Top;
-						//Add it to the row/column.
-						Grid.SetColumn(custControl, ((IsOnFirst) ? 1 : 4));
-						Grid.SetRow(custControl, (int)Math.Floor(j / 2D));
-						//Add it to the grid.
-						this.gridCustomProperties.Children.Add(custControl);
-
-						//Flip the IsOnFirst..
-						IsOnFirst = !IsOnFirst;
-					}
+					//Save the definitions.
+					this._IncProperties = e.Result;
 
 					//See if we're ready to get the actual data.
 					this.load_IsReadyToDisplayData();
@@ -438,7 +380,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -446,7 +388,6 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						//Get the results into our variable.
 						this._IncDocuments = e.Result;
-						//We won't load them into display until the other information is displayed.
 
 						this.load_IsReadyToDisplayData();
 					}
@@ -475,7 +416,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -522,7 +463,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -558,6 +499,42 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			}
 		}
 
+		private void _client_CustomProperty_RetrieveCustomListsCompleted(object sender, CustomProperty_RetrieveCustomListsCompletedEventArgs e)
+		{
+			const string METHOD = "_client_CustomProperty_RetrieveCustomListsCompleted()";
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+
+			this._clientNumRunning--;
+			this.barLoadingReq.Value++;
+
+			if (!e.Cancelled)
+			{
+				if (e.Error == null)
+				{
+					//Save the custom lists.
+					this._CustLists = e.Result;
+
+					//See if we're ready to get the actual data.
+					this.load_IsReadyToDisplayData();
+				}
+				else
+				{
+					Logger.LogMessage(e.Error);
+					this._client.Connection_DisconnectAsync();
+
+					//Display the error panel.
+					this.display_ShowErrorPanel(
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessage") +
+						Environment.NewLine +
+						StaticFuncs.getCultureResource.GetString("app_General_TalkingToServerErrorMessageDetails") +
+						Environment.NewLine +
+						e.Error.Message.Truncate(250, Strings.TruncateOptionsEnum.AllowLastWordToGoOverMaxLength & Strings.TruncateOptionsEnum.FinishWord & Strings.TruncateOptionsEnum.IncludeEllipsis));
+				}
+			}
+
+			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+		}
+
 		/// <summary>Hit when the client is finished getting the requirement.</summary>
 		/// <param name="sender">ImportExportClient</param>
 		/// <param name="e">Requirement_RetrieveByIdCompletedEventArgs</param>
@@ -569,7 +546,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -616,7 +593,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
-				this.barLoadingIncident.Value++;
+				this.barLoadingReq.Value++;
 
 				if (!e.Cancelled)
 				{
@@ -653,9 +630,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		}
 		#endregion
 
-		/// <summary>Checks to see if it's okay to start loading form data.
-		/// Called after the two Workflow data retrieval Asyncs.
-		/// </summary>
+		/// <summary>Checks to see if it's okay to start loading form data. Called after the two Workflow data retrieval Asyncs.</summary>
 		private void load_IsReadyToDisplayData()
 		{
 			try
@@ -969,20 +944,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		}
 		#endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-		/// <summary>Load the specified task into the data fields.</summary>
-		/// <param name="task">The task details to load into fields.</param>
+		/// <summary>Load the specified requirement into the data fields.</summary>
+		/// <param name="requirement">The requirement details to load into fields.</param>
 		private void loadItem_DisplayInformation(RemoteRequirement requirement)
 		{
 			try
@@ -1137,81 +1100,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					#endregion
 
 					#region Custom Properties
-					// We search backwards.
-					foreach (UIElement cntCustom in this.gridCustomProperties.Children)
-					{
-						if ((cntCustom as Control) != null)
-						{
-							if ((cntCustom as Control).Tag.GetType() == typeof(RemoteCustomProperty))
-							{
-								dynamic dynControl = cntCustom;
-								RemoteCustomProperty custProp = (RemoteCustomProperty)((Control)cntCustom).Tag;
-								switch (custProp.CustomPropertyName)
-								{
-									case "TEXT_01":
-										dynControl.Text = requirement.Text01;
-										break;
-									case "TEXT_02":
-										dynControl.Text = requirement.Text02;
-										break;
-									case "TEXT_03":
-										dynControl.Text = requirement.Text03;
-										break;
-									case "TEXT_04":
-										dynControl.Text = requirement.Text04;
-										break;
-									case "TEXT_05":
-										dynControl.Text = requirement.Text05;
-										break;
-									case "TEXT_06":
-										dynControl.Text = requirement.Text06;
-										break;
-									case "TEXT_07":
-										dynControl.Text = requirement.Text07;
-										break;
-									case "TEXT_08":
-										dynControl.Text = requirement.Text08;
-										break;
-									case "TEXT_09":
-										dynControl.Text = requirement.Text09;
-										break;
-									case "TEXT_10":
-										dynControl.Text = requirement.Text10;
-										break;
-									case "LIST_01":
-										dynControl.SelectedValue = requirement.List01;
-										break;
-									case "LIST_02":
-										dynControl.SelectedValue = requirement.List02;
-										break;
-									case "LIST_03":
-										dynControl.SelectedValue = requirement.List03;
-										break;
-									case "LIST_04":
-										dynControl.SelectedValue = requirement.List04;
-										break;
-									case "LIST_05":
-										dynControl.SelectedValue = requirement.List05;
-										break;
-									case "LIST_06":
-										dynControl.SelectedValue = requirement.List06;
-										break;
-									case "LIST_07":
-										dynControl.SelectedValue = requirement.List07;
-										break;
-									case "LIST_08":
-										dynControl.SelectedValue = requirement.List08;
-										break;
-									case "LIST_09":
-										dynControl.SelectedValue = requirement.List09;
-										break;
-									case "LIST_10":
-										dynControl.SelectedValue = requirement.List10;
-										break;
-								}
-							}
-						}
-					}
+					this.cntCustomProps.SetItemsSource(requirement, this._IncProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
 					#endregion
 
 					//Set the tab title.

@@ -11,5 +11,5 @@ using System.Resources;
 [assembly: AssemblyCopyright("Copyright (C)2006-2011 Inflectra Corporation")]
 [assembly: AssemblyTrademark("Inflectra, SpiraTest, SpiraPlan and SpiraTeam are either registered trademarks or trademarks of Inflectra Corporation in the U.S. and/or other countries.")]
 [assembly: NeutralResourcesLanguage("en-US")]
-[assembly: AssemblyVersion("4.0.0.15918")]
-[assembly: AssemblyFileVersion("4.0.0.15918")]
+[assembly: AssemblyVersion("4.0.0.15924")]
+[assembly: AssemblyFileVersion("4.0.0.15924")]

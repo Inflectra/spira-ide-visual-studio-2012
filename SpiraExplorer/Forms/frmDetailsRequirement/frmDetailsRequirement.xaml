@@ -3,6 +3,7 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:bus_client="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;assembly=Business"
 	xmlns:ui_cntrl="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls"
+    xmlns:tk="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit;assembly=WPFFormats"
 	xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
 	xmlns:resources="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties"
 	Padding="0"
@@ -271,7 +272,7 @@
 					<Image Name="imgLoadingIncident" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Width="48" Margin="5" />
 					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
 						<TextBlock Name="lblLoadingIncident" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTabTextKey}}" FontWeight="Bold"  HorizontalAlignment="Center" Margin="0,0,0,3"  />
-						<ProgressBar Name="barLoadingIncident" HorizontalAlignment="Stretch" Height="10" Margin="5,0,5,0" Maximum="1" Minimum="0" />
+                        <ProgressBar Name="barLoadingReq" HorizontalAlignment="Stretch" Height="10" Margin="5,0,5,0" Maximum="1" Minimum="0" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
@@ -285,7 +286,7 @@
 					<Image Name="imgSavingIncident" HorizontalAlignment="Center" VerticalAlignment="Center" Height="48" Width="48" Margin="5" />
 					<StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="10">
 						<TextBlock Name="lblSavingIncident" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTabTextKey}}" FontWeight="Bold"  HorizontalAlignment="Center" Margin="0,0,0,3"  />
-						<ProgressBar Name="barSavingIncident" HorizontalAlignment="Stretch" Height="10" Margin="5,0,5,0" Maximum="1" Minimum="0" />
+                        <ProgressBar Name="barSavingReq" HorizontalAlignment="Stretch" Height="10" Margin="5,0,5,0" Maximum="1" Minimum="0" />
 					</StackPanel>
 				</StackPanel>
 			</Border>
@@ -463,9 +464,9 @@
 							<!-- ROW3: Planned Effort, Owned By -->
 							<TextBlock Name="lblPlnEffort" Grid.Column="0" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
 							<StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-								<ui_cntrl:NumericTextBox MaxLength="3" x:Name="cntrlPlnEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" />
+								<tk:IntegerUpDown x:Name="cntrlPlnEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Minimum="0" Maximum="720" />
 								<TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours" />
-								<ui_cntrl:NumericTextBox MaxLength="2" x:Name="cntrlPlnEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" Background="{Binding ElementName=cntrlPlnEffortH, Path=Background}" />
+                                <tk:IntegerUpDown x:Name="cntrlPlnEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Minimum="0" Maximum="59" Background="{Binding ElementName=cntrlPlnEffortH, Path=Background}" />
 								<TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins" />
 							</StackPanel>
 							<TextBlock  Name="lblOwnedBy" Grid.Column="3" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
@@ -551,22 +552,9 @@
 						<!-- Custom Properties -->
 						<Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
 							<Expander.Header>
-								<TextBlock Name="lblExpanderCustom" VerticalAlignment="Center" />
+                                <TextBlock Name="lblExpanderCustom" VerticalAlignment="Center" />
 							</Expander.Header>
-							<Grid Name="gridCustomProperties" Background="{DynamicResource {x:Static vsfx:VsBrushes.DesignerBackgroundKey}}">
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition Width="Auto" />
-									<!-- COL0: Left Labels -->
-									<ColumnDefinition Width="6*" />
-									<!-- COL1: Left Dropdowns -->
-									<ColumnDefinition Width="10" />
-									<!-- COL2: Empty Space (Pink Floyd) -->
-									<ColumnDefinition Width="Auto" />
-									<!-- COL3: Right Labels -->
-									<ColumnDefinition Width="6*" />
-									<!-- COL4: Right Dropdowns -->
-								</Grid.ColumnDefinitions>
-							</Grid>
+                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" />
 						</Expander>
 						<!-- Attachments -->
 						<Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">

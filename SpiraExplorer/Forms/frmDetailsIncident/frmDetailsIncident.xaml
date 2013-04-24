@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.frmDetailsIncident"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:bus_client="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;assembly=Business"
+    xmlns:bus_client="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;assembly=Business"
 	xmlns:ui_cntrl="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls"
+    xmlns:tk="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit;assembly=WPFFormats"
 	xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
 	xmlns:resources="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties"
 	Padding="0"
@@ -592,9 +593,9 @@
 								</Grid>
 								<TextBlock Name="lblEstEffort" Grid.Column="3" Grid.Row="1" Style="{StaticResource PaddedLabel}" />
 								<StackPanel Grid.Column="4" Grid.Row="1" Orientation="Horizontal">
-									<ui_cntrl:NumericTextBox MaxLength="3" x:Name="cntrlEstEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" />
+									<tk:IntegerUpDown x:Name="cntrlEstEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Maximum="720" Minimum="0" />
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours4" />
-									<ui_cntrl:NumericTextBox MaxLength="2" x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" />
+                                    <tk:IntegerUpDown x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" Maximum="59" Minimum="0" />
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins4" />
 								</StackPanel>
 								<!-- ROW2: Projected Effort / Actual Effort -->
@@ -604,17 +605,17 @@
 								</TextBlock>
 								<TextBlock Name="lblActEffort" Grid.Column="3" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
 								<StackPanel Grid.Column="4" Grid.Row="2" Orientation="Horizontal">
-									<ui_cntrl:NumericTextBox MaxLength="3" x:Name="cntrlActEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" />
+                                    <tk:IntegerUpDown x:Name="cntrlActEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0"  Maximum="720" Minimum="0" />
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours2" />
-									<ui_cntrl:NumericTextBox MaxLength="2" x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" />
+                                    <tk:IntegerUpDown x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins2" />
 								</StackPanel>
 								<!-- ROW3: Remaining Effort -->
 								<TextBlock Name="lblRemEffort" Grid.Column="3" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
 								<StackPanel Grid.Column="4" Grid.Row="3" Orientation="Horizontal">
-									<ui_cntrl:NumericTextBox MaxLength="3" x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" />
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0"  Maximum="720" Minimum="0"/>
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours3" />
-									<ui_cntrl:NumericTextBox MaxLength="2" x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" TextChanged="cntrlMasked_TextChanged" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" />
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
 									<TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins3" />
 								</StackPanel>
 							</Grid>

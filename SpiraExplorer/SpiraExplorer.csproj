@@ -85,6 +85,9 @@
     <Reference Include="PresentationFramework" />
     <Reference Include="WindowsBase" />
     <Reference Include="System.Xaml" />
+    <Reference Include="WPFFormats">
+      <HintPath>Assemblies\WPFFormats.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="EnvDTE">
@@ -146,9 +149,6 @@
     <Compile Include="..\SharedAssemblyInfo.cs">
       <Link>Properties\SharedAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Forms\cntlCustomProps.xaml.cs">
-      <DependentUpon>cntlCustomProps.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\cntlDiscussionFrame\wpfDiscussionFrame.xaml.cs">
       <DependentUpon>wpfDiscussionFrame.xaml</DependentUpon>
     </Compile>
@@ -166,6 +166,9 @@
     <Compile Include="Forms\cntrlRichTextEditor\HelperControls\cntrlColorPicker\SupportingClasses.cs" />
     <Compile Include="Forms\cntrlRichTextEditor\HelperControls\cntrlColorPicker\wpfColorPickerDialog.xaml.cs">
       <DependentUpon>wpfColorPickerDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CustomPropertyControl\cntlCustomProps.xaml.cs">
+      <DependentUpon>cntlCustomProps.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\frmDetailsRequirement\frmDetailsRequirement - Load.cs">
       <SubType>Code</SubType>
@@ -277,10 +280,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Forms\cntlCustomProps.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Forms\cntlDiscussionFrame\wpfDiscussionFrame.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -308,6 +307,10 @@
     <Page Include="Forms\cntrlRichTextEditor\HelperControls\cntrlColorPicker\wpfColorPickerDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\CustomPropertyControl\cntlCustomProps.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -387,6 +390,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assemblies\" />
+  </ItemGroup>
   <PropertyGroup>
     <UseCodebase>true</UseCodebase>
   </PropertyGroup>
@@ -399,7 +405,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_StartDate="2000/1/1" BuildVersion_DetectChanges="False" BuildVersion_IncrementBeforeBuild="True" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UseGlobalSettings="True" />
+      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_IncrementBeforeBuild="True" BuildVersion_DetectChanges="False" BuildVersion_StartDate="2000/1/1" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

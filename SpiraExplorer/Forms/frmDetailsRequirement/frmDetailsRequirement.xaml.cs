@@ -453,7 +453,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						}
 						else
 						{
-							this.barLoadingIncident.Value = 1;
+							this.barLoadingReq.Value = 1;
 							this.display_SetOverlayWindow(this.panelStatus, Visibility.Hidden);
 						}
 
@@ -485,7 +485,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 					else
 					{
-						this.barLoadingIncident.Value = 1;
+						this.barLoadingReq.Value = 1;
 						this.display_SetOverlayWindow(this.panelSaving, Visibility.Hidden);
 					}
 
