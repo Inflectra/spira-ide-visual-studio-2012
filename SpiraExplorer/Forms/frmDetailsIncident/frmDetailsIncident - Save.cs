@@ -425,156 +425,23 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="moddedTask">The concurrent task.</param>
 		private bool save_CheckIfConcurrencyCanBeMerged(RemoteIncident moddedIncident)
 		{
+			bool retValue = false;
 			try
 			{
-				bool retValue = false;
 
 				//Get current values..
 				RemoteIncident userIncident = this.save_GetFromFields();
 
-				if (userIncident != null && moddedIncident != null)
-				{
-					//Okay, check all fields. We want to see if a user-changed field (userTask) was also
-					//   changed by someone else. If it was, we return false (they cannot be merged). Otherwise,
-					//   we return true (they can be merged).
-					//So we check the user-entered field against the original field. If they are different,
-					//   check the original field against the concurrent field. If they are different, return
-					//   false. Otherwise to both if's, return true.
-					//We just loop through all available fields. The fielNum here has no reference to workflow
-					//   field ID, _WorkflowFields is just used to get the count of fields to check against.
-					int fieldNum = 1;
-					bool fieldCheck = true;
-					while (fieldNum < 39 && fieldCheck == true)
-					{
-						switch (fieldNum)
-						{
-							case 1:
-								if (userIncident.ActualEffort != this._Incident.ActualEffort) fieldCheck = (this._Incident.ActualEffort == moddedIncident.ActualEffort);
-								break;
-							case 2:
-								if (userIncident.ClosedDate != this._Incident.ClosedDate) fieldCheck = (this._Incident.ClosedDate == moddedIncident.ClosedDate);
-								break;
-							case 3:
-								if (userIncident.CreationDate != this._Incident.CreationDate) fieldCheck = (this._Incident.CreationDate == moddedIncident.CreationDate);
-								break;
-							case 4:
-								if (StaticFuncs.StripTagsCharArray(userIncident.Description).ToLowerInvariant().Trim() != StaticFuncs.StripTagsCharArray(this._Incident.Description).ToLowerInvariant().Trim()) fieldCheck = (StaticFuncs.StripTagsCharArray(this._Incident.Description).ToLowerInvariant().Trim() == StaticFuncs.StripTagsCharArray(moddedIncident.Description).ToLowerInvariant().Trim());
-								break;
-							case 5:
-								if (userIncident.DetectedReleaseId != this._Incident.DetectedReleaseId) fieldCheck = (this._Incident.DetectedReleaseId == moddedIncident.DetectedReleaseId);
-								break;
-							case 6:
-								if (userIncident.EstimatedEffort != this._Incident.EstimatedEffort) fieldCheck = (this._Incident.EstimatedEffort == moddedIncident.EstimatedEffort);
-								break;
-							case 7:
-								if (userIncident.IncidentStatusId != this._Incident.IncidentStatusId) fieldCheck = (this._Incident.IncidentStatusId == moddedIncident.IncidentStatusId);
-								break;
-							case 8:
-								if (userIncident.IncidentTypeId != this._Incident.IncidentTypeId) fieldCheck = (this._Incident.IncidentTypeId == moddedIncident.IncidentTypeId);
-								break;
-							case 9:
-								if (userIncident.List01 != this._Incident.List01) fieldCheck = (this._Incident.List01 == moddedIncident.List01);
-								break;
-							case 10:
-								if (userIncident.List02 != this._Incident.List02) fieldCheck = (this._Incident.List02 == moddedIncident.List02);
-								break;
-							case 11:
-								if (userIncident.List03 != this._Incident.List03) fieldCheck = (this._Incident.List03 == moddedIncident.List03);
-								break;
-							case 12:
-								if (userIncident.List04 != this._Incident.List04) fieldCheck = (this._Incident.List04 == moddedIncident.List04);
-								break;
-							case 13:
-								if (userIncident.List05 != this._Incident.List05) fieldCheck = (this._Incident.List05 == moddedIncident.List05);
-								break;
-							case 14:
-								if (userIncident.List06 != this._Incident.List06) fieldCheck = (this._Incident.List06 == moddedIncident.List06);
-								break;
-							case 15:
-								if (userIncident.List07 != this._Incident.List07) fieldCheck = (this._Incident.List07 == moddedIncident.List07);
-								break;
-							case 16:
-								if (userIncident.List08 != this._Incident.List08) fieldCheck = (this._Incident.List08 == moddedIncident.List08);
-								break;
-							case 17:
-								if (userIncident.List09 != this._Incident.List09) fieldCheck = (this._Incident.List09 == moddedIncident.List09);
-								break;
-							case 18:
-								if (userIncident.List10 != this._Incident.List10) fieldCheck = (this._Incident.List10 == moddedIncident.List10);
-								break;
-							case 19:
-								if (userIncident.Name.TrimEquals(this._Incident.Name)) fieldCheck = (this._Incident.Name.TrimEquals(moddedIncident.Name));
-								break;
-							case 20:
-								if (userIncident.OpenerId != this._Incident.OpenerId) fieldCheck = (this._Incident.OpenerId == moddedIncident.OpenerId);
-								break;
-							case 21:
-								if (userIncident.OwnerId != this._Incident.OwnerId) fieldCheck = (this._Incident.OwnerId == moddedIncident.OwnerId);
-								break;
-							case 22:
-								if (userIncident.PriorityId != this._Incident.PriorityId) fieldCheck = (this._Incident.PriorityId == moddedIncident.PriorityId);
-								break;
-							case 23:
-								if (userIncident.RemainingEffort != this._Incident.RemainingEffort) fieldCheck = (this._Incident.RemainingEffort == moddedIncident.RemainingEffort);
-								break;
-							case 24:
-								if (userIncident.ResolvedReleaseId != this._Incident.ResolvedReleaseId) fieldCheck = (this._Incident.ResolvedReleaseId == moddedIncident.ResolvedReleaseId);
-								break;
-							case 25:
-								if (userIncident.SeverityId != this._Incident.SeverityId) fieldCheck = (this._Incident.SeverityId == moddedIncident.SeverityId);
-								break;
-							case 26:
-								if (userIncident.StartDate != this._Incident.StartDate) fieldCheck = (this._Incident.StartDate == moddedIncident.StartDate);
-								break;
-							case 27:
-								if (userIncident.TestRunStepId != this._Incident.TestRunStepId) fieldCheck = (this._Incident.TestRunStepId == moddedIncident.TestRunStepId);
-								break;
-							case 28:
-								if (userIncident.Text01.TrimEquals(this._Incident.Text01)) fieldCheck = (this._Incident.Text01.TrimEquals(moddedIncident.Text01));
-								break;
-							case 29:
-								if (userIncident.Text02.TrimEquals(this._Incident.Text02)) fieldCheck = (this._Incident.Text02.TrimEquals(moddedIncident.Text02));
-								break;
-							case 30:
-								if (userIncident.Text03.TrimEquals(this._Incident.Text03)) fieldCheck = (this._Incident.Text03.TrimEquals(moddedIncident.Text03));
-								break;
-							case 31:
-								if (userIncident.Text04.TrimEquals(this._Incident.Text04)) fieldCheck = (this._Incident.Text04.TrimEquals(moddedIncident.Text04));
-								break;
-							case 32:
-								if (userIncident.Text05.TrimEquals(this._Incident.Text05)) fieldCheck = (this._Incident.Text05.TrimEquals(moddedIncident.Text05));
-								break;
-							case 33:
-								if (userIncident.Text06.TrimEquals(this._Incident.Text06)) fieldCheck = (this._Incident.Text06.TrimEquals(moddedIncident.Text06));
-								break;
-							case 34:
-								if (userIncident.Text07.TrimEquals(this._Incident.Text07)) fieldCheck = (this._Incident.Text07.TrimEquals(moddedIncident.Text07));
-								break;
-							case 35:
-								if (userIncident.Text08.TrimEquals(this._Incident.Text08)) fieldCheck = (this._Incident.Text08.TrimEquals(moddedIncident.Text08));
-								break;
-							case 36:
-								if (userIncident.Text09.TrimEquals(this._Incident.Text09)) fieldCheck = (this._Incident.Text09.TrimEquals(moddedIncident.Text09));
-								break;
-							case 37:
-								if (userIncident.Text10.TrimEquals(this._Incident.Text10)) fieldCheck = (this._Incident.Text10.TrimEquals(moddedIncident.Text10));
-								break;
-							case 38:
-								if (userIncident.VerifiedReleaseId != this._Incident.VerifiedReleaseId) fieldCheck = (this._Incident.VerifiedReleaseId == moddedIncident.VerifiedReleaseId);
-								break;
-						}
-						fieldNum++;
-					}
-					retValue = fieldCheck;
-				}
-				return retValue;
+				retValue = userIncident.CanBeMergedWith(this._Incident, moddedIncident);
 			}
 			catch (Exception ex)
 			{
 				Logger.LogMessage(ex, "save_CheckIfConcurrencyCanBeMerged()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
-				return false;
+				retValue = false;
 			}
+
+			return retValue;
 		}
 
 		/// <summary>Copies over our values from the form into an Incident object.</summary>
@@ -617,90 +484,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retIncident.ActualEffort = StaticFuncs.GetMinutesFromValues(this.cntrlActEffortH.Text, this.cntrlActEffortM.Text);
 				retIncident.RemainingEffort = StaticFuncs.GetMinutesFromValues(this.cntrlRemEffortH.Text, this.cntrlRemEffortM.Text);
 
-				//Custom fields..
-				foreach (UIElement eleItem in this.gridCustomProperties.Children)
-				{
-					//Check to see if the item is a control..
-					if (eleItem is Control)
-					{
-						dynamic custControl = eleItem as dynamic;
-						RemoteCustomProperty prop = ((eleItem as Control).Tag) as RemoteCustomProperty;
-
-						if (prop != null)
-						{
-							int? intSelectedList = null;
-							string strSelectedText = null;
-							if (prop.CustomPropertyTypeId == 1)
-								strSelectedText = custControl.Text;
-							else if (prop.CustomPropertyTypeId == 2)
-								intSelectedList = custControl.SelectedValue;
-
-							switch (prop.CustomPropertyName)
-							{
-								case "TEXT_01":
-									retIncident.Text01 = strSelectedText;
-									break;
-								case "TEXT_02":
-									retIncident.Text02 = strSelectedText;
-									break;
-								case "TEXT_03":
-									retIncident.Text03 = strSelectedText;
-									break;
-								case "TEXT_04":
-									retIncident.Text04 = strSelectedText;
-									break;
-								case "TEXT_05":
-									retIncident.Text05 = strSelectedText;
-									break;
-								case "TEXT_06":
-									retIncident.Text06 = strSelectedText;
-									break;
-								case "TEXT_07":
-									retIncident.Text07 = strSelectedText;
-									break;
-								case "TEXT_08":
-									retIncident.Text08 = strSelectedText;
-									break;
-								case "TEXT_09":
-									retIncident.Text09 = strSelectedText;
-									break;
-								case "TEXT_10":
-									retIncident.Text10 = strSelectedText;
-									break;
-								case "LIST_01":
-									retIncident.List01 = intSelectedList;
-									break;
-								case "LIST_02":
-									retIncident.List02 = intSelectedList;
-									break;
-								case "LIST_03":
-									retIncident.List03 = intSelectedList;
-									break;
-								case "LIST_04":
-									retIncident.List04 = intSelectedList;
-									break;
-								case "LIST_05":
-									retIncident.List05 = intSelectedList;
-									break;
-								case "LIST_06":
-									retIncident.List06 = intSelectedList;
-									break;
-								case "LIST_07":
-									retIncident.List07 = intSelectedList;
-									break;
-								case "LIST_08":
-									retIncident.List08 = intSelectedList;
-									break;
-								case "LIST_09":
-									retIncident.List09 = intSelectedList;
-									break;
-								case "LIST_10":
-									retIncident.List10 = intSelectedList;
-									break;
-							}
-						}
-					}
-				}
+				//Custom Properties
+				retIncident.CustomProperties = this.cntCustomProps.GetCustomProperties();
 
 			}
 			catch (Exception ex)
@@ -755,7 +540,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this.barSavingIncident.Value--;
 
 					//Re-launch the saving..
-					RemoteIncident incMerged = this.save_MergeConcurrency(this.save_GetFromFields(), this._IncidentConcurrent, this._Incident);
+					RemoteIncident incMerged = StaticFuncs.MergeWithConcurrency(this.save_GetFromFields(), this._Incident, this._IncidentConcurrent);
 
 					this._clientNumSaving++;
 					client.Incident_UpdateAsync(incMerged, this._clientNum++);
@@ -769,74 +554,5 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		}
 		#endregion
 
-		/// <summary>Merges two RemoteIncidents into one for re-saving.</summary>
-		/// <param name="tskUserSaved">The user-saved task to merge with the Concurrent task.</param>
-		/// <param name="tskConcurrent">The concurrent task to merge with the User task.</param>
-		/// <param name="tskOriginal">The original unchanged task used for reference.</param>
-		/// <returns>A new RemoteIncident suitable for saving.</returns>
-		/// <remarks>This should only be called when it is known that there are no conflicting values between the User-Saved task and the Concurrent task.</remarks>
-		private RemoteIncident save_MergeConcurrency(RemoteIncident incUserSaved, RemoteIncident incConcurrent, RemoteIncident incOriginal)
-		{
-			//If the field was not changed by the user (tskUserSaved == tskOriginal), then use the tskConcurrent. (Assuming that the
-			// tskConcurrent has a possible updated value.
-			//Otherwise, use the tskUserSaved value.
-			try
-			{
-				RemoteIncident retIncident = new RemoteIncident();
-
-				retIncident.ActualEffort = ((incUserSaved.ActualEffort == incOriginal.ActualEffort) ? incConcurrent.ActualEffort : incUserSaved.ActualEffort);
-				retIncident.ClosedDate = ((incUserSaved.ClosedDate == incOriginal.ClosedDate) ? incConcurrent.ClosedDate : incUserSaved.ClosedDate);
-				retIncident.CreationDate = incOriginal.CreationDate;
-				string strDescUser = StaticFuncs.StripTagsCharArray(incUserSaved.Description);
-				string strDescOrig = StaticFuncs.StripTagsCharArray(incOriginal.Description);
-				retIncident.Description = ((strDescOrig.TrimEquals(strDescOrig)) ? incConcurrent.Description : incUserSaved.Description);
-				retIncident.DetectedReleaseId = ((incUserSaved.DetectedReleaseId == incOriginal.DetectedReleaseId) ? incConcurrent.DetectedReleaseId : incUserSaved.DetectedReleaseId);
-				retIncident.EstimatedEffort = ((incUserSaved.EstimatedEffort == incOriginal.EstimatedEffort) ? incConcurrent.EstimatedEffort : incUserSaved.EstimatedEffort);
-				retIncident.IncidentId = incOriginal.IncidentId;
-				retIncident.IncidentStatusId = ((incUserSaved.IncidentStatusId == incOriginal.IncidentStatusId) ? incConcurrent.IncidentStatusId : incUserSaved.IncidentStatusId);
-				retIncident.IncidentTypeId = ((incUserSaved.IncidentTypeId == incOriginal.IncidentTypeId) ? incConcurrent.IncidentTypeId : incUserSaved.IncidentTypeId);
-				retIncident.LastUpdateDate = incConcurrent.LastUpdateDate;
-				retIncident.List01 = ((incUserSaved.List01 == incOriginal.List01) ? incConcurrent.List01 : incUserSaved.List01);
-				retIncident.List02 = ((incUserSaved.List02 == incOriginal.List02) ? incConcurrent.List02 : incUserSaved.List02);
-				retIncident.List03 = ((incUserSaved.List03 == incOriginal.List03) ? incConcurrent.List03 : incUserSaved.List03);
-				retIncident.List04 = ((incUserSaved.List04 == incOriginal.List04) ? incConcurrent.List04 : incUserSaved.List04);
-				retIncident.List05 = ((incUserSaved.List05 == incOriginal.List05) ? incConcurrent.List05 : incUserSaved.List05);
-				retIncident.List06 = ((incUserSaved.List06 == incOriginal.List06) ? incConcurrent.List06 : incUserSaved.List06);
-				retIncident.List07 = ((incUserSaved.List07 == incOriginal.List07) ? incConcurrent.List07 : incUserSaved.List07);
-				retIncident.List08 = ((incUserSaved.List08 == incOriginal.List08) ? incConcurrent.List08 : incUserSaved.List08);
-				retIncident.List09 = ((incUserSaved.List09 == incOriginal.List09) ? incConcurrent.List09 : incUserSaved.List09);
-				retIncident.List10 = ((incUserSaved.List10 == incOriginal.List10) ? incConcurrent.List10 : incUserSaved.List10);
-				retIncident.Name = ((incUserSaved.Name.TrimEquals(incOriginal.Name)) ? incConcurrent.Name : incUserSaved.Name);
-				retIncident.OpenerId = ((incUserSaved.OpenerId == incOriginal.OpenerId) ? incConcurrent.OpenerId : incUserSaved.OpenerId);
-				retIncident.OwnerId = ((incUserSaved.OwnerId == incOriginal.OwnerId) ? incConcurrent.OwnerId : incUserSaved.OwnerId);
-				retIncident.PriorityId = ((incUserSaved.PriorityId == incOriginal.PriorityId) ? incConcurrent.PriorityId : incUserSaved.PriorityId);
-				retIncident.ProjectId = incOriginal.ProjectId;
-				retIncident.RemainingEffort = ((incUserSaved.RemainingEffort == incOriginal.RemainingEffort) ? incConcurrent.RemainingEffort : incUserSaved.RemainingEffort);
-				retIncident.ResolvedReleaseId = ((incUserSaved.ResolvedReleaseId == incOriginal.ResolvedReleaseId) ? incConcurrent.ResolvedReleaseId : incUserSaved.ResolvedReleaseId);
-				retIncident.SeverityId = ((incUserSaved.SeverityId == incOriginal.SeverityId) ? incConcurrent.SeverityId : incUserSaved.SeverityId);
-				retIncident.StartDate = ((incUserSaved.StartDate == incOriginal.StartDate) ? incConcurrent.StartDate : incUserSaved.StartDate);
-				retIncident.TestRunStepId = ((incUserSaved.TestRunStepId == incOriginal.TestRunStepId) ? incConcurrent.TestRunStepId : incUserSaved.TestRunStepId);
-				retIncident.Text01 = ((retIncident.Text01.TrimEquals(incOriginal.Text01)) ? incConcurrent.Text01 : incUserSaved.Text01);
-				retIncident.Text02 = ((retIncident.Text02.TrimEquals(incOriginal.Text02)) ? incConcurrent.Text02 : incUserSaved.Text02);
-				retIncident.Text03 = ((retIncident.Text03.TrimEquals(incOriginal.Text03)) ? incConcurrent.Text03 : incUserSaved.Text03);
-				retIncident.Text04 = ((retIncident.Text04.TrimEquals(incOriginal.Text04)) ? incConcurrent.Text04 : incUserSaved.Text04);
-				retIncident.Text05 = ((retIncident.Text05.TrimEquals(incOriginal.Text05)) ? incConcurrent.Text05 : incUserSaved.Text05);
-				retIncident.Text06 = ((retIncident.Text06.TrimEquals(incOriginal.Text06)) ? incConcurrent.Text06 : incUserSaved.Text06);
-				retIncident.Text07 = ((retIncident.Text07.TrimEquals(incOriginal.Text07)) ? incConcurrent.Text07 : incUserSaved.Text07);
-				retIncident.Text08 = ((retIncident.Text08.TrimEquals(incOriginal.Text01)) ? incConcurrent.Text08 : incUserSaved.Text08);
-				retIncident.Text09 = ((retIncident.Text09.TrimEquals(incOriginal.Text09)) ? incConcurrent.Text09 : incUserSaved.Text09);
-				retIncident.Text10 = ((retIncident.Text10.TrimEquals(incOriginal.Text10)) ? incConcurrent.Text10 : incUserSaved.Text10);
-				retIncident.VerifiedReleaseId = ((incUserSaved.VerifiedReleaseId == incOriginal.VerifiedReleaseId) ? incConcurrent.VerifiedReleaseId : incUserSaved.VerifiedReleaseId);
-
-				//Return our new task.
-				return retIncident;
-			}
-			catch (Exception ex)
-			{
-				Logger.LogMessage(ex, "clientSave_Connection_ConnectToProjectCompleted()");
-				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
-				return null;
-			}
-		}
 	}
 }

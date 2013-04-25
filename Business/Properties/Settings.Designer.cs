@@ -25,7 +25,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Propertie
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("/Services/v3_0/ImportExport.svc")]
+        [global::System.Configuration.DefaultSettingValueAttribute("/Services/v4_0/ImportExport.svc")]
         public string app_ServiceURI {
             get {
                 return ((string)(this["app_ServiceURI"]));

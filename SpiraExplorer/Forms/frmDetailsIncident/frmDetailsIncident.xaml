@@ -504,8 +504,7 @@
 									<TextBlock Name="lblDescription" FontWeight="Bold" />
 								</GroupBox.Header>
 								<GroupBox.Content>
-                                    <TextBlock></TextBlock>
-                                    <!--<ui_cntrl:cntrlRichTextEditor x:Name="cntrlDescription" Height="200" Width="Auto" Padding="2" TextChanged="_cntrl_TextChanged"  IsSpellcheckEnabled="True" />-->
+                                    <ui_cntrl:cntrlRichTextEditor x:Name="cntrlDescription" Height="200" Width="Auto" Padding="2" TextChanged="_cntrl_TextChanged"  IsSpellcheckEnabled="True" />
 								</GroupBox.Content>
 							</GroupBox>
 						</Grid>

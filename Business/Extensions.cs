@@ -65,93 +65,112 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 			bool retValue = false;
 
 			//Check standard fields.
-			if (userEnteredTask.ActualEffort != originalTask.ActualEffort) 
+			if (userEnteredTask.ActualEffort != originalTask.ActualEffort)
 				retValue = (originalTask.ActualEffort == serverModdedTask.ActualEffort);
-			if (!retValue && userEnteredTask.CreationDate != originalTask.CreationDate) 
+			if (!retValue && userEnteredTask.CreationDate != originalTask.CreationDate)
 				retValue = (originalTask.CreationDate == serverModdedTask.CreationDate);
-			if (!retValue && userEnteredTask.CreatorId != originalTask.CreatorId) 
+			if (!retValue && userEnteredTask.CreatorId != originalTask.CreatorId)
 				retValue = (originalTask.CreatorId == serverModdedTask.CreatorId);
 			if (!retValue)
 			{
 				if (StripTagsCharArray(userEnteredTask.Description).ToLowerInvariant().Trim() != StripTagsCharArray(originalTask.Description).ToLowerInvariant().Trim())
 					retValue = (StripTagsCharArray(originalTask.Description).ToLowerInvariant().Trim() == StripTagsCharArray(serverModdedTask.Description).ToLowerInvariant().Trim());
 			}
-			if (!retValue && userEnteredTask.EndDate != originalTask.EndDate) 
+			if (!retValue && userEnteredTask.EndDate != originalTask.EndDate)
 				retValue = (originalTask.EndDate == serverModdedTask.EndDate);
-			if (!retValue && userEnteredTask.EstimatedEffort != originalTask.EstimatedEffort) 
+			if (!retValue && userEnteredTask.EstimatedEffort != originalTask.EstimatedEffort)
 				retValue = (originalTask.EstimatedEffort == serverModdedTask.EstimatedEffort);
 			if (!retValue && userEnteredTask.Name.TrimEquals(originalTask.Name))
 				retValue = (originalTask.Name.TrimEquals(serverModdedTask.Name));
 			if (!retValue && userEnteredTask.OwnerId != originalTask.OwnerId)
 				retValue = (originalTask.OwnerId == serverModdedTask.OwnerId);
-			if (!retValue && userEnteredTask.ReleaseId != originalTask.ReleaseId) 
+			if (!retValue && userEnteredTask.ReleaseId != originalTask.ReleaseId)
 				retValue = (originalTask.ReleaseId == serverModdedTask.ReleaseId);
-			if (!retValue && userEnteredTask.RemainingEffort != originalTask.RemainingEffort) 
+			if (!retValue && userEnteredTask.RemainingEffort != originalTask.RemainingEffort)
 				retValue = (originalTask.RemainingEffort == serverModdedTask.RemainingEffort);
-			if (!retValue && userEnteredTask.RequirementId != originalTask.RequirementId) 
+			if (!retValue && userEnteredTask.RequirementId != originalTask.RequirementId)
 				retValue = (originalTask.RequirementId == serverModdedTask.RequirementId);
-			if (!retValue && userEnteredTask.StartDate != originalTask.StartDate) 
+			if (!retValue && userEnteredTask.StartDate != originalTask.StartDate)
 				retValue = (originalTask.StartDate == serverModdedTask.StartDate);
 			if (!retValue && userEnteredTask.TaskPriorityId != originalTask.TaskPriorityId)
 				retValue = (originalTask.TaskPriorityId == serverModdedTask.TaskPriorityId);
-			if (!retValue && userEnteredTask.TaskStatusId != originalTask.TaskStatusId) 
+			if (!retValue && userEnteredTask.TaskStatusId != originalTask.TaskStatusId)
 				retValue = (originalTask.TaskStatusId == serverModdedTask.TaskStatusId);
 
 			//Check custom fields.
-			if (!retValue) 
+			if (!retValue)
 				retValue = CanCustomPropertiesBeMergedWith(userEnteredTask, originalTask, serverModdedTask);
 
 			return retValue;
 		}
 
-		///// <summary>Checks the given properties on the artifact the user is modifying against the given artifact to report wether the fields can be merged or not.</summary>
-		///// <param name="originalInc">The original artifact before any edits.</param>
-		///// <param name="serverModdedInc">The new artifact form the server - edited by someone else.</param>
-		///// <param name="userEnteredInc">The modified artifact from our user.</param>
-		///// <returns>True if fields can be merged. False otherwise.</returns>
-		//public static bool CanBeMergedWith(this RemoteIncident userEnteredInc, RemoteIncident originalInc, RemoteIncident serverModdedInc)
-		//{
-		//	bool retValue = false;
+		/// <summary>Checks the given properties on the artifact the user is modifying against the given artifact to report wether the fields can be merged or not.</summary>
+		/// <param name="originalInc">The original artifact before any edits.</param>
+		/// <param name="serverModdedInc">The new artifact form the server - edited by someone else.</param>
+		/// <param name="userEnteredInc">The modified artifact from our user.</param>
+		/// <returns>True if fields can be merged. False otherwise.</returns>
+		public static bool CanBeMergedWith(this RemoteIncident userEnteredInc, RemoteIncident originalInc, RemoteIncident serverModdedInc)
+		{
+			bool retValue = false;
 
-		//	//Check standard fields.
-		//	if (userEnteredInc.ActualEffort != originalInc.ActualEffort)
-		//		retValue = (originalInc.ActualEffort == serverModdedInc.ActualEffort);
-		//	if (!retValue && userEnteredInc.CreationDate != originalInc.CreationDate)
-		//		retValue = (originalInc.CreationDate == serverModdedInc.CreationDate);
-		//	if (!retValue && userEnteredInc.CreatorId != originalInc.CreatorId)
-		//		retValue = (originalInc.CreatorId == serverModdedInc.CreatorId);
-		//	if (!retValue)
-		//	{
-		//		if (StripTagsCharArray(userEnteredInc.Description).ToLowerInvariant().Trim() != StripTagsCharArray(originalInc.Description).ToLowerInvariant().Trim())
-		//			retValue = (StripTagsCharArray(originalInc.Description).ToLowerInvariant().Trim() == StripTagsCharArray(serverModdedInc.Description).ToLowerInvariant().Trim());
-		//	}
-		//	if (!retValue && userEnteredInc.EndDate != originalInc.EndDate)
-		//		retValue = (originalInc.EndDate == serverModdedInc.EndDate);
-		//	if (!retValue && userEnteredInc.EstimatedEffort != originalInc.EstimatedEffort)
-		//		retValue = (originalInc.EstimatedEffort == serverModdedInc.EstimatedEffort);
-		//	if (!retValue && userEnteredInc.Name.TrimEquals(originalInc.Name))
-		//		retValue = (originalInc.Name.TrimEquals(serverModdedInc.Name));
-		//	if (!retValue && userEnteredInc.OwnerId != originalInc.OwnerId)
-		//		retValue = (originalInc.OwnerId == serverModdedInc.OwnerId);
-		//	if (!retValue && userEnteredInc.ReleaseId != originalInc.ReleaseId)
-		//		retValue = (originalInc.ReleaseId == serverModdedInc.ReleaseId);
-		//	if (!retValue && userEnteredInc.RemainingEffort != originalInc.RemainingEffort)
-		//		retValue = (originalInc.RemainingEffort == serverModdedInc.RemainingEffort);
-		//	if (!retValue && userEnteredInc.RequirementId != originalInc.RequirementId)
-		//		retValue = (originalInc.RequirementId == serverModdedInc.RequirementId);
-		//	if (!retValue && userEnteredInc.StartDate != originalInc.StartDate)
-		//		retValue = (originalInc.StartDate == serverModdedInc.StartDate);
-		//	if (!retValue && userEnteredInc.TaskPriorityId != originalInc.TaskPriorityId)
-		//		retValue = (originalInc.TaskPriorityId == serverModdedInc.TaskPriorityId);
-		//	if (!retValue && userEnteredInc.TaskStatusId != originalInc.TaskStatusId)
-		//		retValue = (originalInc.TaskStatusId == serverModdedInc.TaskStatusId);
+			if (userEnteredInc != null && serverModdedInc != null)
+			{
+				//Okay, check all fields. We want to see if a user-changed field (userTask) was also
+				//   changed by someone else. If it was, we return false (they cannot be merged). Otherwise,
+				//   we return true (they can be merged).
+				//So we check the user-entered field against the original field. If they are different,
+				//   check the original field against the concurrent field. If they are different, return
+				//   false. Otherwise to both if's, return true.
+				//We just loop through all available fields. The fielNum here has no reference to workflow
+				//   field ID, _WorkflowFields is just used to get the count of fields to check against.
+				int fieldNum = 1;
+				if (userEnteredInc.ActualEffort != originalInc.ActualEffort)
+					retValue = (originalInc.ActualEffort == serverModdedInc.ActualEffort);
+				if (!retValue && userEnteredInc.ClosedDate != originalInc.ClosedDate)
+					retValue = (originalInc.ClosedDate == serverModdedInc.ClosedDate);
+				if (!retValue && userEnteredInc.CreationDate != originalInc.CreationDate)
+					retValue = (originalInc.CreationDate == serverModdedInc.CreationDate);
+				if (!retValue)
+				{
+					if (StaticFuncs.StripTagsCharArray(userEnteredInc.Description).ToLowerInvariant().Trim() != StaticFuncs.StripTagsCharArray(originalInc.Description).ToLowerInvariant().Trim())
+						retValue = (StaticFuncs.StripTagsCharArray(originalInc.Description).ToLowerInvariant().Trim() == StaticFuncs.StripTagsCharArray(serverModdedInc.Description).ToLowerInvariant().Trim());
+				}
+				if (!retValue && userEnteredInc.DetectedReleaseId != originalInc.DetectedReleaseId)
+					retValue = (originalInc.DetectedReleaseId == serverModdedInc.DetectedReleaseId);
+				if (!retValue && userEnteredInc.EstimatedEffort != originalInc.EstimatedEffort)
+					retValue = (originalInc.EstimatedEffort == serverModdedInc.EstimatedEffort);
+				if (!retValue && userEnteredInc.IncidentStatusId != originalInc.IncidentStatusId)
+					retValue = (originalInc.IncidentStatusId == serverModdedInc.IncidentStatusId);
+				if (!retValue && userEnteredInc.IncidentTypeId != originalInc.IncidentTypeId)
+					retValue = (originalInc.IncidentTypeId == serverModdedInc.IncidentTypeId);
+				if (!retValue && userEnteredInc.Name.TrimEquals(originalInc.Name))
+					retValue = (originalInc.Name.TrimEquals(serverModdedInc.Name));
+				if (!retValue && userEnteredInc.OpenerId != originalInc.OpenerId)
+					retValue = (originalInc.OpenerId == serverModdedInc.OpenerId);
+				if (!retValue && userEnteredInc.OwnerId != originalInc.OwnerId)
+					retValue = (originalInc.OwnerId == serverModdedInc.OwnerId);
+				if (!retValue && userEnteredInc.PriorityId != originalInc.PriorityId)
+					retValue = (originalInc.PriorityId == serverModdedInc.PriorityId);
+				if (!retValue && userEnteredInc.RemainingEffort != originalInc.RemainingEffort)
+					retValue = (originalInc.RemainingEffort == serverModdedInc.RemainingEffort);
+				if (!retValue && userEnteredInc.ResolvedReleaseId != originalInc.ResolvedReleaseId)
+					retValue = (originalInc.ResolvedReleaseId == serverModdedInc.ResolvedReleaseId);
+				if (!retValue && userEnteredInc.SeverityId != originalInc.SeverityId)
+					retValue = (originalInc.SeverityId == serverModdedInc.SeverityId);
+				if (!retValue && userEnteredInc.StartDate != originalInc.StartDate)
+					retValue = (originalInc.StartDate == serverModdedInc.StartDate);
+				if (!retValue && userEnteredInc.TestRunStepId != originalInc.TestRunStepId)
+					retValue = (originalInc.TestRunStepId == serverModdedInc.TestRunStepId);
+				if (!retValue && userEnteredInc.VerifiedReleaseId != originalInc.VerifiedReleaseId)
+					retValue = (originalInc.VerifiedReleaseId == serverModdedInc.VerifiedReleaseId);
 
-		//	//Check custom fields.
-		//	if (!retValue)
-		//		retValue = CanCustomPropertiesBeMergedWith(userEnteredInc, originalInc, serverModdedInc);
+				//Check custom fields.
+				if (!retValue)
+					retValue = CanCustomPropertiesBeMergedWith(userEnteredInc, originalInc, serverModdedInc);
 
-		//	return retValue;
-		//}
+			}
+			return retValue;
+		}
 
 		/// <summary>Checks the given properties on the artifact the user is modifying against the given artifact to report wether the fields can be merged or not.</summary>
 		/// <param name="original">The original artifact before any edits.</param>
@@ -316,10 +335,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 			//If the field was not changed by the user (reqUserSaved == reqOriginal), then use the reqConcurrent. (Assuming that the
 			// reqConcurrent has a possible updated value.
 			//Otherwise, use the reqUserSaved value.
+			RemoteTask retTask = new RemoteTask();
+
 			try
 			{
-				RemoteTask retTask = new RemoteTask();
-
 				retTask.ActualEffort = ((userSaved.ActualEffort == original.ActualEffort) ? serverModded.ActualEffort : userSaved.ActualEffort);
 				retTask.CreationDate = original.CreationDate;
 				retTask.CreatorId = ((userSaved.CreatorId == original.CreatorId) ? serverModded.CreatorId : userSaved.CreatorId);
@@ -343,15 +362,65 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 				//Custom Properties
 				retTask.CustomProperties = MergeCustomFieldsWithConcurrency(userSaved, original, serverModded);
 
-				//Return our new requirement.
-				return retTask;
 			}
 			catch (Exception ex)
 			{
 				Logger.LogMessage(ex, "MergeWithConcurrency()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
-				return null;
+				retTask = null;
 			}
+
+			//Return our new requirement.
+			return retTask;
+		}
+
+		public static RemoteIncident MergeWithConcurrency(RemoteIncident userSaved, RemoteIncident original, RemoteIncident serverModded)
+		{
+			//If the field was not changed by the user (tskUserSaved == tskOriginal), then use the tskConcurrent. (Assuming that the
+			// tskConcurrent has a possible updated value.
+			//Otherwise, use the tskUserSaved value.
+			RemoteIncident retIncident = new RemoteIncident();
+
+			try
+			{
+
+				retIncident.ActualEffort = ((userSaved.ActualEffort == original.ActualEffort) ? serverModded.ActualEffort : userSaved.ActualEffort);
+				retIncident.ClosedDate = ((userSaved.ClosedDate == original.ClosedDate) ? serverModded.ClosedDate : userSaved.ClosedDate);
+				retIncident.CreationDate = original.CreationDate;
+				string strDescUser = StaticFuncs.StripTagsCharArray(userSaved.Description);
+				string strDescOrig = StaticFuncs.StripTagsCharArray(original.Description);
+				retIncident.Description = ((strDescOrig.TrimEquals(strDescOrig)) ? serverModded.Description : userSaved.Description);
+				retIncident.DetectedReleaseId = ((userSaved.DetectedReleaseId == original.DetectedReleaseId) ? serverModded.DetectedReleaseId : userSaved.DetectedReleaseId);
+				retIncident.EstimatedEffort = ((userSaved.EstimatedEffort == original.EstimatedEffort) ? serverModded.EstimatedEffort : userSaved.EstimatedEffort);
+				retIncident.IncidentId = original.IncidentId;
+				retIncident.IncidentStatusId = ((userSaved.IncidentStatusId == original.IncidentStatusId) ? serverModded.IncidentStatusId : userSaved.IncidentStatusId);
+				retIncident.IncidentTypeId = ((userSaved.IncidentTypeId == original.IncidentTypeId) ? serverModded.IncidentTypeId : userSaved.IncidentTypeId);
+				retIncident.LastUpdateDate = serverModded.LastUpdateDate;
+				retIncident.Name = ((userSaved.Name.TrimEquals(original.Name)) ? serverModded.Name : userSaved.Name);
+				retIncident.OpenerId = ((userSaved.OpenerId == original.OpenerId) ? serverModded.OpenerId : userSaved.OpenerId);
+				retIncident.OwnerId = ((userSaved.OwnerId == original.OwnerId) ? serverModded.OwnerId : userSaved.OwnerId);
+				retIncident.PriorityId = ((userSaved.PriorityId == original.PriorityId) ? serverModded.PriorityId : userSaved.PriorityId);
+				retIncident.ProjectId = original.ProjectId;
+				retIncident.RemainingEffort = ((userSaved.RemainingEffort == original.RemainingEffort) ? serverModded.RemainingEffort : userSaved.RemainingEffort);
+				retIncident.ResolvedReleaseId = ((userSaved.ResolvedReleaseId == original.ResolvedReleaseId) ? serverModded.ResolvedReleaseId : userSaved.ResolvedReleaseId);
+				retIncident.SeverityId = ((userSaved.SeverityId == original.SeverityId) ? serverModded.SeverityId : userSaved.SeverityId);
+				retIncident.StartDate = ((userSaved.StartDate == original.StartDate) ? serverModded.StartDate : userSaved.StartDate);
+				retIncident.TestRunStepId = ((userSaved.TestRunStepId == original.TestRunStepId) ? serverModded.TestRunStepId : userSaved.TestRunStepId);
+				retIncident.VerifiedReleaseId = ((userSaved.VerifiedReleaseId == original.VerifiedReleaseId) ? serverModded.VerifiedReleaseId : userSaved.VerifiedReleaseId);
+
+				//Custom Properties
+				retIncident.CustomProperties = MergeCustomFieldsWithConcurrency(userSaved, original, serverModded);
+
+			}
+			catch (Exception ex)
+			{
+				Logger.LogMessage(ex, "clientSave_Connection_ConnectToProjectCompleted()");
+				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
+				retIncident = null;
+			}
+
+			//Return our new task.
+			return retIncident;
 		}
 
 		private static List<RemoteArtifactCustomProperty> MergeCustomFieldsWithConcurrency(RemoteArtifact userSaved, RemoteArtifact original, RemoteArtifact serverModded)
