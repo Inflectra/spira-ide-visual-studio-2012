@@ -63,7 +63,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012
 			}
 
 			//Initialize the Logger.
-			Logger.ApplicationName = StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName");
+#if DEBUG
+			Logger.LoggingToFile = true;
+			Logger.TraceLogging = true;
+#endif
+			new Logger(StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"));
 		}
 
 		/// <summary>This function is called when the user clicks the menu item that shows the tool window. See the Initialize method to see how the menu item is associated to this function using the OleMenuCommandService service and the MenuCommand class.</summary>

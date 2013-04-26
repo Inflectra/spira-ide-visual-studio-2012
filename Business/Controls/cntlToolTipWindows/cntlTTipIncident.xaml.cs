@@ -13,10 +13,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Forms
 		/// <summary>Creates a new instance of the control.</summary>
 		public cntlTTipIncident(TreeViewArtifact dataItem)
 		{
-			this._dataitem = dataItem;
-
 			//Initialize.
 			InitializeComponent();
+
+			//Load the item's data.
+			this.DataItem = dataItem;
 
 			//Set images.
 			this.imgProject.Source = StaticFuncs.getImage("imgProject", new System.Windows.Size(16, 16)).Source;

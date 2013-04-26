@@ -32,6 +32,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		private List<RemoteCustomList> listDefinitions;
 		/// <summary>List of all project users that we can select from.</summary>
 		private List<RemoteProjectUser> listUsers;
+		/// <summary>Holds the remote releases to display.</summary>
+		private List<RemoteRelease> listReleases;
 
 		/// <summary>The number of control columns.</summary>
 		private int numCols = 2;
@@ -310,6 +312,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					#region List, User
 					case 6: //List field.
 					case 8: //User field.
+					case 10: //Release field.
 						{
 							propControl = new ComboBox();
 							if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
@@ -318,6 +321,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							}
 							else if (prop.CustomPropertyTypeId == 8)
 								((ComboBox)propControl).ItemsSource = this.listUsers;
+							else if (prop.CustomPropertyTypeId == 10)
+								((ComboBox)propControl).ItemsSource = this.listReleases;
 							else
 								propControl = null;
 
@@ -327,42 +332,57 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 								bool allowEmpty = this.getBoolFromValue(prop.Options.SingleOrDefault(op => op.CustomPropertyOptionId == 1));
 								if (allowEmpty)
 								{
-									if (prop.CustomPropertyTypeId==6)
-									{
+									if (prop.CustomPropertyTypeId == 6)
 										((List<RemoteCustomListValue>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteCustomListValue() { CustomPropertyListId = -1, Name = "-- None --" });
-									}
-									else if (prop.CustomPropertyTypeId==8)
-									{
-										((List<RemoteProjectUser>)((ComboBox)propControl).ItemsSource).Insert(0,new RemoteProjectUser() { FullName = "-- None --" });
-									}
+									else if (prop.CustomPropertyTypeId == 8)
+										((List<RemoteProjectUser>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteProjectUser() { FullName = "-- None --" });
+									else if (prop.CustomPropertyTypeId == 10)
+										((List<RemoteRelease>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteRelease() { Name = "-- None --" });
 								}
 							}
+							//Set default..
+							if (this.item == null && prop.Options.Count(op => op.CustomPropertyOptionId == 5) == 1)
+							{
+								int? selectedItem = getIntFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 5));
 
+								if (selectedItem.HasValue)
+								{
+									if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
+										((ComboBox)propControl).SelectedItem = prop.CustomList.Values.SingleOrDefault(clv => clv.CustomPropertyValueId == selectedItem.Value);
+									else if (prop.CustomPropertyTypeId == 8)
+										((ComboBox)propControl).SelectedItem = this.listUsers.SingleOrDefault(luv => luv.UserId == selectedItem.Value);
+									else if (prop.CustomPropertyTypeId == 10)
+										((ComboBox)propControl).SelectedItem = this.listReleases.SingleOrDefault(lr => lr.ReleaseId == selectedItem.Value);
+									else
+										((ComboBox)propControl).SelectedItem = null;
+								}
+								else
+									((ComboBox)propControl).SelectedItem = null;
+							}
+
+							//Load up actual values..
 							if (this.item != null)
 							{
 								RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
 								if (custProp != null)
 								{
 									if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
-									{
 										((ComboBox)propControl).SelectedItem = prop.CustomList.Values.Where(clv => clv.CustomPropertyValueId == custProp.IntegerValue).SingleOrDefault();
-									}
 									else if (prop.CustomPropertyTypeId == 8)
-									{
 										((ComboBox)propControl).SelectedItem = this.listUsers.Where(luv => luv.UserId == custProp.IntegerValue).SingleOrDefault();
-									}
+									else if (prop.CustomPropertyTypeId == 10)
+										((ComboBox)propControl).SelectedItem = this.listReleases.Where(lr => lr.ReleaseId == custProp.IntegerValue).SingleOrDefault();
+									else
+										((ComboBox)propControl).SelectedItem = null;
 								}
 								else
 								{
-									if (prop.CustomPropertyTypeId == 6)
-									{
-										((ComboBox)propControl).SelectedItem = null;
-									}
-									else if (prop.CustomPropertyTypeId == 8)
-									{
-										((ComboBox)propControl).SelectedItem = null;
-									}
+									((ComboBox)propControl).SelectedItem = null;
 								}
+							}
+							else
+							{
+								//Load defaults..
 
 							}
 						}
@@ -603,7 +623,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		/// <param name="fieldCustomLists">Any defined custom lists.</param>
 		/// <param name="delayDisplay">Whether or not to display data now, or wait until .DataBindFields() is called.</param>
 		/// <param name="projectUsers">List of project users that can be selected.</param>
-		public void SetItemsSource(RemoteArtifact fieldDataSource, List<RemoteCustomProperty> fieldDataDefinition, List<RemoteCustomList> fieldCustomLists, List<RemoteProjectUser> projectUsers, bool delayDisplay = false)
+		/// <param name="releases">List of remote releases to display for the user.</param>
+		public void SetItemsSource(RemoteArtifact fieldDataSource, List<RemoteCustomProperty> fieldDataDefinition, List<RemoteCustomList> fieldCustomLists, List<RemoteProjectUser> projectUsers, List<RemoteRelease> releases, bool delayDisplay = false)
 		{
 			if (fieldDataDefinition == null)
 			{ throw new ArgumentNullException("fieldDataDefinition"); }
@@ -613,12 +634,15 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			{ throw new ArgumentNullException("fieldCustomLists"); }
 			else if (projectUsers == null)
 			{ throw new ArgumentNullException("projectUsers"); }
+			else if (releases == null)
+			{ throw new ArgumentNullException("releases"); }
 
 
 			this.item = fieldDataSource;
 			this.propertyDefinitions = fieldDataDefinition;
 			this.listDefinitions = fieldCustomLists;
 			this.listUsers = projectUsers;
+			this.listReleases = releases;
 
 			if (!delayDisplay)
 				this.DataBindFields();

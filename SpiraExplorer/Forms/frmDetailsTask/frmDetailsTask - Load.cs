@@ -995,7 +995,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				#endregion
 
 				#region Custom Properties
-				this.cntCustomProps.SetItemsSource(task, this._TskProperties, this._CustLists, this._ProjUsers, false); //TODO: Load extra data.
+				this.cntCustomProps.SetItemsSource(task, this._TskProperties, this._CustLists, this._ProjUsers, this._ProjReleases, false); //TODO: Load extra data.
 				#endregion
 
 				//Set the tab title.

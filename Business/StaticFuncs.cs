@@ -1,23 +1,25 @@
 ﻿using System;
-using System.Drawing;
 using System.Reflection;
 using System.Resources;
 using System.ServiceModel;
 using System.Text;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;
 using Inflectra.Global;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System.Linq;
 using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Properties;
+using System.Collections.Generic;
 
 namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
 	public static partial  class StaticFuncs
 	{
 		private static ResourceManager _internalManager;
+		private static Dictionary<string, Image> storedImgs = new Dictionary<string, Image>();
 
 		/// <summary>Readonly. Returns the resource manager for the loaded library.</summary>
 		public static ResourceManager getCultureResource
@@ -66,29 +68,39 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 		/// <returns>Resulting image, or null if key is not found.</returns>
 		public static System.Windows.Controls.Image getImage(string key, System.Windows.Size size)
 		{
-			System.Windows.Controls.Image retImage = new System.Windows.Controls.Image();
+			Image retImage = new System.Windows.Controls.Image();
 
 			try
 			{
-				if (!size.IsEmpty && (size.Height != 0 && size.Width != 0))
+				if (StaticFuncs.storedImgs.ContainsKey(key))
 				{
-					retImage.Height = size.Height;
-					retImage.Width = size.Width;
+					retImage = StaticFuncs.storedImgs[key];
 				}
-
-				BitmapSource image = null;
-
-				Bitmap imgBmp = (System.Drawing.Bitmap)StaticFuncs.getCultureResource.GetObject(key);
-
-				if (imgBmp != null)
+				else
 				{
-					IntPtr bmStream = imgBmp.GetHbitmap();
-					System.Windows.Int32Rect rect = new Int32Rect(0, 0, imgBmp.Width, imgBmp.Height);
+					if (!size.IsEmpty && (size.Height != 0 && size.Width != 0))
+					{
+						retImage.Height = size.Height;
+						retImage.Width = size.Width;
+					}
 
-					image = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmStream, IntPtr.Zero, rect, BitmapSizeOptions.FromEmptyOptions());
+					BitmapSource image = null;
+
+					System.Drawing.Bitmap imgBmp = (System.Drawing.Bitmap)StaticFuncs.getCultureResource.GetObject(key);
+
+					if (imgBmp != null)
+					{
+						IntPtr bmStream = imgBmp.GetHbitmap();
+						System.Windows.Int32Rect rect = new Int32Rect(0, 0, imgBmp.Width, imgBmp.Height);
+
+						image = System.Windows.Interop.Imaging.CreateBitmapSourceFromHBitmap(bmStream, IntPtr.Zero, rect, BitmapSizeOptions.FromWidthAndHeight(imgBmp.Width, imgBmp.Height));
+					}
+
+					retImage.Source = image;
+
+					//Add it to our library for use later..
+					storedImgs.Add(key, retImage);
 				}
-
-				retImage.Source = image;
 			}
 			catch (Exception ex)
 			{
