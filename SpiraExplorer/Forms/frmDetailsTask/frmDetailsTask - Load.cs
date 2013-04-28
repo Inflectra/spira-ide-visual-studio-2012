@@ -104,13 +104,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Connection_DisconnectCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning = 0;
 				this._clientNum = 0;
 				this._client = null;
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -128,7 +128,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Connection_Authenticate2Completed()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -170,7 +170,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -187,7 +187,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Connection_ConnectToProjectCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -236,7 +236,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -253,7 +253,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Project_RetrieveUserMembershipCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -281,7 +281,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -298,7 +298,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Release_RetrieveCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -326,7 +326,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -343,7 +343,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_CustomProperty_RetrieveForArtifactTypeCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -373,7 +373,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -390,7 +390,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Document_RetrieveForArtifactCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -410,7 +410,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						Logger.LogMessage(e.Error);
 					}
 				}
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -427,7 +427,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_System_GetArtifactUrlCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -457,7 +457,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						this._TskDocumentsUrl = "--none--";
 					}
 
-					System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+					Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 				}
 			}
 			catch (Exception ex)
@@ -475,7 +475,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Task_RetrieveCommentsCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -504,7 +504,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -521,7 +521,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Task_RetrieveByIdCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -563,7 +563,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -580,7 +580,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "_client_Requirement_RetrieveByIdCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 				this._clientNumRunning--;
 				this.barLoadingTask.Value++;
@@ -621,7 +621,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		private void _client_CustomProperty_RetrieveCustomListsCompleted(object sender, CustomProperty_RetrieveCustomListsCompletedEventArgs e)
 		{
 			const string METHOD = "_client_CustomProperty_RetrieveCustomListsCompleted()";
-			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+			Logger.LogTrace(CLASS + METHOD + " ENTER. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 
 			this._clientNumRunning--;
 			this.barLoadingTask.Value++;
@@ -651,7 +651,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				}
 			}
 
-			System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+			Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 		}
 
 		#endregion

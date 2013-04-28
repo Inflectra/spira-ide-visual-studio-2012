@@ -1,4 +1,5 @@
-﻿using System;
+﻿extern alias Shell10;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -40,6 +41,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				InitializeComponent();
+				//Temp set colors?
+				//this.Foreground = Shell10.Microsoft.VisualStudio.Shell.VsBrushes.ToolboxSelectedHeadingMiddle2Key;
+				//this.Background = VsBrushes.ToolWindowBackgroundKey;
 
 				//Load images needed..
 				this.imgLoadingIncident.Source = StaticFuncs.getImage("imgInfoWPF", new Size(48, 48)).Source;

@@ -4,16 +4,17 @@
     xmlns:bus_client="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.SpiraTeam_Client;assembly=Business"
 	xmlns:ui_cntrl="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls"
     xmlns:tk="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit;assembly=WPFFormats"
-	xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
-	xmlns:resources="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties"
+    xmlns:vsfx="clr-namespace:Microsoft.VisualStudio.Shell;assembly=Microsoft.VisualStudio.Shell.10.0"
+    xmlns:resources="clr-namespace:Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Properties"
 	Padding="0"
 	FontFamily="Segoe UI"
 	FontSize="10pt"
 	Width="Auto" Height="Auto"
 	Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}"
-	Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}">
+	Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolboxSelectedHeadingMiddle2Key}}">
+    <!--Background="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowBackgroundKey}}">-->
 
-	<UserControl.Resources>
+    <UserControl.Resources>
 		<!-- Display Templates -->
 		<DataTemplate DataType="{x:Type bus_client:RemoteRelease}">
 			<StackPanel Orientation="Horizontal" >
@@ -475,39 +476,41 @@
 								</TextBlock>
 								<TextBox Name="cntrlIncidentName" Width="Auto" Margin="3,3,0,3" VerticalAlignment="Center" TextChanged="_cntrl_TextChanged" Style="{StaticResource PaddedControl}" />
 							</DockPanel>
-							<!-- ROW1: Status, Type -->
-							<TextBlock Name="lblType" Grid.Column="0" Grid.Row="1" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="1" Grid.Row="1" Name="cntrlType" Style="{StaticResource ResourceKey=PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrlType_Changed" />
-							<TextBlock Name="lblStatus" Grid.Column="3" Grid.Row="1" Style="{StaticResource PaddedLabel}" />
-							<TextBlock Name="cntrlIncidentStatus" Grid.Column="4" Grid.Row="1" HorizontalAlignment="Left" Style="{StaticResource PaddedLabel}">[Status]</TextBlock>
-							<!-- ROW2: Detected By, Owned By -->
-							<TextBlock Name="lblDetectedBy" Grid.Column="0" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="1" Grid.Row="2" Name="cntrlDetectedBy" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" DisplayMemberPath="FullName" />
-							<TextBlock  Name="lblOwnedBy" Grid.Column="3" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="4" Grid.Row="2" Name="cntrlOwnedBy" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" DisplayMemberPath="FullName" />
-							<!-- ROW3: Priority, Severity -->
-							<TextBlock  Name="lblPriority" Grid.Column="0" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="1" Grid.Row="3" Name="cntrlPriority" Style="{StaticResource PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrl_TextChanged" />
-							<TextBlock  Name="lblSeverity" Grid.Column="3" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="4" Grid.Row="3" Name="cntrlSeverity" Style="{StaticResource PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrl_TextChanged" />
-							<!-- ROW4: DetectedIn, ResolvedIn -->
-							<TextBlock  Name="lblDetectedIn" Grid.Column="0" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="1" Grid.Row="4" Name="cntrlDetectedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
-							<TextBlock Name="lblResolvedIn" Grid.Column="3" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="4" Grid.Row="4" Name="cntrlResolvedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
-							<!-- ROW5: VerifiedIn -->
-							<TextBlock Name="lblVerifiedIn" Grid.Column="3" Grid.Row="5" Style="{StaticResource PaddedLabel}" />
-							<ComboBox Grid.Column="4" Grid.Row="5" Name="cntrlVerifiedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
-							<!-- ROW6: Description -->
-							<GroupBox Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5" Name="grpDescription" Style="{StaticResource RequiredStyle}">
-								<GroupBox.Header>
-									<TextBlock Name="lblDescription" FontWeight="Bold" />
-								</GroupBox.Header>
-								<GroupBox.Content>
+                            <!-- ROW1: Description -->
+                            <GroupBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Name="grpDescription" Style="{StaticResource RequiredStyle}">
+                                <GroupBox.Header>
+                                    <TextBlock Name="lblDescription" FontWeight="Bold" />
+                                </GroupBox.Header>
+                                <GroupBox.Content>
                                     <ui_cntrl:cntrlRichTextEditor x:Name="cntrlDescription" Height="200" Width="Auto" Padding="2" TextChanged="_cntrl_TextChanged"  IsSpellcheckEnabled="True" />
-								</GroupBox.Content>
-							</GroupBox>
-						</Grid>
+                                </GroupBox.Content>
+                            </GroupBox>
+                            <!-- ROW2: Status, Type -->
+							<TextBlock Name="lblType" Grid.Column="0" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="1" Grid.Row="2" Name="cntrlType" Style="{StaticResource ResourceKey=PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrlType_Changed" />
+							<TextBlock Name="lblStatus" Grid.Column="3" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
+							<TextBlock Name="cntrlIncidentStatus" Grid.Column="4" Grid.Row="2" HorizontalAlignment="Left" Style="{StaticResource PaddedLabel}">[Status]</TextBlock>
+							<!-- ROW3: Detected By, Owned By -->
+							<TextBlock Name="lblDetectedBy" Grid.Column="0" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="1" Grid.Row="3" Name="cntrlDetectedBy" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" DisplayMemberPath="FullName" />
+							<TextBlock  Name="lblOwnedBy" Grid.Column="3" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="4" Grid.Row="3" Name="cntrlOwnedBy" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" DisplayMemberPath="FullName" />
+							<!-- ROW4: Priority, Severity -->
+							<TextBlock  Name="lblPriority" Grid.Column="0" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="1" Grid.Row="4" Name="cntrlPriority" Style="{StaticResource PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrl_TextChanged" />
+							<TextBlock  Name="lblSeverity" Grid.Column="3" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="4" Grid.Row="4" Name="cntrlSeverity" Style="{StaticResource PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrl_TextChanged" />
+							<!-- ROW5: DetectedIn, ResolvedIn -->
+							<TextBlock  Name="lblDetectedIn" Grid.Column="0" Grid.Row="5" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="5" Grid.Row="4" Name="cntrlDetectedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
+							<TextBlock Name="lblResolvedIn" Grid.Column="3" Grid.Row="5" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="5" Grid.Row="4" Name="cntrlResolvedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
+							<!-- ROW6: VerifiedIn -->
+							<TextBlock Name="lblVerifiedIn" Grid.Column="3" Grid.Row="6" Style="{StaticResource PaddedLabel}" />
+							<ComboBox Grid.Column="4" Grid.Row="6" Name="cntrlVerifiedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
+                            <!-- ROW7: Custom Propes -->
+                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" Grid.Row="7" Grid.ColumnSpan="5" Grid.Column="0" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" ControlStyle="{StaticResource PaddedControl}" />
+                        </Grid>
 					</Expander>
 					<ListBox Grid.Row="1" SelectionMode="Single">
 						<ListBox.Resources>
@@ -624,7 +627,6 @@
 							<Expander.Header>
 								<TextBlock Name="lblExpanderCustom" VerticalAlignment="Center" />
 							</Expander.Header>
-                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" />
                         </Expander>
 						<!-- Attachments -->
 						<Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">

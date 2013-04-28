@@ -391,11 +391,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 					#region Multilist
 					case 7: //Multilist field.
+						propControl = new ListBox();
 						{
+							((ListBox)propControl).SelectionMode = SelectionMode.Multiple;
+							propControl.Height = 150;
 							if (prop.CustomList.Values.Count() > 0)
 							{
-								propControl = new ListBox();
-								((ListBox)propControl).SelectionMode = SelectionMode.Multiple;
 								((ListBox)propControl).ItemsSource = prop.CustomList.Values;
 
 								//TODO: Set default on MultiList items.
@@ -430,14 +431,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 					//The label properties..
 					propLabel.Text = prop.Name + ":";
-					propLabel.Margin = this.LabelMargin;
+					//propLabel.Margin = this.LabelMargin;
 					propLabel.VerticalAlignment = this.LabelVerticalAlignment;
 					propLabel.HorizontalAlignment = this.LabelHorizontalAlignment;
 					if (this.LabelStyle != null) propLabel.Style = this.LabelStyle;
 
 					//The other control properties..
-					propControl.Margin = this.ControlMargin;
-					propControl.Padding = this.ControlPadding;
+					//propControl.Margin = this.ControlMargin;
+					//propControl.Padding = this.ControlPadding;
 					propControl.VerticalAlignment = this.ControlVerticalAlignment;
 					propControl.HorizontalAlignment = this.ControlHorizontalAlignment;
 					if (this.ControlStyle != null) propControl.Style = this.ControlStyle;

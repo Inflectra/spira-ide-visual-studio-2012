@@ -421,7 +421,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "wkfClient_Connection_Authenticate2Completed()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER.");
+				Logger.LogTrace(CLASS + METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -452,7 +452,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -469,7 +469,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "wkfClient_Connection_ConnectToProjectCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER.");
+				Logger.LogTrace(CLASS + METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -504,7 +504,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -521,7 +521,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "wkfClient_Incident_RetrieveWorkflowFieldsCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER.");
+				Logger.LogTrace(CLASS + METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -550,7 +550,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						}
 					}
 				}
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -567,7 +567,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			try
 			{
 				const string METHOD = "wkfClient_Incident_RetrieveWorkflowCustomPropertiesCompleted()";
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " ENTER.");
+				Logger.LogTrace(CLASS + METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -596,7 +596,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						}
 					}
 				}
-				System.Diagnostics.Debug.WriteLine(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{

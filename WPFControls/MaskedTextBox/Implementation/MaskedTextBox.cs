@@ -1,20 +1,4 @@
-﻿
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -1679,7 +1663,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit
 
 			if (this.CanReplace(provider, text, startPosition, selectionLength, this.RejectInputOnFirstFailure, out tentativeCaretIndex))
 			{
-				System.Diagnostics.Debug.WriteLine("Replace caret index to: " + tentativeCaretIndex.ToString());
+				Debug.WriteLine ("Replace caret index to: " + tentativeCaretIndex.ToString());
 
 				bool mustRefreshText = this.MaskedTextOutput != provider.ToString();
 				m_maskedTextProvider = provider;
