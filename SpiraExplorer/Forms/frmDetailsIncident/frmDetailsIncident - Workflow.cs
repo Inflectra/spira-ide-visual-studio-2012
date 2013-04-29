@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -66,6 +67,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retDict.Add(94, new WorkflowField(94, "Incident ID", null, true, false));
 				retDict.Add(126, new WorkflowField(126, "Projected Effort", null, false, false, null));
 				retDict.Add(127, new WorkflowField(127, "Remaining Effort", null, false, false, null));
+				retDict.Add(136, new WorkflowField(136, "Fixed Build", null, false, false, null));
+				retDict.Add(138, new WorkflowField(138, "Progress", null, false, false, null));
 
 				//Return it.
 				return retDict;
@@ -83,23 +86,20 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A dictionary of FieldId and current Status.</returns>
 		private Dictionary<int, WorkflowField.WorkflowStatusEnum> workflow_LoadFieldStatus(List<RemoteWorkflowIncidentFields> workflowFields)
 		{
+			Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
+
 			try
 			{
-				Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
-
-				//Copy over all fields, first.
+				//Go through each known field, and see if it exists in the data we got from the server.
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowFields)
 				{
-					retList.Add(kvpField.Key, WorkflowField.WorkflowStatusEnum.Disabled);
-				}
-
-				//Now update the ones that need it.
-				foreach (RemoteWorkflowIncidentFields wkfField in workflowFields)
-				{
-					if (retList.ContainsKey(wkfField.FieldId) && (int)retList[wkfField.FieldId] < wkfField.FieldStateId)
+					WorkflowField.WorkflowStatusEnum status = WorkflowField.WorkflowStatusEnum.Normal;
+					RemoteWorkflowIncidentFields wkfField = workflowFields.SingleOrDefault(wkf => wkf.FieldId == kvpField.Key);
+					if (wkfField != null)
 					{
-						retList[wkfField.FieldId] = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
+						status = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
 					}
+					retList.Add(kvpField.Key, status);
 				}
 
 				return retList;
@@ -108,8 +108,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			{
 				Logger.LogMessage(ex, "workflow_LoadFieldStatus()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
-				return new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
+				retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 			}
+			return retList;
 		}
 
 		/// <summary>Creates a useable dictionary of Field ID and Status from the given list of Workflow Custom Fields.</summary>
@@ -117,33 +118,30 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A dictionary of FieldId and current Status.</returns>
 		private Dictionary<int, WorkflowField.WorkflowStatusEnum> workflow_LoadFieldStatus(List<RemoteWorkflowIncidentCustomProperties> workflowFields)
 		{
+			Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
+
 			try
 			{
-				Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
-
-				//Copy over all fields, first.
+				//Go through each field..
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowCustom)
 				{
-					retList.Add(kvpField.Key, WorkflowField.WorkflowStatusEnum.Disabled);
-				}
-
-				//Now update the ones that need it.
-				foreach (RemoteWorkflowIncidentCustomProperties wkfField in workflowFields)
-				{
-					if ((int)retList[wkfField.CustomPropertyId] < wkfField.FieldStateId)
+					WorkflowField.WorkflowStatusEnum status = WorkflowField.WorkflowStatusEnum.Normal;
+					RemoteWorkflowIncidentCustomProperties wkfField = workflowFields.SingleOrDefault(wkf => wkf.CustomPropertyId == kvpField.Key);
+					if (wkfField != null)
 					{
-						retList[wkfField.CustomPropertyId] = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
+						status = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
 					}
-				}
 
-				return retList;
+					retList.Add(kvpField.Key, status);
+				}
 			}
 			catch (Exception ex)
 			{
 				Logger.LogMessage(ex, "workflow_LoadFieldStatus()");
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
-				return new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
+				retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 			}
+			return retList;
 		}
 
 		/// <summary>Set the enabled and required fields for the current stage in the workflow.</summary>
@@ -162,7 +160,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							try
 							{
-								incField.Value.FieldControl.IsEnabled = ((int)WorkflowFields[incField.Key] > 0);
+								incField.Value.FieldControl.IsEnabled = (WorkflowFields[incField.Key] != WorkflowField.WorkflowStatusEnum.Hidden) && (WorkflowFields[incField.Key] != WorkflowField.WorkflowStatusEnum.Inactive);
 							}
 							catch (Exception ex)
 							{
@@ -175,7 +173,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							try
 							{
-								((dynamic)incField.Value.FieldLabel).FontWeight = ((WorkflowFields[incField.Key] == WorkflowField.WorkflowStatusEnum.Requird) ? FontWeights.Bold : FontWeights.Normal);
+								((dynamic)incField.Value.FieldLabel).FontWeight = ((WorkflowFields[incField.Key] == WorkflowField.WorkflowStatusEnum.Required) ? FontWeights.Bold : FontWeights.Normal);
 							}
 							catch (Exception ex)
 							{
@@ -236,7 +234,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowFields)
 				{
 					//We only care about required fields.
-					if (workflowField[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Requird && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
+					if (workflowField[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
 					{
 						//Find the field and act upon it. Based on type on control and datatype inside it.
 						switch (kvpField.Key)
@@ -351,7 +349,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowCustom)
 				{
 					//We only care about required fields.
-					if (workflowCustom[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Requird && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
+					if (workflowCustom[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required  && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
 					{
 						//Depends on which control type it is..
 						string cntrlType = kvpField.Value.FieldControl.GetType().ToString().ToLowerInvariant();
@@ -663,12 +661,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			/// <summary>Status to refer fields to.</summary>
 			public enum WorkflowStatusEnum : int
 			{
-				/// <summary>Field is disabled, cannot be changed.</summary>
-				Disabled = 0,
-				/// <summary>Field is enabled, it can be changed.</summary>
-				Enabled = 1,
-				/// <summary>Field is required. It has to be entered in, cannot be null or unset.</summary>
-				Requird = 2
+				/// <summary>Field is active and enabled, not required.</summary>
+				Normal = 0,
+				/// <summary>Field is inactive, cannot be changed.</summary>
+				Inactive = 1,
+				/// <summary>Field is enabled and it must be non-empty.</summary>
+				Required = 2,
+				/// <summary>Field is hidden, not displayed to the user.</summary>
+				Hidden = 3
 			}
 		}
 	}
