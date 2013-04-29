@@ -65,7 +65,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				this.lblHours.Text = StaticFuncs.getCultureResource.GetString("app_General_Hours");
 				this.lblMins.Text = StaticFuncs.getCultureResource.GetString("app_General_Minutes");
 				this.lblExpanderTasks.Text = StaticFuncs.getCultureResource.GetString("app_Requirement_ExpanderTask");
-				this.lblExpanderCustom.Text = StaticFuncs.getCultureResource.GetString("app_General_ExpanderCustom");
+				//this.lblExpanderCustom.Text = StaticFuncs.getCultureResource.GetString("app_General_ExpanderCustom");
 				this.lblExpanderAttachments.Text = StaticFuncs.getCultureResource.GetString("app_General_Attachments");
 				this.lblAddNewResolution.Text = StaticFuncs.getCultureResource.GetString("app_General_AddNewComment") + ":";
 				this.btnConcurrencyMergeNo.Content = StaticFuncs.getCultureResource.GetString("app_General_Refresh");

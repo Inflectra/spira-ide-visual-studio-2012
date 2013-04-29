@@ -41,6 +41,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		/// <summary>Holds any user-specified column widths.</summary>
 		Dictionary<int, GridLength> colWidths = new Dictionary<int, GridLength>();
 
+		public event EventHandler<EventArgs> ControlChanged;
+
 		/// <summary>Create an instance of the class.</summary>
 		public cntlCustomProps()
 		{
@@ -59,7 +61,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		{
 			#region Control Creation
 			//Create our columns, first.
-			for (int i = 1; i <= this.numCols * 2; i++)
+			bool isLabelCol = true;
+			for (int i = 1; i <= (this.numCols * 2); i++)
 			{
 				//Get the col width..
 				GridLength width;
@@ -69,19 +72,36 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 				}
 				else
 				{
-					width = ((i % 2 == 1) ? GridLength.Auto : new GridLength(.5, GridUnitType.Star));
+					if (isLabelCol) width = GridLength.Auto;
+					else width = new GridLength(.5, GridUnitType.Star);
 				}
 				this.grdContent.ColumnDefinitions.Add(new ColumnDefinition() { Width = width });
+
+				//Add a seperator row, if needed!
+				if (!isLabelCol && i < (this.numCols * 2))
+				{
+					GridLength sepWidth = new GridLength(10, GridUnitType.Pixel);
+					if (this.SeperatorWidth.Equals(GridLength.Auto))
+						sepWidth = new GridLength(10, GridUnitType.Pixel);
+					else
+						sepWidth = this.SeperatorWidth;
+
+					this.grdContent.ColumnDefinitions.Add(new ColumnDefinition() { Width = sepWidth });
+				}
+
+				//Flip switch.
+				isLabelCol = !isLabelCol;
 			}
 
 			//Go through the field definitions, and create the fields.
 			int current_rowNum = -1;
-			int current_colNum = this.numCols * 2;
+			int current_colNum = (this.numCols * 3) - 1;
+			CurrentColumnTypeEnum colType = CurrentColumnTypeEnum.Label;
 
 			//Create the fields, set initial (default) values..
 			foreach (RemoteCustomProperty prop in this.propertyDefinitions)
 			{
-				if (current_colNum >= (this.numCols * 2))
+				if (current_colNum >= ((this.numCols * 3) - 1))
 				{
 					//Advance/Reset counters..
 					current_rowNum++;
@@ -95,7 +115,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 				Control propControl = null;
 				TextBlock propLabel = new TextBlock();
 
-				bool twoCols = false;
+				bool fullRowCont = false;
 				switch (prop.CustomPropertyTypeId)
 				{
 					#region Text & URL
@@ -114,10 +134,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 						{
 							propControl = new cntrlRichTextEditor();
 							((cntrlRichTextEditor)propControl).MinHeight = 150;
-							twoCols = true;
+							((cntrlRichTextEditor)propControl).TextChanged += textBox_TextChanged;
+							fullRowCont = true;
 						}
 						else
+						{
 							propControl = new TextBox();
+							((TextBox)propControl).TextChanged += textBox_TextChanged;
+						}
 
 						//Get other options..
 						if (prop.CustomPropertyTypeId == 1 && prop.Options != null)
@@ -171,6 +195,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					#region Integer
 					case 2: //Integer field.
 						propControl = new IntegerUpDown();
+						((IntegerUpDown)propControl).ValueChanged += numberUpDown_ValueChanged;
 						foreach (RemoteCustomPropertyOption opt in prop.Options)
 						{
 							switch (opt.CustomPropertyOptionId)
@@ -205,6 +230,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					#region Decimal
 					case 3: //Decimal field.
 						propControl = new DecimalUpDown();
+						((DecimalUpDown)propControl).ValueChanged += numberUpDown_ValueChanged;
 
 						foreach (RemoteCustomPropertyOption opt in prop.Options)
 						{
@@ -250,6 +276,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 						{
 							//The control..
 							propControl = new CheckBox();
+							((CheckBox)propControl).Unchecked += checkBox_CheckChanged;
+							((CheckBox)propControl).Checked += checkBox_CheckChanged;
 							if (prop.Options.Where(op => op.CustomPropertyOptionId == 5).Count() == 1)
 							{
 								((CheckBox)propControl).IsChecked = this.getBoolFromValue(prop.Options.Where(op => op.CustomPropertyOptionId == 5).Single());
@@ -272,6 +300,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 						{
 							//The control..
 							propControl = new DatePicker();
+							((DatePicker)propControl).SelectedDateChanged += comboBox_SelectionChanged;
 							foreach (RemoteCustomPropertyOption opt in prop.Options)
 							{
 								switch (opt.CustomPropertyOptionId)
@@ -315,7 +344,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					case 10: //Release field.
 						{
 							propControl = new ComboBox();
-							if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
+							((ComboBox)propControl).SelectionChanged += comboBox_SelectionChanged;
+
+							if (prop.CustomPropertyTypeId == 6 && prop.CustomList != null)
 							{
 								((ComboBox)propControl).ItemsSource = prop.CustomList.Values;
 							}
@@ -327,7 +358,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 								propControl = null;
 
 							//If we're allowing empty, add a 'none' item..
-							if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+							if (prop.Options != null && prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
 							{
 								bool allowEmpty = this.getBoolFromValue(prop.Options.SingleOrDefault(op => op.CustomPropertyOptionId == 1));
 								if (allowEmpty)
@@ -391,9 +422,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 					#region Multilist
 					case 7: //Multilist field.
-						propControl = new ListBox();
 						{
+							propControl = new ListBox();
 							((ListBox)propControl).SelectionMode = SelectionMode.Multiple;
+							((ListBox)propControl).SelectionChanged += comboBox_SelectionChanged;
+
 							propControl.Height = 150;
 							if (prop.CustomList.Values.Count() > 0)
 							{
@@ -444,8 +477,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					if (this.ControlStyle != null) propControl.Style = this.ControlStyle;
 
 					// Get a new row, if necessary.
-					int useCols = (2 * ((twoCols) ? 2 : 1));
-					if ((useCols + current_colNum) > (this.numCols * 2))
+					int useCols = ((fullRowCont) ? ((this.numCols * 3) - 1) : 3);
+					if ((useCols + current_colNum) > ((this.numCols * 3)))
 					{
 						//need to create a new row.
 						current_rowNum++;
@@ -462,10 +495,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					this.grdContent.Children.Add(propControl);
 					Grid.SetColumn(propControl, current_colNum + 1);
 					Grid.SetRow(propControl, current_rowNum);
-					if (twoCols) Grid.SetColumnSpan(propControl, 3);
+					if (fullRowCont) Grid.SetColumnSpan(propControl, (this.numCols * 3) - 1);
 
 					//Advance the column count..
-					current_colNum += ((twoCols) ? 4 : 2);
+					current_colNum += ((fullRowCont) ? ((this.numCols * 3) - 1) : 3);
 
 					//Loop and start the next property..
 				}
@@ -473,6 +506,44 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			#endregion //Control Creation
 
 		}
+
+		#region Internal Events
+		/// <summary>Hit when a ComboBox or ListBox's values are changed.</summary>
+		/// <param name="sender">Combobox, Listbox</param>
+		/// <param name="e">SelectionChangedEventArgs</param>
+		private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (this.ControlChanged != null)
+				this.ControlChanged(this, new EventArgs());
+		}
+
+		/// <summary>Hit when a CheckBox is changed.</summary>
+		/// <param name="sender">CheckBox</param>
+		/// <param name="e">RoutedEventArgs</param>
+		private void checkBox_CheckChanged(object sender, RoutedEventArgs e)
+		{
+			if (this.ControlChanged != null)
+				this.ControlChanged(this, new EventArgs());
+		}
+
+		/// <summary>Hit when a NumberUpDown control is changed.</summary>
+		/// <param name="sender">IntegerUpDown, DecimalUpDown</param>
+		/// <param name="e">RoutedPropertyChangedEventArgs</param>
+		private void numberUpDown_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+		{
+			if (this.ControlChanged != null)
+				this.ControlChanged(this, new EventArgs());
+		}
+		
+		/// <summary>Hit when a textbox or RichTextControl is changed.</summary>
+		/// <param name="sender">TextBox, RichTextBox</param>
+		/// <param name="e">EventArgs</param>
+		private void textBox_TextChanged(object sender, EventArgs e)
+		{
+			if (this.ControlChanged != null)
+				this.ControlChanged(this, new EventArgs());
+		}
+		#endregion
 
 		/// <summary>Gets the boolean from the value field of the option.</summary>
 		/// <param name="opt">The custom propert option.</param>
@@ -615,6 +686,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		public Style LabelStyle
 		{ get; set; }
 
+		/// <summary>The width of the seperator columns.</summary>
+		public GridLength SeperatorWidth
+		{ get; set; }
 		#endregion #Properties
 
 		#region Public Functions
@@ -1004,5 +1078,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			return retList;
 		}
 		#endregion
+
+		private enum CurrentColumnTypeEnum : int
+		{
+			Label = 1,
+			Data = 2,
+			Spacer = 3
+		}
 	}
 }

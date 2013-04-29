@@ -45,6 +45,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//this.Foreground = Shell10.Microsoft.VisualStudio.Shell.VsBrushes.ToolboxSelectedHeadingMiddle2Key;
 				//this.Background = VsBrushes.ToolWindowBackgroundKey;
 
+				//Set custom props widts..
+				this.cntCustomProps.SetColNumWidth(2, new GridLength(6, GridUnitType.Star));
+				this.cntCustomProps.SetColNumWidth(4, new GridLength(6, GridUnitType.Star));
+
 				//Load images needed..
 				this.imgLoadingIncident.Source = StaticFuncs.getImage("imgInfoWPF", new Size(48, 48)).Source;
 				this.imgSavingIncident.Source = StaticFuncs.getImage("imgSaveWPF", new Size(48, 48)).Source;
@@ -89,7 +93,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				this.lblRemEffort.Text = StaticFuncs.getCultureResource.GetString("app_General_RemEffort") + ":";
 				this.lblHours3.Text = StaticFuncs.getCultureResource.GetString("app_General_Hours");
 				this.lblMins3.Text = StaticFuncs.getCultureResource.GetString("app_General_Minutes");
-				this.lblExpanderCustom.Text = StaticFuncs.getCultureResource.GetString("app_General_ExpanderCustom");
+				//this.lblExpanderCustom.Text = StaticFuncs.getCultureResource.GetString("app_General_ExpanderCustom");
 				this.lblExpanderAttachments.Text = StaticFuncs.getCultureResource.GetString("app_General_Attachments");
 				this.lblAddNewResolution.Text = StaticFuncs.getCultureResource.GetString("app_General_AddNewComment") + ":";
 				this.btnConcurrencyMergeNo.Content = StaticFuncs.getCultureResource.GetString("app_General_Refresh");
@@ -895,6 +899,5 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
 		}
-
 	}
 }
