@@ -396,7 +396,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							if (this.item != null)
 							{
 								RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
-								if (custProp != null)
+								if (custProp != null && custProp.IntegerValue.HasValue)
 								{
 									if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
 										((ComboBox)propControl).SelectedItem = prop.CustomList.Values.Where(clv => clv.CustomPropertyValueId == custProp.IntegerValue).SingleOrDefault();

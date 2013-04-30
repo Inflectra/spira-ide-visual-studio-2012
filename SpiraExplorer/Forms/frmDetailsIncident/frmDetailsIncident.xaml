@@ -616,7 +616,7 @@
                                 <StackPanel x:Name="grdTimeRemEffort" Grid.Column="4" Grid.Row="3" Orientation="Horizontal">
                                     <tk:IntegerUpDown x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0"  Maximum="720" Minimum="0"/>
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours3" />
-                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlRemEffortH, Path=Background}" Maximum="59" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins3" />
                                 </StackPanel>
                             </Grid>

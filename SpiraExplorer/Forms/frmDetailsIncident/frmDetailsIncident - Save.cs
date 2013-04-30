@@ -35,6 +35,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 				if (this._isFieldChanged || this._isWkfChanged || this._isResChanged || this._isDescChanged)
 				{
+					//Clear highlights.
+					this.workflow_ClearAllRequiredHighlights();
+
 					//Set working flag.
 					this.IsSaving = true;
 
@@ -460,6 +463,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retIncident.ProjectId = this._Incident.ProjectId;
 				retIncident.CreationDate = this._Incident.CreationDate;
 				retIncident.LastUpdateDate = this._Incident.LastUpdateDate;
+				retIncident.ConcurrencyDate = this._Incident.ConcurrencyDate;
 
 				//*Standard fields..
 				retIncident.Name = this.cntrlIncidentName.Text.Trim();

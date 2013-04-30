@@ -19,7 +19,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 	public static partial  class StaticFuncs
 	{
 		private static ResourceManager _internalManager;
-		private static Dictionary<string, Image> storedImgs = new Dictionary<string, Image>();
+		private static Dictionary<string, BitmapSource> storedImgs = new Dictionary<string, BitmapSource>();
 
 		/// <summary>Readonly. Returns the resource manager for the loaded library.</summary>
 		public static ResourceManager getCultureResource
@@ -74,7 +74,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 			{
 				if (StaticFuncs.storedImgs.ContainsKey(key))
 				{
-					retImage = StaticFuncs.storedImgs[key];
+					retImage.Source = StaticFuncs.storedImgs[key];
 				}
 				else
 				{
@@ -99,7 +99,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 					retImage.Source = image;
 
 					//Add it to our library for use later..
-					storedImgs.Add(key, retImage);
+					storedImgs.Add(key, image);
 				}
 			}
 			catch (Exception ex)
