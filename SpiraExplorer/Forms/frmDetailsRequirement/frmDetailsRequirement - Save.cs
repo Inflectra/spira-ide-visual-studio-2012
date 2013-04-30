@@ -83,8 +83,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "clientSave_Connection_DisconnectCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"clientSave_Connection_DisconnectCompleted()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -106,8 +106,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "clientSave_Requirement_CreateCommentCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"clientSave_Requirement_CreateCommentCompleted()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
@@ -131,7 +131,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(CLASS + METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
+				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
@@ -147,8 +147,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "clientSave_Requirement_UpdateCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"clientSave_Requirement_UpdateCompleted()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
@@ -207,7 +207,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(CLASS + METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
+				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
@@ -223,8 +223,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "client_Requirement_RetrieveByIdCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"client_Requirement_RetrieveByIdCompleted()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
@@ -268,7 +268,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				Logger.LogTrace(CLASS + METHOD + " Exit");
+				Logger.LogTrace(METHOD + " Exit");
 			}
 			catch (Exception ex)
 			{
@@ -284,8 +284,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "clientSave_Connection_ConnectToProjectCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"clientSave_Connection_ConnectToProjectCompleted()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
@@ -334,7 +334,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(CLASS + METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
+				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
@@ -350,8 +350,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "clientSave_Connection_Authenticate2Completed()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"clientSave_Connection_Authenticate2Completed()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
@@ -387,7 +387,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(CLASS + METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
+				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
@@ -402,8 +402,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "save_CheckIfOkayToLoad()";
-				Logger.LogTrace(CLASS + METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
+				const string METHOD = CLASS+"save_CheckIfOkayToLoad()";
+				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				//If we're down to 0, we have to reload our information.
 				if (this._clientNumSaving == 0)
@@ -413,7 +413,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					this.load_LoadItem();
 				}
 
-				Logger.LogTrace(CLASS + METHOD + " Exit");
+				Logger.LogTrace(METHOD + " Exit");
 			}
 			catch (Exception ex)
 			{
@@ -449,7 +449,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A new RemoteIncident, or Null if error.</returns>
 		private RemoteRequirement save_GetFromFields()
 		{
-			const string METHOD = "save_GetFromFields()";
+			const string METHOD = CLASS+"save_GetFromFields()";
 
 			RemoteRequirement retRequirement = null;
 			try

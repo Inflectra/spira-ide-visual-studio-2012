@@ -50,9 +50,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 			//Set initial defaults.
 			this.LabelHorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-			this.LabelVerticalAlignment = System.Windows.VerticalAlignment.Center;
+			this.LabelVerticalAlignment = System.Windows.VerticalAlignment.Top;
 			this.ControlHorizontalAlignment = System.Windows.HorizontalAlignment.Stretch;
-			this.ControlVerticalAlignment = System.Windows.VerticalAlignment.Center;
+			this.ControlVerticalAlignment = System.Windows.VerticalAlignment.Top;
 		}
 
 		#region Private Functions
@@ -61,6 +61,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		{
 			#region Control Creation
 			//Create our columns, first.
+			this.grdContent.ColumnDefinitions.Clear();
 			bool isLabelCol = true;
 			for (int i = 1; i <= (this.numCols * 2); i++)
 			{
@@ -427,7 +428,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							((ListBox)propControl).SelectionMode = SelectionMode.Multiple;
 							((ListBox)propControl).SelectionChanged += comboBox_SelectionChanged;
 
-							propControl.Height = 150;
+							propControl.Height = 75;
 							if (prop.CustomList.Values.Count() > 0)
 							{
 								((ListBox)propControl).ItemsSource = prop.CustomList.Values;

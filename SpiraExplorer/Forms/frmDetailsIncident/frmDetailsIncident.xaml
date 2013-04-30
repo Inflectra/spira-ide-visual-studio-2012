@@ -501,9 +501,9 @@
                             <ComboBox Grid.Column="4" Grid.Row="4" Name="cntrlSeverity" Style="{StaticResource PaddedControl}" DisplayMemberPath="Name" SelectionChanged="_cntrl_TextChanged" />
                             <!-- ROW5: DetectedIn, ResolvedIn -->
                             <TextBlock  Name="lblDetectedIn" Grid.Column="0" Grid.Row="5" Style="{StaticResource PaddedLabel}" />
-                            <ComboBox Grid.Column="5" Grid.Row="4" Name="cntrlDetectedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
+                            <ComboBox Grid.Column="1" Grid.Row="5" Name="cntrlDetectedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
                             <TextBlock Name="lblResolvedIn" Grid.Column="3" Grid.Row="5" Style="{StaticResource PaddedLabel}" />
-                            <ComboBox Grid.Column="5" Grid.Row="4" Name="cntrlResolvedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
+                            <ComboBox Grid.Column="4" Grid.Row="5" Name="cntrlResolvedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
                             <!-- ROW6: VerifiedIn -->
                             <TextBlock Name="lblVerifiedIn" Grid.Column="3" Grid.Row="6" Style="{StaticResource PaddedLabel}" />
                             <ComboBox Grid.Column="4" Grid.Row="6" Name="cntrlVerifiedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
@@ -534,7 +534,7 @@
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <!-- Resolution / Comments -->
-                        <Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
+                        <Expander x:Name="expComments" IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
                             <Expander.Header>
                                 <TextBlock Name="lblExpanderResolution" VerticalAlignment="Center" />
                             </Expander.Header>
@@ -551,7 +551,7 @@
                             </StackPanel>
                         </Expander>
                         <!-- Schedule -->
-                        <Expander IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
+                        <Expander x:Name="expEffort" IsExpanded="{Binding IsSelected, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListBoxItem}}}" Style="{DynamicResource ExpanderStyle1}">
                             <Expander.Header>
                                 <TextBlock Name="lblExpanderSchedule" VerticalAlignment="Center" />
                             </Expander.Header>
@@ -593,10 +593,10 @@
                                     </TextBlock>
                                 </Grid>
                                 <TextBlock Name="lblEstEffort" Grid.Column="3" Grid.Row="1" Style="{StaticResource PaddedLabel}" />
-                                <StackPanel Grid.Column="4" Grid.Row="1" Orientation="Horizontal">
-                                    <tk:IntegerUpDown x:Name="cntrlEstEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Maximum="720" Minimum="0" />
+                                <StackPanel x:Name="grdTimeEstEffort" Grid.Column="4" Grid.Row="1" Orientation="Horizontal">
+                                    <tk:IntegerUpDown x:Name="cntrlEstEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0" Maximum="720" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours4" />
-                                    <tk:IntegerUpDown x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" Maximum="59" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins4" />
                                 </StackPanel>
                                 <!-- ROW2: Projected Effort / Actual Effort -->
@@ -605,18 +605,18 @@
 									<Run Name="cntrlProjEffortH" /> <Run Name="lblHours1" />, <Run Name="cntrlProjEffortM"/> <Run Name="lblMins1" />
                                 </TextBlock>
                                 <TextBlock Name="lblActEffort" Grid.Column="3" Grid.Row="2" Style="{StaticResource PaddedLabel}" />
-                                <StackPanel Grid.Column="4" Grid.Row="2" Orientation="Horizontal">
-                                    <tk:IntegerUpDown x:Name="cntrlActEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0"  Maximum="720" Minimum="0" />
+                                <StackPanel x:Name="grdTimeActEffort" Grid.Column="4" Grid.Row="2" Orientation="Horizontal">
+                                    <tk:IntegerUpDown x:Name="cntrlActEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0"  Maximum="720" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours2" />
-                                    <tk:IntegerUpDown x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins2" />
                                 </StackPanel>
                                 <!-- ROW3: Remaining Effort -->
                                 <TextBlock Name="lblRemEffort" Grid.Column="3" Grid.Row="3" Style="{StaticResource PaddedLabel}" />
-                                <StackPanel Grid.Column="4" Grid.Row="3" Orientation="Horizontal">
-                                    <tk:IntegerUpDown x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0"  Maximum="720" Minimum="0"/>
+                                <StackPanel x:Name="grdTimeRemEffort" Grid.Column="4" Grid.Row="3" Orientation="Horizontal">
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0"  Maximum="720" Minimum="0"/>
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours3" />
-                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins3" />
                                 </StackPanel>
                             </Grid>

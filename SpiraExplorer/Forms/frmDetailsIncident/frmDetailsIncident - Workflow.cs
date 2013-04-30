@@ -54,19 +54,20 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retDict.Add(7, new WorkflowField(7, "Detected Release", this.cntrlDetectedIn, false, false, this.lblDetectedIn));
 				retDict.Add(8, new WorkflowField(8, "Resolved Release", this.cntrlResolvedIn, false, false, this.lblResolvedIn));
 				retDict.Add(9, new WorkflowField(9, "Verified Release", this.cntrlVerifiedIn, false, false, this.lblVerifiedIn));
-				retDict.Add(10, new WorkflowField(10, "Name", this.cntrlIncidentName, true, false));
+				retDict.Add(10, new WorkflowField(10, "Name", this.cntrlIncidentName, false, false, this.lblName));
 				retDict.Add(11, new WorkflowField(11, "Description", this.cntrlDescription, false, false, this.lblDescription));
-				retDict.Add(12, new WorkflowField(12, "Resolution", this.cntrlResolution, false, false));
+				//retDict.Add(12, new WorkflowField(12, "Resolution", this.cntrlResolution, false, false));
+				retDict.Add(12, new WorkflowField(12, "Resolution", this.expComments, false, false));
 				retDict.Add(13, new WorkflowField(13, "Creation Date", null, true, true));
 				retDict.Add(14, new WorkflowField(14, "End Date", this.cntrlEndDate, false, false, this.lblEndDate));
 				retDict.Add(15, new WorkflowField(15, "Last Modified Date", null, true, true));
 				retDict.Add(45, new WorkflowField(45, "Start Date", this.cntrlStartDate, false, false, this.lblStartDate));
 				retDict.Add(46, new WorkflowField(46, "Completion %", null, true, false));
-				retDict.Add(47, new WorkflowField(47, "Estimated Effort", this.cntrlEstEffortH, false, false, this.lblEstEffort));
-				retDict.Add(48, new WorkflowField(48, "Actual Effort", this.cntrlActEffortH, false, false, this.lblActEffort));
+				retDict.Add(47, new WorkflowField(47, "Estimated Effort", this.grdTimeEstEffort, false, false, this.lblEstEffort));
+				retDict.Add(48, new WorkflowField(48, "Actual Effort", this.grdTimeActEffort, false, false, this.lblActEffort));
 				retDict.Add(94, new WorkflowField(94, "Incident ID", null, true, false));
 				retDict.Add(126, new WorkflowField(126, "Projected Effort", null, false, false, null));
-				retDict.Add(127, new WorkflowField(127, "Remaining Effort", null, false, false, null));
+				retDict.Add(127, new WorkflowField(127, "Remaining Effort", this.grdTimeRemEffort, false, false, this.lblRemEffort));
 				retDict.Add(136, new WorkflowField(136, "Fixed Build", null, false, false, null));
 				retDict.Add(138, new WorkflowField(138, "Progress", null, false, false, null));
 
@@ -86,6 +87,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A dictionary of FieldId and current Status.</returns>
 		private Dictionary<int, WorkflowField.WorkflowStatusEnum> workflow_LoadFieldStatus(List<RemoteWorkflowIncidentFields> workflowFields)
 		{
+			string METHOD = CLASS + "workflow_SetEnabledFields(std)";
+			Logger.LogTrace_EnterMethod(METHOD);
+
 			Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 
 			try
@@ -94,11 +98,22 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowFields)
 				{
 					WorkflowField.WorkflowStatusEnum status = WorkflowField.WorkflowStatusEnum.Normal;
-					RemoteWorkflowIncidentFields wkfField = workflowFields.SingleOrDefault(wkf => wkf.FieldId == kvpField.Key);
-					if (wkfField != null)
+					List<RemoteWorkflowIncidentFields> wkfFields = workflowFields.Where(wkf => wkf.FieldId == kvpField.Key).ToList();
+					if (wkfFields.Count > 0)
 					{
-						status = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
+						//The order of statuses is: Required above Hidden above Disabled.
+						if (wkfFields.Count(wkf => wkf.FieldStateId == (int)WorkflowField.WorkflowStatusEnum.Required) == 1)
+							status = WorkflowField.WorkflowStatusEnum.Required;
+						else if (wkfFields.Count(wkf => wkf.FieldStateId == (int)WorkflowField.WorkflowStatusEnum.Hidden) == 1)
+							status = WorkflowField.WorkflowStatusEnum.Hidden;
+						else if (wkfFields.Count(wkf => wkf.FieldStateId == (int)WorkflowField.WorkflowStatusEnum.Inactive) == 1)
+							status = WorkflowField.WorkflowStatusEnum.Inactive;
 					}
+
+					//If it's the 'Name' field, they cannot hide that, change it to 'Disabled' instead.
+					if (kvpField.Key == 10 && status == WorkflowField.WorkflowStatusEnum.Hidden)
+						status = WorkflowField.WorkflowStatusEnum.Inactive;
+
 					retList.Add(kvpField.Key, status);
 				}
 
@@ -110,6 +125,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 				retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 			return retList;
 		}
 
@@ -118,6 +134,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A dictionary of FieldId and current Status.</returns>
 		private Dictionary<int, WorkflowField.WorkflowStatusEnum> workflow_LoadFieldStatus(List<RemoteWorkflowIncidentCustomProperties> workflowFields)
 		{
+			string METHOD = CLASS + "workflow_SetEnabledFields(cust)";
+			Logger.LogTrace_EnterMethod(METHOD);
+
 			Dictionary<int, WorkflowField.WorkflowStatusEnum> retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 
 			try
@@ -141,13 +160,16 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 				retList = new Dictionary<int, WorkflowField.WorkflowStatusEnum>();
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 			return retList;
 		}
 
 		/// <summary>Set the enabled and required fields for the current stage in the workflow.</summary>
 		/// <param name="WorkFlowFields">The Dictionary of Workflow Fields</param>
-		private void workflow_SetEnabledFields(Dictionary<int, WorkflowField> FieldList, Dictionary<int, WorkflowField.WorkflowStatusEnum> WorkflowFields)
+		private void workflow_SetEnabledFields(Dictionary<int, WorkflowField> FieldList, Dictionary<int, WorkflowField.WorkflowStatusEnum> WorkflowFields, bool isStandardFields)
 		{
+			string METHOD = CLASS + "workflow_SetEnabledFields";
+			Logger.LogTrace_EnterMethod(METHOD);
 			try
 			{
 				//We need to loop through each field, and set it appropriately.
@@ -155,39 +177,87 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					if (!incField.Value.IsHidden && !incField.Value.IsFixed)
 					{
-						//Try to set Enabled/Disabled
-						if (incField.Value.FieldControl != null)
+						//See if the field has a record setting..
+						if (WorkflowFields.ContainsKey(incField.Key))
 						{
-							try
+							switch (WorkflowFields[incField.Key])
 							{
-								incField.Value.FieldControl.IsEnabled = (WorkflowFields[incField.Key] != WorkflowField.WorkflowStatusEnum.Hidden) && (WorkflowFields[incField.Key] != WorkflowField.WorkflowStatusEnum.Inactive);
-							}
-							catch (Exception ex)
-							{
-								Logger.LogMessage(ex, "Trying to set field '" + incField.Value.FieldName + "' enabled/disabled.");
-							}
-						}
-
-						//Try to set Bold/Normal for label.
-						if (incField.Value.FieldLabel != null)
-						{
-							try
-							{
-								((dynamic)incField.Value.FieldLabel).FontWeight = ((WorkflowFields[incField.Key] == WorkflowField.WorkflowStatusEnum.Required) ? FontWeights.Bold : FontWeights.Normal);
-							}
-							catch (Exception ex)
-							{
-								Logger.LogMessage(ex, "Trying to set field '" + incField.Value.FieldName + "' bold.");
+								case WorkflowField.WorkflowStatusEnum.Hidden:
+									{
+										if (incField.Value.FieldControl!=null)
+										incField.Value.FieldControl.Visibility = System.Windows.Visibility.Collapsed;
+										if (incField.Value.FieldLabel != null)
+											incField.Value.FieldLabel.Visibility = System.Windows.Visibility.Collapsed;
+									}
+									break;
+								case WorkflowField.WorkflowStatusEnum.Inactive:
+									{
+										if (incField.Value.FieldControl != null)
+										{
+											incField.Value.FieldControl.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldControl.IsEnabled = false;
+										}
+										if (incField.Value.FieldLabel != null)
+										{
+											incField.Value.FieldLabel.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldLabel.IsEnabled = false;
+											((dynamic)incField.Value.FieldLabel).FontWeight = FontWeights.Normal;
+										}
+									}
+									break;
+								case WorkflowField.WorkflowStatusEnum.Required:
+									{
+										if (incField.Value.FieldControl != null)
+										{
+											incField.Value.FieldControl.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldControl.IsEnabled = true;
+										}
+										if (incField.Value.FieldLabel != null)
+										{
+											incField.Value.FieldLabel.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldLabel.IsEnabled = true;
+											((dynamic)incField.Value.FieldLabel).FontWeight = FontWeights.Bold;
+										}
+									}
+									break;
+								default:
+									{
+										if (incField.Value.FieldControl != null)
+										{
+											incField.Value.FieldControl.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldControl.IsEnabled = true;
+										}
+										if (incField.Value.FieldLabel != null)
+										{
+											incField.Value.FieldLabel.Visibility = System.Windows.Visibility.Visible;
+											incField.Value.FieldLabel.IsEnabled = true;
+											((dynamic)incField.Value.FieldLabel).FontWeight = FontWeights.Normal;
+										}
+									}
+									break;
 							}
 						}
 					}
 				}
+				//If all effort fields are hidden, hide the Expander.
+				if (isStandardFields)
+				{
+					bool effortAllhidden = (WorkflowFields.ContainsKey(47) &&
+						WorkflowFields.ContainsKey(48) &&
+						WorkflowFields.ContainsKey(127) &&
+						WorkflowFields[47] == WorkflowField.WorkflowStatusEnum.Hidden &&
+						WorkflowFields[48] == WorkflowField.WorkflowStatusEnum.Hidden &&
+						WorkflowFields[127] == WorkflowField.WorkflowStatusEnum.Hidden);
+					this.expEffort.Visibility = ((effortAllhidden) ? System.Windows.Visibility.Collapsed : System.Windows.Visibility.Visible);
+				}
+
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "workflow_SetEnabledFields()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 		}
 
 		/// <summary>Simple function to clear all required fields of their Required Hishlight.</summary>
@@ -201,12 +271,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//Custom fields.
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowCustom)
 					if (kvpField.Value.FieldControl != null)
-						kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControl");
+						((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControl");
 
 				//Standard fields.
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowFields)
-					if (kvpField.Value.FieldControl != null)
-						kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControl");
+					if (kvpField.Value.FieldControl != null && kvpField.Value.FieldControl is Control)
+						((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControl");
 
 			}
 			catch (Exception ex)
@@ -234,7 +304,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowFields)
 				{
 					//We only care about required fields.
-					if (workflowField[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
+					if (workflowField[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required &&
+						!kvpField.Value.IsHidden &&
+						!kvpField.Value.IsFixed)
 					{
 						//Find the field and act upon it. Based on type on control and datatype inside it.
 						switch (kvpField.Key)
@@ -242,7 +314,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 1: // Severity
 								if (!((RemoteIncidentSeverity)((ComboBox)kvpField.Value.FieldControl).SelectedItem).SeverityId.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -250,7 +322,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 2: // Priority
 								if (!((RemoteIncidentPriority)((ComboBox)kvpField.Value.FieldControl).SelectedItem).PriorityId.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -258,7 +330,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 4: // Type
 								if (!((RemoteIncidentType)((ComboBox)kvpField.Value.FieldControl).SelectedItem).IncidentTypeId.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -267,7 +339,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 6: // Owner
 								if (!((RemoteUser)((ComboBox)kvpField.Value.FieldControl).SelectedItem).UserId.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -277,7 +349,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 9: // Verified Release
 								if (!((RemoteRelease)((ComboBox)kvpField.Value.FieldControl).SelectedItem).ReleaseId.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -285,7 +357,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 10: // Name
 								if (string.IsNullOrWhiteSpace(((TextBox)kvpField.Value.FieldControl).Text))
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -294,7 +366,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 12: // Resolution
 								if (string.IsNullOrWhiteSpace(StaticFuncs.StripTagsCharArray(((cntrlRichTextEditor)kvpField.Value.FieldControl).HTMLText)))
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -303,7 +375,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 45: // Start Date
 								if (!((DatePicker)kvpField.Value.FieldControl).SelectedDate.HasValue)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -327,10 +399,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 								break;
 
 							case 126: // Projected Effort
-								//TODO: Get Projected Date controls.
-								break;
-
-							case 127: // Projected Effort
+							case 127: // Remaining Effort
 								//TODO: Get Projected Date controls.
 								break;
 
@@ -339,6 +408,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case 15: // Last Modified Date
 							case 46: // Completion %
 							case 94: // Incident ID
+							case 136: // Fixed Build
+							case 138: // Progress
+								//We don't do anything with these.
 								break;
 						}
 					}
@@ -349,7 +421,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowCustom)
 				{
 					//We only care about required fields.
-					if (workflowCustom[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required  && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
+					if (workflowCustom[kvpField.Key] == WorkflowField.WorkflowStatusEnum.Required && !kvpField.Value.IsHidden && !kvpField.Value.IsFixed)
 					{
 						//Depends on which control type it is..
 						string cntrlType = kvpField.Value.FieldControl.GetType().ToString().ToLowerInvariant();
@@ -360,7 +432,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case "textbox":
 								if (string.IsNullOrWhiteSpace(((TextBox)kvpField.Value.FieldControl).Text))
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -368,7 +440,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							case "combobox":
 								if (((ComboBox)kvpField.Value.FieldControl).SelectedItem == null)
 								{
-									kvpField.Value.FieldControl.Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
+									((Control)kvpField.Value.FieldControl).Style = (Style)this.FindResource("PaddedControlRequiredHighlight");
 									retValue = false;
 								}
 								break;
@@ -418,8 +490,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "wkfClient_Connection_Authenticate2Completed()";
-				Logger.LogTrace(CLASS + METHOD + " ENTER.");
+				const string METHOD = CLASS + "wkfClient_Connection_Authenticate2Completed()";
+				Logger.LogTrace(METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -450,7 +522,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace_ExitMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -466,8 +538,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "wkfClient_Connection_ConnectToProjectCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " ENTER.");
+				const string METHOD = CLASS + "wkfClient_Connection_ConnectToProjectCompleted()";
+				Logger.LogTrace(METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -502,7 +574,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace_ExitMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -518,8 +590,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "wkfClient_Incident_RetrieveWorkflowFieldsCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " ENTER.");
+				const string METHOD = CLASS + "wkfClient_Incident_RetrieveWorkflowFieldsCompleted()";
+				Logger.LogTrace(METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -533,7 +605,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							this._WorkflowFields_Updated = this.workflow_LoadFieldStatus(e.Result);
 
 							//Update main workflow fields.
-							this.workflow_SetEnabledFields(this._WorkflowFields, this._WorkflowFields_Updated);
+							this.workflow_SetEnabledFields(this._WorkflowFields, this._WorkflowFields_Updated, true);
 
 							//Hide the status if needed.
 							if (this._clientNumRunning == 0)
@@ -548,7 +620,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						}
 					}
 				}
-				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace_ExitMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -564,8 +636,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				const string METHOD = "wkfClient_Incident_RetrieveWorkflowCustomPropertiesCompleted()";
-				Logger.LogTrace(CLASS + METHOD + " ENTER.");
+				const string METHOD = CLASS + "wkfClient_Incident_RetrieveWorkflowCustomPropertiesCompleted()";
+				Logger.LogTrace(METHOD + " ENTER.");
 
 				this._clientNumRunning--;
 				this.barLoadingIncident.Value++;
@@ -579,7 +651,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							this._WorkflowCustom_Updated = this.workflow_LoadFieldStatus(e.Result);
 
 							//Update custom workflow fields.
-							this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Updated);
+							this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Updated,false);
 
 							//Hide the status if needed.
 							if (this._clientNumRunning == 0)
@@ -594,7 +666,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						}
 					}
 				}
-				Logger.LogTrace(CLASS + METHOD + " EXIT. Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+				Logger.LogTrace_ExitMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}
 			catch (Exception ex)
 			{
@@ -607,7 +679,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <summary>Class that holds workflow fields and their UI Controls and statuses.</summary>
 		private class WorkflowField
 		{
-			public WorkflowField(int Number, string Name, Control Control, bool Fixed, bool Hidden, UIElement Label = null)
+			public WorkflowField(int Number, string Name, UIElement Control, bool Fixed, bool Hidden, UIElement Label = null)
 			{
 				this.FieldID = Number;
 				this.FieldName = Name;
@@ -646,7 +718,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			}
 
 			/// <summary>The UI Control for the field.</summary>
-			public Control FieldControl
+			public UIElement FieldControl
 			{
 				get;
 				set;
