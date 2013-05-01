@@ -34,6 +34,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		private List<RemoteProjectUser> listUsers;
 		/// <summary>Holds the remote releases to display.</summary>
 		private List<RemoteRelease> listReleases;
+		/// <summary>Hold the numbers of the firleds that are required.</summary>
+		private List<int> reqdFields;
 
 		/// <summary>The number of control columns.</summary>
 		private int numCols = 2;
@@ -47,6 +49,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		public cntlCustomProps()
 		{
 			InitializeComponent();
+			this.reqdFields = new List<int>();
 
 			//Set initial defaults.
 			this.LabelHorizontalAlignment = System.Windows.HorizontalAlignment.Left;
@@ -116,6 +119,20 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 				Control propControl = null;
 				TextBlock propLabel = new TextBlock();
 
+				//If the item is required..
+				if (this.isPropertyRequired(prop))
+				{
+					propLabel.FontWeight = FontWeights.Bold;
+					if (!this.reqdFields.Contains(prop.CustomPropertyId.Value))
+						this.reqdFields.Add(prop.CustomPropertyId.Value);
+				}
+				else
+				{
+					propLabel.FontWeight = FontWeights.Normal;
+					if (this.reqdFields.Contains(prop.CustomPropertyId.Value))
+						this.reqdFields.Remove(prop.CustomPropertyId.Value);
+				}
+
 				bool fullRowCont = false;
 				switch (prop.CustomPropertyTypeId)
 				{
@@ -131,6 +148,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							isRich = this.getBoolFromValue(prop.Options.Where(op => op.CustomPropertyOptionId == 4).Single());
 						}
 
+						//Create controls..
 						if (isRich)
 						{
 							propControl = new cntrlRichTextEditor();
@@ -144,39 +162,15 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							((TextBox)propControl).TextChanged += textBox_TextChanged;
 						}
 
-						//Get other options..
-						if (prop.CustomPropertyTypeId == 1 && prop.Options != null)
+						//Set MaxLegnth
+						if (!isRich)
 						{
-							foreach (RemoteCustomPropertyOption opt in prop.Options)
-							{
-								switch (opt.CustomPropertyOptionId)
-								{
-									case 2: // Max Length
-										int? maxLen = this.getIntFromValue(opt);
-										if (!isRich && maxLen.HasValue && maxLen.Value > 0)
-										{
-											((TextBox)propControl).MaxLength = maxLen.Value;
-										}
-										break;
-
-									case 3: // Min Length
-										//Nothing done here.
-										break;
-
-									case 4: // RichText
-										break;
-
-									case 5: // Default
-										if (isRich)
-											((cntrlRichTextEditor)propControl).HTMLText = opt.Value;
-										else
-											((TextBox)propControl).Text = opt.Value;
-										break;
-								}
-							}
+							int? max = this.getPropertyMaxLength(prop);
+							if (max.HasValue && max.Value > 0)
+								((TextBox)propControl).MaxLength = max.Value;
 						}
 
-						//Get the artifact's custom prop, if there is one..
+						//Get the artifact's custom prop, if there is one, if not, set default.
 						if (this.item != null)
 						{
 							RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
@@ -190,6 +184,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 								((TextBox)propControl).Text = value;
 
 						}
+						else
+						{
+							if (isRich)
+								((cntrlRichTextEditor)propControl).HTMLText = (string)this.getPropertyDefaultValue(prop);
+							else
+								((TextBox)propControl).Text = (string)this.getPropertyDefaultValue(prop);
+						}
 						break;
 					#endregion
 
@@ -197,25 +198,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					case 2: //Integer field.
 						propControl = new IntegerUpDown();
 						((IntegerUpDown)propControl).ValueChanged += numberUpDown_ValueChanged;
-						foreach (RemoteCustomPropertyOption opt in prop.Options)
-						{
-							switch (opt.CustomPropertyOptionId)
-							{
-								case 5: // Default
-									((IntegerUpDown)propControl).Value = this.getIntFromValue(opt);
-									break;
 
-								case 6: // Maximum Allowed
-									((IntegerUpDown)propControl).Maximum = this.getIntFromValue(opt);
-									break;
+						//Set Min & Max.
+						((IntegerUpDown)propControl).Maximum = (int?)this.getPropertyMaxValue(prop);
+						((IntegerUpDown)propControl).Minimum = (int?)this.getPropertyMinValue(prop);
 
-								case 7: // Minimum Allowed
-									((IntegerUpDown)propControl).Minimum = this.getIntFromValue(opt);
-									break;
-							}
-						}
-
-						//Get the artifact's custom prop, if there is one..
+						//Get the artifact's custom prop, if there is one. If not, set default.
 						if (this.item != null)
 						{
 							RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
@@ -224,7 +212,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							else
 								((IntegerUpDown)propControl).Value = null;
 						}
-
+						else
+						{
+							((IntegerUpDown)propControl).Value = (int?)this.getPropertyDefaultValue(prop);
+						}
 						break;
 					#endregion
 
@@ -233,31 +224,16 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 						propControl = new DecimalUpDown();
 						((DecimalUpDown)propControl).ValueChanged += numberUpDown_ValueChanged;
 
-						foreach (RemoteCustomPropertyOption opt in prop.Options)
-						{
-							switch (opt.CustomPropertyOptionId)
-							{
-								case 5: // Default
-									((DecimalUpDown)propControl).Value = this.getDecimalFromValue(opt);
-									break;
+						//Set Min & Max.
+						((DecimalUpDown)propControl).Maximum = (decimal?)this.getPropertyMaxValue(prop);
+						((DecimalUpDown)propControl).Minimum = (decimal?)this.getPropertyMinValue(prop);
 
-								case 6: // Maximum Allowed
-									((DecimalUpDown)propControl).Maximum = this.getDecimalFromValue(opt);
-									break;
-
-								case 7: // Minimum Allowed
-									((DecimalUpDown)propControl).Minimum = this.getDecimalFromValue(opt);
-									break;
-
-								case 8: // Precision. (# digits after decimal.)
-									int? digitNum = this.getIntFromValue(opt);
-									if (!digitNum.HasValue) digitNum = 0;
-									((DecimalUpDown)propControl).FormatString = "F" + digitNum.Value.ToString();
-									decimal incNum = ((digitNum.Value < 2) ? 1 : (decimal)Math.Pow((double)10, (double)((digitNum - 2) * -1)));
-									((DecimalUpDown)propControl).Increment = incNum;
-									break;
-							}
-						}
+						//Set precision & Incr. Decr. amount.
+						int? precision = this.getPropertyPrecision(prop);
+						if (!precision.HasValue) precision = 0;
+						decimal incNum = ((precision.Value < 2) ? 1 : (decimal)Math.Pow((double)10, (double)((precision - 2) * -1)));
+						((DecimalUpDown)propControl).FormatString = "F" + precision.Value.ToString();
+						((DecimalUpDown)propControl).Increment = incNum;
 
 						//Get the artifact's custom prop, if there is one..
 						if (this.item != null)
@@ -269,6 +245,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 								((DecimalUpDown)propControl).Value = null;
 
 						}
+						else
+						{
+							((DecimalUpDown)propControl).Value = (decimal?)this.getPropertyDefaultValue(prop);
+						}
 						break;
 					#endregion
 
@@ -279,11 +259,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							propControl = new CheckBox();
 							((CheckBox)propControl).Unchecked += checkBox_CheckChanged;
 							((CheckBox)propControl).Checked += checkBox_CheckChanged;
-							if (prop.Options.Where(op => op.CustomPropertyOptionId == 5).Count() == 1)
-							{
-								((CheckBox)propControl).IsChecked = this.getBoolFromValue(prop.Options.Where(op => op.CustomPropertyOptionId == 5).Single());
-							}
 
+							//Set item's value, or default.
 							if (this.item != null)
 							{
 								RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
@@ -291,6 +268,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 									((CheckBox)propControl).IsChecked = custProp.BooleanValue;
 								else
 									((CheckBox)propControl).IsChecked = false;
+							}
+							else
+							{
+								((CheckBox)propControl).IsChecked = (bool?)this.getPropertyDefaultValue(prop);
 							}
 						}
 						break;
@@ -302,22 +283,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							//The control..
 							propControl = new DatePicker();
 							((DatePicker)propControl).SelectedDateChanged += comboBox_SelectionChanged;
-							foreach (RemoteCustomPropertyOption opt in prop.Options)
-							{
-								switch (opt.CustomPropertyOptionId)
-								{
-									case 5: //Default
-										{
-											DateTime? optVal = this.getDateFromValue(opt);
-											if (optVal.HasValue)
-											{
-												((DatePicker)propControl).SelectedDate = optVal.Value.ToLocalTime();
-											}
-										}
-										break;
-								}
-							}
 
+							//Set item's value, or set default.
 							if (this.item != null)
 							{
 								RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
@@ -335,87 +302,69 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 									((DatePicker)propControl).SelectedDate = null;
 								}
 							}
+							else
+							{
+								((DatePicker)propControl).SelectedDate = (DateTime?)this.getPropertyDefaultValue(prop);
+							}
 						}
 						break;
 					#endregion
 
-					#region List, User
+					#region List, User, Release
 					case 6: //List field.
 					case 8: //User field.
 					case 10: //Release field.
 						{
+							object itemList = null;
 							propControl = new ComboBox();
 							((ComboBox)propControl).SelectionChanged += comboBox_SelectionChanged;
 
-							if (prop.CustomPropertyTypeId == 6 && prop.CustomList != null)
+							//Get the list..
+							object itemSource = null;
+							if (prop.CustomPropertyTypeId == 6)
 							{
-								((ComboBox)propControl).ItemsSource = prop.CustomList.Values;
+								if (prop.CustomList != null)
+									itemSource = prop.CustomList.Values;
+								else
+									itemSource = new List<RemoteCustomListValue>();
 							}
 							else if (prop.CustomPropertyTypeId == 8)
-								((ComboBox)propControl).ItemsSource = this.listUsers;
+							{
+								itemSource = this.listUsers;
+							}
 							else if (prop.CustomPropertyTypeId == 10)
-								((ComboBox)propControl).ItemsSource = this.listReleases;
-							else
-								propControl = null;
-
-							//If we're allowing empty, add a 'none' item..
-							if (prop.Options != null && prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
 							{
-								bool allowEmpty = this.getBoolFromValue(prop.Options.SingleOrDefault(op => op.CustomPropertyOptionId == 1));
-								if (allowEmpty)
-								{
-									if (prop.CustomPropertyTypeId == 6)
-										((List<RemoteCustomListValue>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteCustomListValue() { CustomPropertyListId = -1, Name = "-- None --" });
-									else if (prop.CustomPropertyTypeId == 8)
-										((List<RemoteProjectUser>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteProjectUser() { FullName = "-- None --" });
-									else if (prop.CustomPropertyTypeId == 10)
-										((List<RemoteRelease>)((ComboBox)propControl).ItemsSource).Insert(0, new RemoteRelease() { Name = "-- None --" });
-								}
+								itemSource = this.listReleases;
 							}
-							//Set default..
-							if (this.item == null && prop.Options.Count(op => op.CustomPropertyOptionId == 5) == 1)
-							{
-								int? selectedItem = getIntFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 5));
+							((ComboBox)propControl).ItemsSource = (System.Collections.IEnumerable)itemSource;
 
-								if (selectedItem.HasValue)
-								{
-									if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
-										((ComboBox)propControl).SelectedItem = prop.CustomList.Values.SingleOrDefault(clv => clv.CustomPropertyValueId == selectedItem.Value);
-									else if (prop.CustomPropertyTypeId == 8)
-										((ComboBox)propControl).SelectedItem = this.listUsers.SingleOrDefault(luv => luv.UserId == selectedItem.Value);
-									else if (prop.CustomPropertyTypeId == 10)
-										((ComboBox)propControl).SelectedItem = this.listReleases.SingleOrDefault(lr => lr.ReleaseId == selectedItem.Value);
-									else
-										((ComboBox)propControl).SelectedItem = null;
-								}
+							//Add a default entry if item is not required.
+							if (!this.isPropertyRequired(prop))
+							{
+								if (prop.CustomPropertyTypeId == 6)
+									((List<RemoteCustomListValue>)itemSource).Insert(0, new RemoteCustomListValue() { CustomPropertyListId = -1, Name = "-- None --" });
+								else if (prop.CustomPropertyTypeId == 8)
+									((List<RemoteProjectUser>)itemSource).Insert(0, new RemoteProjectUser() { FullName = "-- None --" });
+								else if (prop.CustomPropertyTypeId == 10)
+									((List<RemoteRelease>)itemSource).Insert(0, new RemoteRelease() { Name = "-- None --" });
+							}
+
+							//Load up actual values, or default, if defined.
+							int? selectedIndex = null;
+							RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
+							if (custProp != null)
+								selectedIndex = custProp.IntegerValue;
+
+							if (selectedIndex.HasValue)
+							{
+								if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
+									((ComboBox)propControl).SelectedItem = prop.CustomList.Values.Where(clv => clv.CustomPropertyValueId == custProp.IntegerValue).SingleOrDefault();
+								else if (prop.CustomPropertyTypeId == 8)
+									((ComboBox)propControl).SelectedItem = this.listUsers.Where(luv => luv.UserId == custProp.IntegerValue).SingleOrDefault();
+								else if (prop.CustomPropertyTypeId == 10)
+									((ComboBox)propControl).SelectedItem = this.listReleases.Where(lr => lr.ReleaseId == custProp.IntegerValue).SingleOrDefault();
 								else
 									((ComboBox)propControl).SelectedItem = null;
-							}
-
-							//Load up actual values..
-							if (this.item != null)
-							{
-								RemoteArtifactCustomProperty custProp = this.getItemsCustomProp(prop);
-								if (custProp != null && custProp.IntegerValue.HasValue)
-								{
-									if (prop.CustomPropertyTypeId == 6 && prop.CustomList.Values.Count() > 0)
-										((ComboBox)propControl).SelectedItem = prop.CustomList.Values.Where(clv => clv.CustomPropertyValueId == custProp.IntegerValue).SingleOrDefault();
-									else if (prop.CustomPropertyTypeId == 8)
-										((ComboBox)propControl).SelectedItem = this.listUsers.Where(luv => luv.UserId == custProp.IntegerValue).SingleOrDefault();
-									else if (prop.CustomPropertyTypeId == 10)
-										((ComboBox)propControl).SelectedItem = this.listReleases.Where(lr => lr.ReleaseId == custProp.IntegerValue).SingleOrDefault();
-									else
-										((ComboBox)propControl).SelectedItem = null;
-								}
-								else
-								{
-									((ComboBox)propControl).SelectedItem = null;
-								}
-							}
-							else
-							{
-								//Load defaults..
-
 							}
 						}
 						break;
@@ -427,14 +376,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							propControl = new ListBox();
 							((ListBox)propControl).SelectionMode = SelectionMode.Multiple;
 							((ListBox)propControl).SelectionChanged += comboBox_SelectionChanged;
+							propControl.Height = 50;
 
-							propControl.Height = 75;
-							if (prop.CustomList.Values.Count() > 0)
-							{
+							if (prop.CustomList != null)
 								((ListBox)propControl).ItemsSource = prop.CustomList.Values;
-
-								//TODO: Set default on MultiList items.
-							}
+							else
+								((ListBox)propControl).ItemsSource = new List<RemoteCustomListValue>();
 
 							if (this.item != null)
 							{
@@ -452,6 +399,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 									}
 								}
 							}
+							else
+							{
+								//Set default.
+							}
 						}
 						break;
 					#endregion
@@ -465,6 +416,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 					//The label properties..
 					propLabel.Text = prop.Name + ":";
+					TextOptions.SetTextFormattingMode(propLabel, TextFormattingMode.Display);
+					TextOptions.SetTextHintingMode(propLabel, TextHintingMode.Fixed);
+					TextOptions.SetTextRenderingMode(propLabel, TextRenderingMode.ClearType);
+
 					//propLabel.Margin = this.LabelMargin;
 					propLabel.VerticalAlignment = this.LabelVerticalAlignment;
 					propLabel.HorizontalAlignment = this.LabelHorizontalAlignment;
@@ -475,7 +430,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					//propControl.Padding = this.ControlPadding;
 					propControl.VerticalAlignment = this.ControlVerticalAlignment;
 					propControl.HorizontalAlignment = this.ControlHorizontalAlignment;
-					if (this.ControlStyle != null) propControl.Style = this.ControlStyle;
+					if (this.ControlNormalStyle != null) propControl.Style = this.ControlNormalStyle;
 
 					// Get a new row, if necessary.
 					int useCols = ((fullRowCont) ? ((this.numCols * 3) - 1) : 3);
@@ -535,7 +490,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			if (this.ControlChanged != null)
 				this.ControlChanged(this, new EventArgs());
 		}
-		
+
 		/// <summary>Hit when a textbox or RichTextControl is changed.</summary>
 		/// <param name="sender">TextBox, RichTextBox</param>
 		/// <param name="e">EventArgs</param>
@@ -632,6 +587,183 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 
 			return retValue;
 		}
+
+		/// <summary>Send the property to tell if it's required or not.</summary>
+		/// <param name="prop">The custom property.</param>
+		/// <returns>True if the item's required. False if nulls (allow empty).</returns>
+		private bool isPropertyRequired(RemoteCustomProperty prop)
+		{
+			bool retValue = false;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 1) > 0)
+			{
+				foreach (RemoteCustomPropertyOption opt in prop.Options.Where(o => o.CustomPropertyOptionId == 1))
+				{
+					bool? value = !this.getBoolFromValue(opt);
+					if (!retValue && value.HasValue && value.Value)
+						retValue = true;
+				}
+			}
+
+			return retValue;
+		}
+
+		/// <summary>Gets the default value for the given property.</summary>
+		/// <param name="prop">The property to get the default value for.</param>
+		/// <returns>The value, otherwise 'null' if not set.</returns>
+		private object getPropertyDefaultValue(RemoteCustomProperty prop)
+		{
+			object retValue = null;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 5) == 1)
+			{
+				RemoteCustomPropertyOption opt = prop.Options.SingleOrDefault(o => o.CustomPropertyOptionId == 5);
+				if (opt != null)
+				{
+					switch (prop.CustomPropertyTypeId)
+					{
+						case 1: //String (Text)
+						case 9: //       (URL)
+							{
+								retValue = opt.Value;
+								break;
+							}
+
+						case 2: //Integer (Integer)
+						case 6: //        (List)
+						case 8: //        (User)
+						case 10: //       (Release)
+							{
+								int? value = this.getIntFromValue(opt);
+								if (value.HasValue)
+									retValue = value.Value;
+								break;
+							}
+
+						case 3: //Decimal (Decimal)
+							{
+								decimal? value = this.getDecimalFromValue(opt);
+								if (value.HasValue)
+									retValue = value;
+								break;
+							}
+
+						case 4: //Boolean (Boolean)
+							{
+								bool? value = this.getBoolFromValue(opt);
+								if (value.HasValue)
+									retValue = value;
+								break;
+							}
+
+						case 5: //Date (Date)
+							{
+								DateTime? value = this.getDateFromValue(opt);
+								if (value.HasValue)
+									retValue = value;
+								break;
+							}
+
+						case 7: //List<int> (Multilist)
+							{
+								break;
+							}
+					}
+				}
+			}
+
+			return retValue;
+		}
+
+		/// <summary>Gets the MaxLegnth defined for the field, if any.</summary>
+		/// <param name="prop">The property to get the vlaue for.</param>
+		/// <returns>The MaxLength, if set.</returns>
+		private int? getPropertyMaxLength(RemoteCustomProperty prop)
+		{
+			int? retValue = null;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 2) == 1)
+			{
+				RemoteCustomPropertyOption opt = prop.Options.SingleOrDefault(o => o.CustomPropertyOptionId == 2);
+				if (opt != null)
+				{
+					retValue = this.getIntFromValue(opt);
+				}
+			}
+
+			return retValue;
+		}
+
+		/// <summary>Returns the property's defined Maximum Value.</summary>
+		/// <param name="prop">The property.</param>
+		/// <returns>Integer or Decimal or null.</returns>
+		private object getPropertyMaxValue(RemoteCustomProperty prop)
+		{
+			object retValue = null;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 6) == 1)
+			{
+				RemoteCustomPropertyOption opt = prop.Options.SingleOrDefault(o => o.CustomPropertyOptionId == 1);
+				if (prop.CustomPropertyTypeId == 2)
+				{
+					int? value = this.getIntFromValue(opt);
+					if (value.HasValue)
+						retValue = value.Value;
+				}
+				else if (prop.CustomPropertyTypeId == 3)
+				{
+					decimal? value = this.getDecimalFromValue(opt);
+					if (value.HasValue)
+						retValue = value.Value;
+				}
+			}
+
+			return retValue;
+		}
+
+		/// <summary>Returns the property's defined Minimum Value.</summary>
+		/// <param name="prop">The property.</param>
+		/// <returns>Integer or Decimal or null.</returns>
+		private object getPropertyMinValue(RemoteCustomProperty prop)
+		{
+			object retValue = null;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 7) == 1)
+			{
+				RemoteCustomPropertyOption opt = prop.Options.SingleOrDefault(o => o.CustomPropertyOptionId == 7);
+				if (prop.CustomPropertyTypeId == 2)
+				{
+					int? value = this.getIntFromValue(opt);
+					if (value.HasValue)
+						retValue = value.Value;
+				}
+				else if (prop.CustomPropertyTypeId == 3)
+				{
+					decimal? value = this.getDecimalFromValue(opt);
+					if (value.HasValue)
+						retValue = value.Value;
+				}
+			}
+
+			return retValue;
+		}
+
+		/// <summary>Returns the property's defined precision.</summary>
+		/// <param name="prop">The property.</param>
+		/// <returns>Integer if defined.</returns>
+		private int? getPropertyPrecision(RemoteCustomProperty prop)
+		{
+			int? retValue = null;
+
+			if (prop.Options.Count(o => o.CustomPropertyOptionId == 8) == 1)
+			{
+				RemoteCustomPropertyOption opt = prop.Options.SingleOrDefault(o => o.CustomPropertyOptionId == 8);
+				retValue = this.getIntFromValue(opt);
+			}
+
+			return retValue;
+		}
+
 		#endregion #Private Functions
 
 		#region Properties
@@ -680,7 +812,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		{ get; set; }
 
 		/// <summary>The Style to apply to Controls.</summary>
-		public Style ControlStyle
+		public Style ControlNormalStyle
+		{ get; set; }
+
+		/// <summary>The style to apply when a field is in error.</summary>
+		public Style ControlErrorStyle
 		{ get; set; }
 
 		/// <summary>The style to apply to labels.</summary>
@@ -784,8 +920,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		public bool PerformValidation(bool highlightFieldsInError = false)
 		{
 			bool retValue = true;
-			//Loop through each custom property, and make sure that fields are entered properly.
 
+			//Clear all fields in error.
+			if (highlightFieldsInError)
+				this.ClearErrorStyles();
+
+			//Loop through each custom property, and make sure that fields are entered properly.
 			foreach (UIElement cont in this.grdContent.Children)
 			{
 				if (cont is Control)
@@ -811,7 +951,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
 
 										if (required && string.IsNullOrWhiteSpace(enteredValue) && (cont is TextBox))
+										{
 											retValue = false;
+											if (highlightFieldsInError)
+												((Control)cont).Style = this.ControlErrorStyle;
+										}
 									}
 
 									//Max Length (Only plain text & url)
@@ -822,7 +966,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MaxLength.HasValue && MaxLength.Value > 0)
 										{
 											if (enteredValue.Length > MaxLength)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 
@@ -834,7 +982,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MinLength.HasValue && MinLength.Value > 0)
 										{
 											if (enteredValue.Length < MinLength)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 								}
@@ -869,7 +1021,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
 
 										if (required && !enteredValue.HasValue)
+										{
 											retValue = false;
+											Debug.WriteLine("Control Name: " + ((Control)cont).Name);
+											if (highlightFieldsInError)
+												((Control)cont).Style = this.ControlErrorStyle;
+										}
 									}
 
 									//Max Value (only Integer)
@@ -880,7 +1037,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MaxValue.HasValue && MaxValue.Value > 0)
 										{
 											if (enteredValue.HasValue && enteredValue.Value > MaxValue)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+
+											}
 										}
 									}
 
@@ -892,7 +1054,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MinValue.HasValue && MinValue.Value > 0)
 										{
 											if (enteredValue.HasValue && enteredValue.Value < MinValue)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 								}
@@ -910,7 +1076,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
 
 										if (required && !enteredValue.HasValue)
+										{
 											retValue = false;
+											if (highlightFieldsInError)
+												((Control)cont).Style = this.ControlErrorStyle;
+										}
 									}
 
 									//Max Value (only Integer)
@@ -921,7 +1091,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MaxValue.HasValue && MaxValue.Value > 0)
 										{
 											if (enteredValue.HasValue && enteredValue.Value > MaxValue)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 
@@ -933,7 +1107,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										if (MinValue.HasValue && MinValue.Value > 0)
 										{
 											if (enteredValue.HasValue && enteredValue.Value < MinValue)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 								}
@@ -955,7 +1133,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
 
 										if (required && !enteredValue.HasValue)
+										{
 											retValue = false;
+											if (highlightFieldsInError)
+												((Control)cont).Style = this.ControlErrorStyle;
+										}
 									}
 								}
 								break;
@@ -971,7 +1153,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 											bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
 
 											if (required && ((ListBox)cont).SelectedItems.Count < 1)
+											{
 												retValue = false;
+												if (highlightFieldsInError)
+													((Control)cont).Style = this.ControlErrorStyle;
+											}
 										}
 									}
 								}
@@ -982,6 +1168,18 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			}
 
 			return retValue;
+		}
+
+		/// <summary>Clears any set error styles from controls.</summary>
+		public void ClearErrorStyles()
+		{
+			foreach (UIElement cont in this.grdContent.Children)
+			{
+				if (cont is Control)
+				{
+					((Control)cont).Style = this.ControlNormalStyle;
+				}
+			}
 		}
 
 		/// <summary>Used to retrieve the values from the user.</summary>

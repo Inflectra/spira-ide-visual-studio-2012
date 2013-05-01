@@ -508,7 +508,7 @@
                             <TextBlock Name="lblVerifiedIn" Grid.Column="3" Grid.Row="6" Style="{StaticResource PaddedLabel}" />
                             <ComboBox Grid.Column="4" Grid.Row="6" Name="cntrlVerifiedIn" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" />
                             <!-- ROW7: Custom Props -->
-                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" Grid.Row="7" Grid.ColumnSpan="5" Grid.Column="0" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" ControlStyle="{StaticResource PaddedControl}" ControlChanged="_cntrl_TextChanged" />
+                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" Grid.Row="7" Grid.ColumnSpan="5" Grid.Column="0" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" ControlNormalStyle="{StaticResource PaddedControl}" ControlErrorStyle="{StaticResource PaddedControlRequiredHighlight}" ControlChanged="_cntrl_TextChanged" />
                         </Grid>
                     </Expander>
                     <ListBox Grid.Row="1" SelectionMode="Single">
@@ -596,7 +596,7 @@
                                 <StackPanel x:Name="grdTimeEstEffort" Grid.Column="4" Grid.Row="1" Orientation="Horizontal">
                                     <tk:IntegerUpDown x:Name="cntrlEstEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0" Maximum="720" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours4" />
-                                    <tk:IntegerUpDown x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlEstEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlEstEffortH, Path=Background}" Maximum="59" Minimum="0" IsEnabled="{Binding IsEnabled, ElementName=cntrlEstEffortH}" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins4" />
                                 </StackPanel>
                                 <!-- ROW2: Projected Effort / Actual Effort -->
@@ -608,7 +608,7 @@
                                 <StackPanel x:Name="grdTimeActEffort" Grid.Column="4" Grid.Row="2" Orientation="Horizontal">
                                     <tk:IntegerUpDown x:Name="cntrlActEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0"  Maximum="720" Minimum="0" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours2" />
-                                    <tk:IntegerUpDown x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlActEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlActEffortH, Path=Background}" Maximum="59" Minimum="0" IsEnabled="{Binding IsEnabled, ElementName=cntrlActEffortH}" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins2" />
                                 </StackPanel>
                                 <!-- ROW3: Remaining Effort -->
@@ -616,7 +616,7 @@
                                 <StackPanel x:Name="grdTimeRemEffort" Grid.Column="4" Grid.Row="3" Orientation="Horizontal">
                                     <tk:IntegerUpDown x:Name="cntrlRemEffortH" Style="{StaticResource PaddedControl}" Width="50" MinWidth="0"  Maximum="720" Minimum="0"/>
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours3" />
-                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlRemEffortH, Path=Background}" Maximum="59" Minimum="0" />
+                                    <tk:IntegerUpDown x:Name="cntrlRemEffortM" Style="{StaticResource PaddedControl}" Width="45" MinWidth="0" Background="{Binding ElementName=cntrlRemEffortH, Path=Background}" Maximum="59" Minimum="0" IsEnabled="{Binding IsEnabled, ElementName=cntrlRemEffortH}" />
                                     <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins3" />
                                 </StackPanel>
                             </Grid>

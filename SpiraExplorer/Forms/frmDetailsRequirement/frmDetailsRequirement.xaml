@@ -483,7 +483,7 @@
                             <TextBlock  Name="lblOwnedBy" Grid.Column="3" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
                             <ComboBox Grid.Column="4" Grid.Row="4" Name="cntrlOwnedBy" Style="{StaticResource PaddedControl}" SelectionChanged="_cntrl_TextChanged" DisplayMemberPath="FullName" />
                             <!-- ROW5: Custom Props -->
-                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="5" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" ControlStyle="{StaticResource PaddedControl}" ControlChanged="_cntrl_TextChanged"  />
+                            <ui_cntrl:cntlCustomProps x:Name="cntCustomProps" Grid.Column="0" Grid.ColumnSpan="5" Grid.Row="5" NumberControlColumns="2" LabelStyle="{StaticResource PaddedLabel}" ControlNormalStyle="{StaticResource PaddedControl}" ControlChanged="_cntrl_TextChanged"  />
                         </Grid>
                     </Expander>
                     <ListBox Grid.Row="1" SelectionMode="Single">

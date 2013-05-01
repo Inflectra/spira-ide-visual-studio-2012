@@ -455,6 +455,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				#endregion
 
 				#region Loop through Custom Fields
+				bool custFields = true;
+				custFields = this.cntCustomProps.PerformValidation(true);
+				if (!custFields)
+					retValue = false;
 				#endregion
 
 				return retValue;

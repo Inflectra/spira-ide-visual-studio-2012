@@ -1384,6 +1384,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					#endregion
 
 					#region Custom Properties
+					this.cntCustomProps.ClearData();
 					this.cntCustomProps.SetItemsSource(incident, this._IncProperties, this._CustLists, this._ProjUsers, this._ProjReleases, false); //TODO: Load extra data.
 					#endregion
 
