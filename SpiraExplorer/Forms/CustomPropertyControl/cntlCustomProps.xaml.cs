@@ -34,8 +34,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		private List<RemoteProjectUser> listUsers;
 		/// <summary>Holds the remote releases to display.</summary>
 		private List<RemoteRelease> listReleases;
-		/// <summary>Hold the numbers of the firleds that are required.</summary>
-		private List<int> reqdFields;
+		/// <summary>Holds the numbers of the fields that are required.</summary>
+		private List<int> reqdFields = new List<int>();
+		/// <summary>Holds the number of the fields that are required by the workflow.</summary>
+		private List<int> reqgWorkflow = new List<int>();
+		/// <summary>Stores the labels with the associated control number.</summary>
+		private Dictionary<int, TextBlock> LabelControls = new Dictionary<int, TextBlock>();
 
 		/// <summary>The number of control columns.</summary>
 		private int numCols = 2;
@@ -101,6 +105,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			int current_rowNum = -1;
 			int current_colNum = (this.numCols * 3) - 1;
 			CurrentColumnTypeEnum colType = CurrentColumnTypeEnum.Label;
+			this.LabelControls.Clear();
 
 			//Create the fields, set initial (default) values..
 			foreach (RemoteCustomProperty prop in this.propertyDefinitions)
@@ -419,6 +424,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 					TextOptions.SetTextFormattingMode(propLabel, TextFormattingMode.Display);
 					TextOptions.SetTextHintingMode(propLabel, TextHintingMode.Fixed);
 					TextOptions.SetTextRenderingMode(propLabel, TextRenderingMode.ClearType);
+					this.LabelControls.Add(prop.CustomPropertyId.Value, propLabel);
 
 					//propLabel.Margin = this.LabelMargin;
 					propLabel.VerticalAlignment = this.LabelVerticalAlignment;
@@ -595,7 +601,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		{
 			bool retValue = false;
 
-			if (prop.Options.Count(o => o.CustomPropertyOptionId == 1) > 0)
+			if (prop.Options!=null&&prop.Options.Count(o => o.CustomPropertyOptionId == 1) > 0)
 			{
 				foreach (RemoteCustomPropertyOption opt in prop.Options.Where(o => o.CustomPropertyOptionId == 1))
 				{
@@ -946,16 +952,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										enteredValue = ((TextBox)cont).Text.Trim();
 
 									//Required. (Only plain text & url)
-									if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+									if ((this.reqgWorkflow.Contains(prop.CustomPropertyId.Value) ||
+										this.reqdFields.Contains(prop.CustomPropertyId.Value)) &&
+										string.IsNullOrWhiteSpace(enteredValue) &&
+										(cont is TextBox))
 									{
-										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
-
-										if (required && string.IsNullOrWhiteSpace(enteredValue) && (cont is TextBox))
-										{
-											retValue = false;
-											if (highlightFieldsInError)
-												((Control)cont).Style = this.ControlErrorStyle;
-										}
+										retValue = false;
+										if (highlightFieldsInError)
+											((Control)cont).Style = this.ControlErrorStyle;
 									}
 
 									//Max Length (Only plain text & url)
@@ -1016,17 +1020,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 									}
 
 									//Required?
-									if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+									if ((this.reqgWorkflow.Contains(prop.CustomPropertyId.Value) ||
+										this.reqdFields.Contains(prop.CustomPropertyId.Value)) &&
+										!enteredValue.HasValue)
 									{
-										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
-
-										if (required && !enteredValue.HasValue)
-										{
-											retValue = false;
-											Debug.WriteLine("Control Name: " + ((Control)cont).Name);
-											if (highlightFieldsInError)
-												((Control)cont).Style = this.ControlErrorStyle;
-										}
+										retValue = false;
+										if (highlightFieldsInError)
+											((Control)cont).Style = this.ControlErrorStyle;
 									}
 
 									//Max Value (only Integer)
@@ -1071,16 +1071,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										enteredValue = ((DecimalUpDown)cont).Value;
 
 									//Required?
-									if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+									if ((this.reqgWorkflow.Contains(prop.CustomPropertyId.Value) ||
+										this.reqdFields.Contains(prop.CustomPropertyId.Value)) &&
+										!enteredValue.HasValue)
 									{
-										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
-
-										if (required && !enteredValue.HasValue)
-										{
-											retValue = false;
-											if (highlightFieldsInError)
-												((Control)cont).Style = this.ControlErrorStyle;
-										}
+										retValue = false;
+										if (highlightFieldsInError)
+											((Control)cont).Style = this.ControlErrorStyle;
 									}
 
 									//Max Value (only Integer)
@@ -1128,16 +1125,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 										enteredValue = ((DatePicker)cont).SelectedDate;
 
 									//Required?
-									if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+									if ((this.reqgWorkflow.Contains(prop.CustomPropertyId.Value) ||
+										this.reqdFields.Contains(prop.CustomPropertyId.Value)) &&
+										!enteredValue.HasValue)
 									{
-										bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
-
-										if (required && !enteredValue.HasValue)
-										{
-											retValue = false;
-											if (highlightFieldsInError)
-												((Control)cont).Style = this.ControlErrorStyle;
-										}
+										retValue = false;
+										if (highlightFieldsInError)
+											((Control)cont).Style = this.ControlErrorStyle;
 									}
 								}
 								break;
@@ -1148,16 +1142,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 									if (cont is ComboBox)
 									{
 										//Required?
-										if (prop.Options.Count(op => op.CustomPropertyOptionId == 1) == 1)
+										if ((this.reqgWorkflow.Contains(prop.CustomPropertyId.Value) ||
+											this.reqdFields.Contains(prop.CustomPropertyId.Value)) &&
+											((ListBox)cont).SelectedItems.Count < 1)
 										{
-											bool required = !this.getBoolFromValue(prop.Options.Single(op => op.CustomPropertyOptionId == 1));
-
-											if (required && ((ListBox)cont).SelectedItems.Count < 1)
-											{
-												retValue = false;
-												if (highlightFieldsInError)
-													((Control)cont).Style = this.ControlErrorStyle;
-											}
+											retValue = false;
+											if (highlightFieldsInError)
+												((Control)cont).Style = this.ControlErrorStyle;
 										}
 									}
 								}
@@ -1275,6 +1266,66 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			}
 
 			return retList;
+		}
+
+		/// <summary>Changes the field requirements when run.</summary>
+		/// <param name="workflowFields">The field statuses.</param>
+		public void SetWorkflowFields(Dictionary<int, int> workflowFields)
+		{
+			//Loop through each custom property, and make sure that fields are entered properly.
+			foreach (UIElement cont in this.grdContent.Children)
+			{
+				if (cont is Control)
+				{
+					if (((Control)cont).Tag is RemoteCustomProperty)
+					{
+						RemoteCustomProperty prop = ((RemoteCustomProperty)((Control)cont).Tag);
+
+						if (workflowFields.ContainsKey(prop.CustomPropertyId.Value))
+						{
+							int status = workflowFields[prop.CustomPropertyId.Value];
+
+							if (status == 2) //Required.
+								this.reqgWorkflow.Add(prop.CustomPropertyId.Value);
+							else if (status == 1) // Disabled.
+							{
+								//Disable the control, making sure it's visible.
+								((Control)cont).IsEnabled = false;
+								((Control)cont).Visibility = System.Windows.Visibility.Visible;
+								this.LabelControls[prop.CustomPropertyId.Value].IsEnabled = false;
+								this.LabelControls[prop.CustomPropertyId.Value].Visibility = System.Windows.Visibility.Visible;
+							}
+							else if (status == 3) //Hidden.
+							{
+								//Hide the control and label.
+								((Control)cont).IsEnabled = true;
+								((Control)cont).Visibility = System.Windows.Visibility.Collapsed;
+								this.LabelControls[prop.CustomPropertyId.Value].IsEnabled = true;
+								this.LabelControls[prop.CustomPropertyId.Value].Visibility = System.Windows.Visibility.Collapsed;
+							}
+							else if (status == 0) //Normal
+							{
+								//Make the control visible and 
+								((Control)cont).IsEnabled = true;
+								((Control)cont).Visibility = System.Windows.Visibility.Visible;
+								this.LabelControls[prop.CustomPropertyId.Value].IsEnabled = true;
+								this.LabelControls[prop.CustomPropertyId.Value].Visibility = System.Windows.Visibility.Visible;
+							}
+						}
+					}
+				}
+			}
+
+			//Now we have to 'combine' the CustomField required status with the Workflow Status
+			foreach (KeyValuePair<int, TextBlock> kbpValue in this.LabelControls)
+			{
+				FontWeight weight = FontWeights.Normal;
+
+				if (this.reqdFields.Contains(kbpValue.Key) || this.reqgWorkflow.Contains(kbpValue.Key))
+					weight = FontWeights.Bold;
+
+				kbpValue.Value.FontWeight = weight;
+			}
 		}
 		#endregion
 

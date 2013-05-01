@@ -624,10 +624,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <summary>Checks to see if it's okay to start loading form data. Called after the two Workflow data retrieval Asyncs.</summary>
 		private void load_IsReadyToDisplayData()
 		{
+			const string METHOD = CLASS + "load_IsReadyToDisplayData()";
+			Logger.LogTrace_EnterMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
+
 			try
 			{
-				Logger.LogTrace("load_IsReadyToDisplayData: Clients Running " + this._clientNumRunning.ToString());
-
 				if (this._clientNumRunning == 0)
 				{
 					this.loadItem_DisplayInformation(this._Requirement);
@@ -638,9 +639,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "load_IsReadyToDisplayData()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 		}
 
 		#region Form Load Functions

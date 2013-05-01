@@ -81,10 +81,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">AsyncCompletedEventArgs</param>
 		private void clientSave_Connection_DisconnectCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "clientSave_Connection_DisconnectCompleted()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " running.");
+
 			try
 			{
-				const string METHOD = CLASS+"clientSave_Connection_DisconnectCompleted()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
 
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -94,9 +95,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "clientSave_Connection_DisconnectCompleted()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 		}
 
 		/// <summary>Hit when we're finished adding a resolution.</summary>
@@ -104,11 +106,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">Incident_AddResolutionsCompletedEventArgs</param>
 		private void clientSave_Requirement_CreateCommentCompleted(object sender, Requirement_CreateCommentCompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "clientSave_Requirement_CreateCommentCompleted()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients running.");
+
 			try
 			{
-				const string METHOD = CLASS+"clientSave_Requirement_CreateCommentCompleted()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -130,14 +132,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
-
-				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "clientSave_Requirement_CreateCommentCompleted()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+
+			Logger.LogTrace(METHOD + "  " + this._clientNumSaving.ToString() + " clients left.");
 		}
 
 		/// <summary>Hit when we're finished updating the main information.</summary>
@@ -145,11 +147,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">AsyncCompletedEventArgs</param>
 		private void clientSave_Requirement_UpdateCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "clientSave_Requirement_UpdateCompleted()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " running.");
 			try
 			{
-				const string METHOD = CLASS+"clientSave_Requirement_UpdateCompleted()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -207,13 +208,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "clientSave_Requirement_UpdateCompleted()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients left.");
 		}
 
 		/// <summary>Hit if we hit a concurrency issue, and have to compare values.</summary>
@@ -221,11 +222,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">Incident_RetrieveByIdCompletedEventArgs</param>
 		private void client_Requirement_RetrieveByIdCompleted(object sender, Requirement_RetrieveByIdCompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "client_Requirement_RetrieveByIdCompleted()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients running.");
+
 			try
 			{
-				const string METHOD = CLASS+"client_Requirement_RetrieveByIdCompleted()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -268,13 +269,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					}
 				}
 
-				Logger.LogTrace(METHOD + " Exit");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "client_Requirement_RetrieveByIdCompleted()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients left.");
 		}
 
 		/// <summary>Hit when we're finished connecting to the project.</summary>
@@ -282,11 +283,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">Connection_ConnectToProjectCompletedEventArgs</param>
 		private void clientSave_Connection_ConnectToProjectCompleted(object sender, Connection_ConnectToProjectCompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "clientSave_Connection_ConnectToProjectCompleted()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients running.");
+
 			try
 			{
-				const string METHOD = CLASS+"clientSave_Connection_ConnectToProjectCompleted()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -334,13 +335,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "clientSave_Connection_ConnectToProjectCompleted()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients left.");
 		}
 
 		/// <summary>Hit when we're authenticated to the server.</summary>
@@ -348,11 +349,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">Connection_Authenticate2CompletedEventArgs</param>
 		private void clientSave_Connection_Authenticate2Completed(object sender, Connection_Authenticate2CompletedEventArgs e)
 		{
+			const string METHOD = CLASS + "clientSave_Connection_Authenticate2Completed()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients running.");
+
 			try
 			{
-				const string METHOD = CLASS+"clientSave_Connection_Authenticate2Completed()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				ImportExportClient client = (sender as ImportExportClient);
 				this._clientNumSaving--;
 				this.barSavingReq.Value++;
@@ -387,39 +388,40 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//See if it's okay to reload.
 				this.save_CheckIfOkayToLoad();
 
-				Logger.LogTrace(METHOD + " Exit: " + this._clientNumSaving.ToString() + " left.");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "clientSave_Connection_Authenticate2Completed()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients left.");
 		}
 		#endregion
 
 		/// <summary>Checks if it's okay to refresh the data details.</summary>
 		private void save_CheckIfOkayToLoad()
 		{
+			const string METHOD = CLASS + "save_CheckIfOkayToLoad()";
+			Logger.LogTrace_EnterMethod(METHOD + "  " + this._clientNumSaving.ToString() + " clients running.");
+
 			try
 			{
-				const string METHOD = CLASS+"save_CheckIfOkayToLoad()";
-				Logger.LogTrace(METHOD + " Enter: " + this._clientNumSaving.ToString() + " running.");
-
 				//If we're down to 0, we have to reload our information.
 				if (this._clientNumSaving == 0)
 				{
+					Logger.LogTrace(METHOD + "  No More Clients, loading data...");
 					this.IsSaving = false;
 					this.lblLoadingIncident.Text = StaticFuncs.getCultureResource.GetString("app_Requirement_Refreshing");
 					this.load_LoadItem();
 				}
 
-				Logger.LogTrace(METHOD + " Exit");
 			}
 			catch (Exception ex)
 			{
-				Logger.LogMessage(ex, "save_CheckIfOkayToLoad()");
+				Logger.LogMessage(ex, METHOD);
 				MessageBox.Show(StaticFuncs.getCultureResource.GetString("app_General_UnexpectedError"), StaticFuncs.getCultureResource.GetString("app_General_ApplicationShortName"), MessageBoxButton.OK, MessageBoxImage.Error);
 			}
+			Logger.LogTrace_ExitMethod(METHOD);
 		}
 
 		/// <summary>Returns whether the given Concurrent Requirement can be safely merged with the user's values.</summary>
@@ -449,7 +451,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <returns>A new RemoteIncident, or Null if error.</returns>
 		private RemoteRequirement save_GetFromFields()
 		{
-			const string METHOD = CLASS+"save_GetFromFields()";
+			const string METHOD = CLASS + "save_GetFromFields()";
 
 			RemoteRequirement retRequirement = null;
 			try
@@ -457,6 +459,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retRequirement = new RemoteRequirement();
 
 				//Standard fields..
+				retRequirement.ConcurrencyDate = this._Requirement.ConcurrencyDate;
 				retRequirement.CoverageCountBlocked = this._Requirement.CoverageCountBlocked;
 				retRequirement.CoverageCountCaution = this._Requirement.CoverageCountCaution;
 				retRequirement.CoverageCountFailed = this._Requirement.CoverageCountFailed;

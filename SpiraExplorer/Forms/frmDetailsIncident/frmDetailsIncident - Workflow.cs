@@ -139,17 +139,25 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 			try
 			{
-				//Go through each field..
-				foreach (KeyValuePair<int, WorkflowField> kvpField in this._WorkflowCustom)
+				//Go through each workflow entry..
+				foreach (RemoteWorkflowIncidentCustomProperties prop in workflowFields)
 				{
 					WorkflowField.WorkflowStatusEnum status = WorkflowField.WorkflowStatusEnum.Normal;
-					RemoteWorkflowIncidentCustomProperties wkfField = workflowFields.SingleOrDefault(wkf => wkf.CustomPropertyId == kvpField.Key);
-					if (wkfField != null)
+					try
 					{
-						status = (WorkflowField.WorkflowStatusEnum)wkfField.FieldStateId;
+						status = (WorkflowField.WorkflowStatusEnum)prop.FieldStateId;
 					}
+					catch (Exception ex)
+					{ }
 
-					retList.Add(kvpField.Key, status);
+					//Add it to the list, if there isn't a higher one already in there.
+					if (retList.ContainsKey(prop.CustomPropertyId))
+					{
+						status = WorkflowField.GetHigherImportance(status, retList[prop.CustomPropertyId]);
+						retList[prop.CustomPropertyId] = status;
+					}
+					else
+						retList.Add(prop.CustomPropertyId, status);
 				}
 			}
 			catch (Exception ex)
@@ -663,7 +671,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							this._WorkflowCustom_Updated = this.workflow_LoadFieldStatus(e.Result);
 
 							//Update custom workflow fields.
-							this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Updated, false);
+							this.cntCustomProps.SetWorkflowFields((dynamic)this._WorkflowCustom_Updated);
+							//this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Updated, false);
 
 							//Hide the status if needed.
 							if (this._clientNumRunning == 0)
@@ -770,6 +779,66 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				Required = 2,
 				/// <summary>Field is hidden, not displayed to the user.</summary>
 				Hidden = 3
+			}
+
+			public static Dictionary<int, int> ConvertToDoubleInt(Dictionary<int, WorkflowStatusEnum> input)
+			{
+				Dictionary<int, int> retList = new Dictionary<int, int>();
+				foreach (KeyValuePair<int, WorkflowStatusEnum> kvpPair in input)
+				{
+					retList.Add(kvpPair.Key, (int)kvpPair.Value);
+				}
+
+				return retList;
+			}
+
+			public static WorkflowStatusEnum GetHigherImportance(WorkflowStatusEnum status1, WorkflowStatusEnum status2)
+			{
+				WorkflowStatusEnum retStatus = WorkflowStatusEnum.Normal;
+
+				if (status1.Equals(status2))
+					retStatus = status1;
+				else
+				{
+					switch (status1)
+					{
+						case WorkflowStatusEnum.Hidden:
+							{
+								//Nothing beats Hidden.
+								retStatus = status1;
+							}
+							break;
+							
+						case WorkflowStatusEnum.Inactive:
+							{
+								//The only ones that beat 'Inactive' is Hidden.
+								if (status2 == WorkflowStatusEnum.Hidden)
+								{
+									retStatus = status2;
+								}
+							}
+							break;
+
+						case WorkflowStatusEnum.Normal:
+							{
+								//Everything else beats Normal
+								retStatus = status2;
+							}
+							break;
+
+						case WorkflowStatusEnum.Required:
+							{
+								//Inactive and Hidden beats Required.
+								if (status2 == WorkflowStatusEnum.Inactive || status2 == WorkflowStatusEnum.Hidden)
+								{
+									retStatus = status2;
+								}
+							}
+							break;
+					}
+				}
+
+				return retStatus;
 			}
 		}
 	}

@@ -968,7 +968,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 					//Set Workflow Data. (To disable Fields)
 					this.workflow_SetEnabledFields(this._WorkflowFields, this._WorkflowFields_Current,true);
-					this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Current,false);
+					//this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Current,false);
+					this.cntCustomProps.SetWorkflowFields(WorkflowField.ConvertToDoubleInt(this._WorkflowCustom_Current));
 
 					//Turn off loading screen..
 					this.IsLoading = false;
