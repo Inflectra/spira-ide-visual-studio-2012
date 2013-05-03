@@ -671,8 +671,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							this._WorkflowCustom_Updated = this.workflow_LoadFieldStatus(e.Result);
 
 							//Update custom workflow fields.
-							this.cntCustomProps.SetWorkflowFields((dynamic)this._WorkflowCustom_Updated);
-							//this.workflow_SetEnabledFields(this._WorkflowCustom, this._WorkflowCustom_Updated, false);
+							this.cntCustomProps.SetWorkflowFields(WorkflowField.ConvertToDoubleInt(this._WorkflowCustom_Updated));
 
 							//Hide the status if needed.
 							if (this._clientNumRunning == 0)

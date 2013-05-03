@@ -46,11 +46,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						//Create a client, and save task and resolution..
 						ImportExportClient clientSave = StaticFuncs.CreateClient(((SpiraProject)this._ArtifactDetails.ArtifactParentProject.ArtifactTag).ServerURL.ToString());
-						clientSave.Connection_Authenticate2Completed += new EventHandler<Connection_Authenticate2CompletedEventArgs>(clientSave_Connection_Authenticate2Completed);
-						clientSave.Connection_ConnectToProjectCompleted += new EventHandler<Connection_ConnectToProjectCompletedEventArgs>(clientSave_Connection_ConnectToProjectCompleted);
-						clientSave.Requirement_UpdateCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clientSave_Requirement_UpdateCompleted);
-						clientSave.Requirement_CreateCommentCompleted += new EventHandler<Requirement_CreateCommentCompletedEventArgs>(clientSave_Requirement_CreateCommentCompleted);
-						clientSave.Connection_DisconnectCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clientSave_Connection_DisconnectCompleted);
+						clientSave.Connection_Authenticate2Completed += clientSave_Connection_Authenticate2Completed;
+						clientSave.Connection_ConnectToProjectCompleted += clientSave_Connection_ConnectToProjectCompleted;
+						clientSave.Requirement_UpdateCompleted += clientSave_Requirement_UpdateCompleted;
+						clientSave.Requirement_CreateCommentCompleted += clientSave_Requirement_CreateCommentCompleted;
+						clientSave.Connection_DisconnectCompleted += clientSave_Connection_DisconnectCompleted;
 
 						//Fire off the connection.
 						this._clientNumSaving = 1;
@@ -164,7 +164,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							//We need to save a resolution.
 							RemoteComment newRes = new RemoteComment();
-							newRes.CreationDate = DateTime.Now;
+							newRes.CreationDate = DateTime.Now.ToUniversalTime();
 							newRes.UserId = ((SpiraProject)this._ArtifactDetails.ArtifactParentProject.ArtifactTag).UserID;
 							newRes.ArtifactId = this._ArtifactDetails.ArtifactId;
 							newRes.Text = this.cntrlResolution.HTMLText;
@@ -409,7 +409,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//If we're down to 0, we have to reload our information.
 				if (this._clientNumSaving == 0)
 				{
-					Logger.LogTrace(METHOD + "  No More Clients, loading data...");
+					Logger.LogTrace("No More Clients, loading new data from server.");
 					this.IsSaving = false;
 					this.lblLoadingIncident.Text = StaticFuncs.getCultureResource.GetString("app_Requirement_Refreshing");
 					this.load_LoadItem();
@@ -465,9 +465,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				retRequirement.CoverageCountFailed = this._Requirement.CoverageCountFailed;
 				retRequirement.CoverageCountPassed = this._Requirement.CoverageCountPassed;
 				retRequirement.CoverageCountTotal = this._Requirement.CoverageCountTotal;
-				retRequirement.CreationDate = this._Requirement.CreationDate;
+				retRequirement.CreationDate = this._Requirement.CreationDate.ToUniversalTime();
 				retRequirement.IndentLevel = this._Requirement.IndentLevel;
-				retRequirement.LastUpdateDate = this._Requirement.LastUpdateDate;
+				retRequirement.LastUpdateDate = this._Requirement.LastUpdateDate.ToUniversalTime();
 				retRequirement.ProjectId = this._Requirement.ProjectId;
 				retRequirement.RequirementId = this._Requirement.RequirementId;
 				retRequirement.Summary = this._Requirement.Summary;

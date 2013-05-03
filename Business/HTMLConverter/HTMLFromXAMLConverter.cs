@@ -355,10 +355,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXA
 						case XmlNodeType.Comment:
 							if (htmlWriter != null)
 							{
-								if (!elementContentStarted && inlineStyle.Length > 0)
-								{
-									htmlWriter.WriteAttributeString("style", inlineStyle.ToString());
-								}
+								//if (!elementContentStarted && inlineStyle.Length > 0)
+								//{
+								//	htmlWriter.WriteAttributeString("style", inlineStyle.ToString());
+								//}
 								htmlWriter.WriteComment(xamlReader.Value);
 							}
 							elementContentStarted = true;
@@ -368,10 +368,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.HTMLandXA
 						case XmlNodeType.SignificantWhitespace:
 							if (htmlWriter != null)
 							{
-								if (!elementContentStarted && inlineStyle.Length > 0)
-								{
-									htmlWriter.WriteAttributeString("style", inlineStyle.ToString());
-								}
+								//if (!elementContentStarted && inlineStyle.Length > 0)
+								//{
+								//	htmlWriter.WriteAttributeString("style", inlineStyle.ToString());
+								//}
 								htmlWriter.WriteString(xamlReader.Value);
 							}
 							elementContentStarted = true;

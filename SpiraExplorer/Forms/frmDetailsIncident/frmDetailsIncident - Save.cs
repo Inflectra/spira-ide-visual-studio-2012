@@ -48,11 +48,11 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						//Create a client, and save task and resolution..
 						ImportExportClient clientSave = StaticFuncs.CreateClient(((SpiraProject)this._ArtifactDetails.ArtifactParentProject.ArtifactTag).ServerURL.ToString());
-						clientSave.Connection_Authenticate2Completed += new EventHandler<Connection_Authenticate2CompletedEventArgs>(clientSave_Connection_Authenticate2Completed);
-						clientSave.Connection_ConnectToProjectCompleted += new EventHandler<Connection_ConnectToProjectCompletedEventArgs>(clientSave_Connection_ConnectToProjectCompleted);
-						clientSave.Incident_UpdateCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clientSave_Incident_UpdateCompleted);
+						clientSave.Connection_Authenticate2Completed += clientSave_Connection_Authenticate2Completed;
+						clientSave.Connection_ConnectToProjectCompleted += clientSave_Connection_ConnectToProjectCompleted;
+						clientSave.Incident_UpdateCompleted += clientSave_Incident_UpdateCompleted;
 						clientSave.Incident_AddCommentsCompleted += clientSave_Incident_AddCommentsCompleted;
-						clientSave.Connection_DisconnectCompleted += new EventHandler<System.ComponentModel.AsyncCompletedEventArgs>(clientSave_Connection_DisconnectCompleted);
+						clientSave.Connection_DisconnectCompleted += clientSave_Connection_DisconnectCompleted;
 
 						//Fire off the connection.
 						this._clientNumSaving = 1;
@@ -165,7 +165,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							//We need to save a resolution.
 							RemoteComment newRes = new RemoteComment();
-							newRes.CreationDate = DateTime.Now;
+							newRes.CreationDate = DateTime.Now.ToUniversalTime();
 							newRes.UserId = ((SpiraProject)this._ArtifactDetails.ArtifactParentProject.ArtifactTag).UserID;
 							newRes.ArtifactId = this._ArtifactDetails.ArtifactId;
 							newRes.Text = this.cntrlResolution.HTMLText;
@@ -461,8 +461,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//*Fixed fields..
 				retIncident.IncidentId = this._Incident.IncidentId;
 				retIncident.ProjectId = this._Incident.ProjectId;
-				retIncident.CreationDate = this._Incident.CreationDate;
-				retIncident.LastUpdateDate = this._Incident.LastUpdateDate;
+				if (this._Incident.CreationDate.HasValue)
+					retIncident.CreationDate = this._Incident.CreationDate.Value.ToUniversalTime();
+				retIncident.LastUpdateDate = this._Incident.LastUpdateDate.ToUniversalTime();
 				retIncident.ConcurrencyDate = this._Incident.ConcurrencyDate;
 
 				//*Standard fields..
@@ -482,8 +483,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					retIncident.Description = this._Incident.Description;
 
 				//*Schedule fields..
-				retIncident.StartDate = this.cntrlStartDate.SelectedDate;
-				retIncident.ClosedDate = this.cntrlEndDate.SelectedDate;
+				if (this.cntrlStartDate.SelectedDate.HasValue)
+					retIncident.StartDate = this.cntrlStartDate.SelectedDate.Value.ToUniversalTime();
+				if (this.cntrlEndDate.SelectedDate.HasValue)
+					retIncident.ClosedDate = this.cntrlEndDate.SelectedDate.Value.ToUniversalTime();
 				retIncident.EstimatedEffort = StaticFuncs.GetMinutesFromValues(this.cntrlEstEffortH.Text, this.cntrlEstEffortM.Text);
 				retIncident.ActualEffort = StaticFuncs.GetMinutesFromValues(this.cntrlActEffortH.Text, this.cntrlActEffortM.Text);
 				retIncident.RemainingEffort = StaticFuncs.GetMinutesFromValues(this.cntrlRemEffortH.Text, this.cntrlRemEffortM.Text);

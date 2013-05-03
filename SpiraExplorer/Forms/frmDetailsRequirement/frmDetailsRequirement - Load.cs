@@ -545,6 +545,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						//Load the requirement.
 						this._Requirement = e.Result;
+						this._Requirement.CreationDate = this._Requirement.CreationDate.ToLocalTime();
+						this._Requirement.LastUpdateDate = this._Requirement.LastUpdateDate.ToLocalTime();
 
 						//See if we're ready to get the actual data.
 						this.load_IsReadyToDisplayData();
@@ -721,7 +723,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					foreach (RemoteComment Resolution in Discussions)
 					{
-						string header = Resolution.UserName + " [" + Resolution.CreationDate.Value.ToShortDateString() + " " + Resolution.CreationDate.Value.ToShortTimeString() + "]";
+						string header = Resolution.UserName + " [" + Resolution.CreationDate.Value.ToLocalTime().ToShortDateString() + " " + Resolution.CreationDate.Value.ToLocalTime().ToShortTimeString() + "]";
 						this.cntrlDiscussion.Children.Add(new cntlDiscussionFrame(header, Resolution.Text));
 					}
 				}

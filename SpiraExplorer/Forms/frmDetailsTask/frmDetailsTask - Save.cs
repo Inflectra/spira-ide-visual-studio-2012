@@ -243,7 +243,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							//We need to save a resolution.
 							RemoteComment newRes = new RemoteComment();
-							newRes.CreationDate = DateTime.Now;
+							newRes.CreationDate = DateTime.Now.ToUniversalTime();
 							newRes.UserId = ((SpiraProject)this._ArtifactDetails.ArtifactParentProject.ArtifactTag).UserID;
 							newRes.ArtifactId = this._ArtifactDetails.ArtifactId;
 							newRes.Text = this.cntrlResolution.HTMLText;
@@ -461,8 +461,9 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				//Standard fields..
 				retTask.TaskId = this._Task.TaskId;
 				retTask.ProjectId = this._Task.ProjectId;
-				retTask.CreationDate = this._Task.CreationDate;
-				retTask.LastUpdateDate = this._Task.LastUpdateDate;
+				retTask.ConcurrencyDate = this._Task.ConcurrencyDate;
+				retTask.CreationDate = this._Task.CreationDate.ToUniversalTime();
+				retTask.LastUpdateDate = this._Task.LastUpdateDate.ToUniversalTime();
 				retTask.RequirementId = this._Task.RequirementId;
 				retTask.Name = this.cntrlTaskName.Text.Trim();
 				retTask.TaskPriorityId = ((TaskPriority)this.cntrlPriority.SelectedValue).PriorityId;
@@ -473,8 +474,10 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					retTask.Description = this.cntrlDescription.HTMLText;
 				else
 					retTask.Description = this._Task.Description;
-				retTask.StartDate = this.cntrlStartDate.SelectedDate;
-				retTask.EndDate = this.cntrlEndDate.SelectedDate;
+				if (this.cntrlStartDate.SelectedDate.HasValue)
+					retTask.StartDate = this.cntrlStartDate.SelectedDate.Value.ToUniversalTime();
+				if (this.cntrlEndDate.SelectedDate.HasValue)
+					retTask.EndDate = this.cntrlEndDate.SelectedDate.Value.ToUniversalTime();
 				retTask.TaskStatusId = ((TaskStatus)this.cntrlStatus.SelectedValue).StatusId.Value;
 				retTask.EstimatedEffort = StaticFuncs.GetMinutesFromValues(this.cntrlEstEffortH.Text, this.cntrlEstEffortM.Text);
 				retTask.ActualEffort = StaticFuncs.GetMinutesFromValues(this.cntrlActEffortH.Text, this.cntrlActEffortM.Text);

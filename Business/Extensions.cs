@@ -531,5 +531,16 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 
 			return retList;
 		}
+
+		/// <summary>The CreationDate of the comment, converted to Local Time.</summary>
+		/// <param name="comment">The comment.</param>
+		/// <returns>Nullable DateTime</returns>
+		public static DateTime? getDisplayDate(this RemoteComment comment)
+		{
+			if (comment.CreationDate.HasValue)
+				return comment.CreationDate.Value.ToLocalTime();
+			else
+				return null;
+		}
 	}
 }

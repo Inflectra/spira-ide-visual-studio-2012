@@ -30,7 +30,6 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		private bool _isLoadingInformation;
 		private bool _isWorkflowChanging;
 		#endregion
-		private Grid _gridCurrentlyFadingOut;
 
 		private TreeViewArtifact _ArtifactDetails;
 
@@ -344,22 +343,47 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		/// <param name="e">EventArgs</param>
 		private void animFadeOut_Completed(object sender, EventArgs e)
 		{
+			string METHOD = CLASS + "animFadeOut_Completed()";
+			Logger.LogTrace_EnterMethod(METHOD);
+
 			try
 			{
-				if (this._gridCurrentlyFadingOut != null)
+				//Try to get the name..
+				string contName = ((AnimationClock)sender).Timeline.Name;
+				if (!string.IsNullOrWhiteSpace(contName))
 				{
-					this._gridCurrentlyFadingOut.Visibility = System.Windows.Visibility.Collapsed;
-					this._gridCurrentlyFadingOut = null;
+					Logger.LogTrace("Fading out on panel '" + contName + "' done.");
+					object cont = this.FindName(contName);
+					if (cont != null && cont is Panel)
+					{
+						((Panel)cont).Visibility = System.Windows.Visibility.Collapsed;
+					}
+					else
+					{
+						Logger.LogTrace("Fading out on panel '" + contName + "' done, but panel couldn't be found.");
+						this.panelStatus.Visibility = System.Windows.Visibility.Collapsed;
+						this.panelError.Visibility = System.Windows.Visibility.Collapsed;
+						this.panelSaving.Visibility = System.Windows.Visibility.Collapsed;
+					}
+				}
+				else
+				{
+					Logger.LogTrace("Fading out done, but animation had no name.");
+					this.panelStatus.Visibility = System.Windows.Visibility.Collapsed;
+					this.panelError.Visibility = System.Windows.Visibility.Collapsed;
+					this.panelSaving.Visibility = System.Windows.Visibility.Collapsed;
 				}
 			}
 			catch (Exception ex)
 			{
 				//Error occurred, clear them all.
-				Logger.LogMessage(ex, "Clearing panel fade out.");
+				Logger.LogMessage(ex, METHOD);
 				this.panelStatus.Visibility = System.Windows.Visibility.Collapsed;
 				this.panelError.Visibility = System.Windows.Visibility.Collapsed;
 				this.panelSaving.Visibility = System.Windows.Visibility.Collapsed;
 			}
+
+			Logger.LogTrace_ExitMethod(METHOD);
 		}
 
 		/// <summary>Hit when the user clicks the Actions menu.</summary>
@@ -794,6 +818,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						DoubleAnimation animFadeIn = new DoubleAnimation(0, 1, new TimeSpan(0, 0, 0, 0, 150));
 						Storyboard.SetTarget(animFadeIn, Panel);
 						Storyboard.SetTargetProperty(animFadeIn, new PropertyPath(Control.OpacityProperty));
+						animFadeIn.Name = Panel.Name;
 						storyFadeIn.Children.Add(animFadeIn);
 
 						//Start the animation.
@@ -804,15 +829,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					case System.Windows.Visibility.Collapsed:
 					case System.Windows.Visibility.Hidden:
 					default:
-						//Assign to the var..
-						this._gridCurrentlyFadingOut = Panel;
 
 						//Fade it out.
 						Storyboard storyFadeOut = new Storyboard();
 						DoubleAnimation animFadeOut = new DoubleAnimation(1, 0, new TimeSpan(0, 0, 0, 0, 250));
 						Storyboard.SetTarget(animFadeOut, Panel);
 						Storyboard.SetTargetProperty(animFadeOut, new PropertyPath(Control.OpacityProperty));
-						animFadeOut.Completed += new EventHandler(animFadeOut_Completed); //To actually hide the layer.
+						animFadeOut.Name = Panel.Name;
+						animFadeOut.Completed += animFadeOut_Completed;
 						Panel.Tag = animFadeOut;
 						storyFadeOut.Children.Add(animFadeOut);
 

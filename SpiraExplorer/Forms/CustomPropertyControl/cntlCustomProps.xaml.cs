@@ -68,7 +68,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 		{
 			#region Control Creation
 			//Create our columns, first.
-			this.grdContent.ColumnDefinitions.Clear();
+			this.ClearData();
 			bool isLabelCol = true;
 			for (int i = 1; i <= (this.numCols * 2); i++)
 			{
@@ -310,6 +310,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 							else
 							{
 								((DatePicker)propControl).SelectedDate = (DateTime?)this.getPropertyDefaultValue(prop);
+								if (((DatePicker)propControl).SelectedDate.HasValue)
+									((DatePicker)propControl).SelectedDate = ((DatePicker)propControl).SelectedDate.Value.ToLocalTime();
 							}
 						}
 						break;

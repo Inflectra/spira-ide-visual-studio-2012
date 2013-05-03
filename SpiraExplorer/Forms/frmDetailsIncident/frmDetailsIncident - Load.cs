@@ -598,6 +598,14 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						this._IncCurrentStatus = e.Result.IncidentStatusId;
 						this._IncCurrentType = e.Result.IncidentTypeId;
 						this._Incident = e.Result;
+						//Adjust time fields.
+						if (this._Incident.CreationDate.HasValue)
+							this._Incident.CreationDate = this._Incident.CreationDate.Value.ToLocalTime();
+						this._Incident.LastUpdateDate = this._Incident.LastUpdateDate.ToLocalTime();
+						if (this._Incident.StartDate.HasValue)
+							this._Incident.StartDate = this._Incident.StartDate.Value.ToLocalTime();
+						if (this._Incident.ClosedDate.HasValue)
+							this._Incident.ClosedDate = this._Incident.ClosedDate.Value.ToLocalTime();
 
 						//Get workflow steps and fields, and URL.
 						this._clientNumRunning += 5;
@@ -1186,7 +1194,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					foreach (Business.SpiraTeam_Client.RemoteComment Resolution in Discussions)
 					{
-						string header = Resolution.UserName + " [" + Resolution.CreationDate.Value.ToShortDateString() + " " + Resolution.CreationDate.Value.ToShortTimeString() + "]";
+						string header = Resolution.UserName + " [" + Resolution.getDisplayDate().Value.ToShortDateString() + " " + Resolution.getDisplayDate().Value.ToShortTimeString() + "]";
 						this.cntrlDiscussion.Children.Add(new cntlDiscussionFrame(header, Resolution.Text));
 					}
 				}

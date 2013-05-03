@@ -531,6 +531,13 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					if (e.Error == null)
 					{
 						this._Task = e.Result;
+						//Update dates..
+						this._Task.CreationDate = this._Task.CreationDate.ToLocalTime();
+						this._Task.LastUpdateDate = this._Task.LastUpdateDate.ToLocalTime();
+						if (this._Task.StartDate.HasValue)
+							this._Task.StartDate = this._Task.StartDate.Value.ToLocalTime();
+						if (this._Task.EndDate.HasValue)
+							this._Task.EndDate = this._Task.EndDate.Value.ToLocalTime();
 
 						//Fire off the last one, to get the requirement details.
 						if (e.Result.RequirementId.HasValue)
@@ -757,7 +764,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					foreach (Business.SpiraTeam_Client.RemoteComment Resolution in Discussions)
 					{
-						string header = Resolution.UserName + " [" + Resolution.CreationDate.Value.ToShortDateString() + " " + Resolution.CreationDate.Value.ToShortTimeString() + "]";
+						string header = Resolution.UserName + " [" + Resolution.CreationDate.Value.ToLocalTime(). ToShortDateString() + " " + Resolution.CreationDate.Value.ToLocalTime(). ToShortTimeString() + "]";
 						this.cntrlDiscussion.Children.Add(new cntlDiscussionFrame(header, Resolution.Text));
 					}
 				}
