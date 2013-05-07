@@ -30,7 +30,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				{
 					foreach (string strProj in ProjList.Split(Business.SpiraProject.CHAR_RECORD))
 					{
-						TreeViewArtifact newProj = new TreeViewArtifact();
+						TreeViewArtifact newProj = new TreeViewArtifact(this.refreshTreeNodeServerData);
 						newProj.ArtifactTag = Business.SpiraProject.GenerateFromString(strProj);
 						newProj.ArtifactId = ((Business.SpiraProject)newProj.ArtifactTag).ProjectID;
 						newProj.ArtifactName = ((Business.SpiraProject)newProj.ArtifactTag).ProjectName;
@@ -146,17 +146,17 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 				foreach (TreeViewArtifact trvProj in this._Projects)
 				{
 					//Create the 'My' nodes.
-					TreeViewArtifact folderIncMy = new TreeViewArtifact();
+					TreeViewArtifact folderIncMy = new TreeViewArtifact(this.refreshTreeNodeServerData);
 					folderIncMy.ArtifactIsFolder = true;
 					folderIncMy.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_My"), StaticFuncs.getCultureResource.GetString("app_Tree_Incidents"));
 					folderIncMy.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Incident;
 					folderIncMy.ArtifactIsFolderMine = true;
-					TreeViewArtifact folderReqMy = new TreeViewArtifact();
+					TreeViewArtifact folderReqMy = new TreeViewArtifact(this.refreshTreeNodeServerData);
 					folderReqMy.ArtifactIsFolder = true;
 					folderReqMy.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_My"), StaticFuncs.getCultureResource.GetString("app_Tree_Requirements"));
 					folderReqMy.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Requirement;
 					folderReqMy.ArtifactIsFolderMine = true;
-					TreeViewArtifact folderTskMy = new TreeViewArtifact();
+					TreeViewArtifact folderTskMy = new TreeViewArtifact(this.refreshTreeNodeServerData);
 					folderTskMy.ArtifactIsFolder = true;
 					folderTskMy.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_My"), StaticFuncs.getCultureResource.GetString("app_Tree_Tasks"));
 					folderTskMy.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Task;
@@ -166,22 +166,22 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 					{
 						//In this case, we need to create different root folders, as well as Unassigned folders.
 						//Create real roots.
-						TreeViewArtifact folderInc = new TreeViewArtifact() { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Incidents") };
-						TreeViewArtifact folderReq = new TreeViewArtifact() { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Requirements") };
-						TreeViewArtifact folderTsk = new TreeViewArtifact() { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Tasks") };
+						TreeViewArtifact folderInc = new TreeViewArtifact(this.refreshTreeNodeServerData) { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Incidents") };
+						TreeViewArtifact folderReq = new TreeViewArtifact(this.refreshTreeNodeServerData) { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Requirements") };
+						TreeViewArtifact folderTsk = new TreeViewArtifact(this.refreshTreeNodeServerData) { ArtifactIsFolder = true, Parent = trvProj, ArtifactName = StaticFuncs.getCultureResource.GetString("app_Tree_Tasks") };
 
 						//Create unassigned nodes.
-						TreeViewArtifact folderIncUn = new TreeViewArtifact();
+						TreeViewArtifact folderIncUn = new TreeViewArtifact(this.refreshTreeNodeServerData);
 						folderIncUn.ArtifactIsFolder = true;
 						folderIncUn.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_Unassigned"), StaticFuncs.getCultureResource.GetString("app_Tree_Incidents"));
 						folderIncUn.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Incident;
 						folderIncUn.Parent = folderInc;
-						TreeViewArtifact folderReqUn = new TreeViewArtifact();
+						TreeViewArtifact folderReqUn = new TreeViewArtifact(this.refreshTreeNodeServerData);
 						folderReqUn.ArtifactIsFolder = true;
 						folderReqUn.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_Unassigned"), StaticFuncs.getCultureResource.GetString("app_Tree_Requirements"));
 						folderReqUn.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Requirement;
 						folderReqUn.Parent = folderReq;
-						TreeViewArtifact folderTskUn = new TreeViewArtifact();
+						TreeViewArtifact folderTskUn = new TreeViewArtifact(this.refreshTreeNodeServerData);
 						folderTskUn.ArtifactIsFolder = true;
 						folderTskUn.ArtifactName = string.Format(StaticFuncs.getCultureResource.GetString("app_Tree_Unassigned"), StaticFuncs.getCultureResource.GetString("app_Tree_Tasks"));
 						folderTskUn.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Task;
@@ -247,7 +247,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						foreach (RemoteIncident incident in e.Result)
 						{
 							//Make new node.
-							TreeViewArtifact newNode = new TreeViewArtifact();
+							TreeViewArtifact newNode = new TreeViewArtifact(this.refreshTreeNodeServerData);
 							newNode.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Incident;
 							newNode.ArtifactTag = incident;
 							newNode.ArtifactName = incident.Name;
@@ -769,7 +769,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 							if (!requirement.Summary)
 							{
 								//Make new node.
-								TreeViewArtifact newNode = new TreeViewArtifact();
+								TreeViewArtifact newNode = new TreeViewArtifact(this.refreshTreeNodeServerData);
 								newNode.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Requirement;
 								//newNode.TreeNode = this;
 								newNode.ArtifactTag = requirement;
@@ -832,7 +832,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						foreach (RemoteTask task in e.Result)
 						{
 							//Make new node.
-							TreeViewArtifact newNode = new TreeViewArtifact();
+							TreeViewArtifact newNode = new TreeViewArtifact(this.refreshTreeNodeServerData);
 							newNode.ArtifactType = TreeViewArtifact.ArtifactTypeEnum.Task;
 							newNode.ArtifactTag = task;
 							newNode.ArtifactName = task.Name;
@@ -962,7 +962,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 		{
 			try
 			{
-				TreeViewArtifact errorNode = new TreeViewArtifact();
+				TreeViewArtifact errorNode = new TreeViewArtifact(this.refreshTreeNodeServerData);
 				errorNode.ArtifactIsError = true;
 				errorNode.ArtifactName = Title;
 				errorNode.ArtifactTag = exception;

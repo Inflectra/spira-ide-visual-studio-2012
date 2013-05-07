@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Inflectra.Global;
 using Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business.Forms;
+using Microsoft.VisualStudio.Shell;
 
 namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 {
@@ -13,12 +14,24 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 		private bool _isTimed;
 		private DateTime _startTime;
 		private DateTime _endTime;
+		private RefreshMethod _method;
+		public delegate void RefreshMethod(TreeViewArtifact item);
 
 		public event EventHandler WorkTimerChanged;
 		public event EventHandler DetailsOpenRequested;
 
+		/// <summary>Creates a new instance of the class, unable to refresh itself.</summary>
 		public TreeViewArtifact()
 		{
+			this.ArtifactType = ArtifactTypeEnum.None;
+			this.Items = new List<object>();
+		}
+
+		/// <summary>Creates a new instance of the class, with the pointer to the method to refresh itself.</summary>
+		/// <param name="method">The refreshTreeNodeServerData method.</param>
+		public TreeViewArtifact(RefreshMethod method)
+		{
+			this._method = method;
 			this.ArtifactType = ArtifactTypeEnum.None;
 			this.Items = new List<object>();
 		}
@@ -152,14 +165,15 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 
 				//Add it to a textblock.
 				TextBlock txtName = new TextBlock();
+				txtName.SetResourceReference(TextBlock.ForegroundProperty, VsBrushes.ToolWindowTextKey);
 				if (this.Style_IsInError)
 				{
-					txtName.Foreground = new SolidColorBrush(Colors.DarkRed);
+					txtName.Foreground = new SolidColorBrush(Color.FromArgb(255, 224, 64, 0));
 					txtName.FontStyle = FontStyles.Italic;
 				}
 				if (this.Style_IsCompleted)
 				{
-					txtName.Foreground = new SolidColorBrush(Colors.DarkGray);
+					txtName.Foreground = new SolidColorBrush(Colors.Gray);
 					txtName.FontStyle = FontStyles.Normal;
 					txtName.TextDecorations = new TextDecorationCollection() { TextDecorations.Strikethrough };
 				}
@@ -564,6 +578,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Business
 			e.Handled = true;
 
 			//TODO: Act like they pressed refresh button on this item.
+			if (this._method != null)
+				this._method(this);
 		}
 
 		/// <summary>Hit when the user wants to start or stop work.</summary>

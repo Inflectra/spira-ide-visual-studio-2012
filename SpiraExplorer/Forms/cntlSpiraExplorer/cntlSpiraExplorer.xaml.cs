@@ -292,12 +292,12 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 			{
 				//Define our standard nodes here.
 				// - No Projects
-				this._nodeNoProjects = new TreeViewArtifact();
+				this._nodeNoProjects = new TreeViewArtifact(this.refreshTreeNodeServerData);
 				this._nodeNoProjects.ArtifactName = "No projects selected for this solution.";
 				this._nodeNoProjects.ArtifactIsNo = true;
 
 				// - No Solution
-				this._nodeNoSolution = new TreeViewArtifact();
+				this._nodeNoSolution = new TreeViewArtifact(this.refreshTreeNodeServerData);
 				this._nodeNoSolution.ArtifactName = "No solution open.";
 				this._nodeNoSolution.ArtifactIsNo = true;
 			}

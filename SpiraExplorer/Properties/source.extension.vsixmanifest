@@ -13,6 +13,7 @@
 		<Locale>1033</Locale>
 		<MoreInfoUrl>http://inflectra.com</MoreInfoUrl>
 		<License>Inflectra Software EULA.rtf</License>
+		<ReleaseNotes>.\readme.txt</ReleaseNotes>
 		<GettingStartedGuide>http://inflectra.com/SpiraTeam/Documentation.aspx</GettingStartedGuide>
 		<Icon>.\Resources\Package.ico</Icon>
 		<PreviewImage>.\Resources\Screenshot.png</PreviewImage>
