@@ -566,6 +566,8 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 						{
 							this.barLoadingTask.Value = 1;
 							this.display_SetOverlayWindow(this.panelStatus, Visibility.Hidden);
+                            //Null out client?
+                            this._client = null;
 						}
 
 						this._isLoadingInformation = value;

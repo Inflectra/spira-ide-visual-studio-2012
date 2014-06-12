@@ -105,7 +105,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms
 
 				this._clientNumRunning = 0;
 				this._clientNum = 0;
-				this._client = null;
+                this._client.Abort();
 
 				Logger.LogTrace_ExitMethod(METHOD + "  Clients - Running: " + this._clientNumRunning.ToString() + ", Total: " + this._clientNum.ToString());
 			}

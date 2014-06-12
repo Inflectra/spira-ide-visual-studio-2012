@@ -90,4 +90,3 @@ C:\Subversion\Projects\SpiraTeam Add Ons\Trunk\IDE Integration\Visual Studio 201
 C:\Subversion\Projects\SpiraTeam Add Ons\Trunk\IDE Integration\Visual Studio 2012\WPFControls\obj\Release\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit.Core.ErrorMessages.resources
 C:\Subversion\Projects\SpiraTeam Add Ons\Trunk\IDE Integration\Visual Studio 2012\WPFControls\obj\Release\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit.csproj.GenerateResource.Cache
 C:\Subversion\Projects\SpiraTeam Add Ons\Trunk\IDE Integration\Visual Studio 2012\WPFControls\obj\Release\WPFFormats.dll
-C:\Subversion\Projects\SpiraTeam Add Ons\Trunk\IDE Integration\Visual Studio 2012\WPFControls\obj\Release\Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Forms.ToolKit.csprojResolveAssemblyReference.cache

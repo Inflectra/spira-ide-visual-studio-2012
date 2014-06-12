@@ -2,6 +2,11 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpiraExplorer", "SpiraExplorer\SpiraExplorer.csproj", "{DED7E66A-772F-4A0A-957E-01CA9895B07C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256C278A-66AC-40CD-BB71-598586F6FA1C} = {256C278A-66AC-40CD-BB71-598586F6FA1C}
+		{63BB7B99-0E00-414B-8AF4-780921C28ABB} = {63BB7B99-0E00-414B-8AF4-780921C28ABB}
+		{72E591D6-8F83-4D8C-8F67-9C325E623234} = {72E591D6-8F83-4D8C-8F67-9C325E623234}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business", "Business\Business.csproj", "{256C278A-66AC-40CD-BB71-598586F6FA1C}"
 EndProject
@@ -53,14 +58,14 @@ Global
 		{72E591D6-8F83-4D8C-8F67-9C325E623234} = {6C6F4308-7A1A-4D8E-8FD2-9355E89BAE87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		BuildVersion_DetectChanges = False
-		BuildVersion_ConfigurationName = Release
-		BuildVersion_StartDate = 2000/1/1
-		BuildVersion_UpdateFileVersion = True
-		BuildVersion_UpdateAssemblyVersion = True
-		BuildVersion_BuildVersioningStyle = None.None.None.DeltaBaseDate
-		BuildVersion_UseGlobalSettings = False
 		BuildVersion_AssemblyInfoFilename = SharedAssemblyInfo.cs
+		BuildVersion_UseGlobalSettings = False
+		BuildVersion_BuildVersioningStyle = None.None.None.DeltaBaseDate
+		BuildVersion_UpdateAssemblyVersion = True
+		BuildVersion_UpdateFileVersion = True
+		BuildVersion_StartDate = 2000/1/1
+		BuildVersion_ConfigurationName = Release
+		BuildVersion_DetectChanges = False
 	EndGlobalSection
 	GlobalSection(Performance) = preSolution
 		HasPerformanceSessions = true

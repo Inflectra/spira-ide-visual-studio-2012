@@ -784,7 +784,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012.Controls
 			}
 			set
 			{
-				if (value == null || value < 1)
+				if (value < 1)
 					throw new ArgumentException("Number of columns must be at least 1.");
 
 				this.numCols = value;
