@@ -48,6 +48,8 @@
     <DeployExtension>True</DeployExtension>
     <CreateVsixContainer>True</CreateVsixContainer>
     <Prefer32Bit>false</Prefer32Bit>
+    <CopyVsixExtensionFiles>True</CopyVsixExtensionFiles>
+    <CopyVsixExtensionLocation>C:\Users\mike.morrey\Documents\Visual Studio 2013\</CopyVsixExtensionLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -413,7 +415,7 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\VSSDK\Microsoft.VsSDK.targets" Condition="false" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UseGlobalSettings="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_IncrementBeforeBuild="True" BuildVersion_DetectChanges="False" BuildVersion_StartDate="2000/1/1" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_StartDate="2000/1/1" BuildVersion_DetectChanges="False" BuildVersion_IncrementBeforeBuild="True" BuildVersion_BuildVersioningStyle="None.None.None.DeltaBaseDate" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UseGlobalSettings="True" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

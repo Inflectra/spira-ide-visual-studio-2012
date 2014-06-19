@@ -100,7 +100,7 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012
         {
             try
             {
-                Trace.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+                Logger.LogTrace(string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
                 base.Initialize();
 
                 // Add our command handlers for menu (commands must exist in the .vsct file)
@@ -111,6 +111,20 @@ namespace Inflectra.SpiraTest.IDEIntegration.VisualStudio2012
                     CommandID toolwndCommandID = new CommandID(GuidList.guidSpiraExplorerCmdSet, (int)PkgCmdIDList.cmdViewExplorerWindow);
                     MenuCommand menuToolWin = new MenuCommand(ShowToolWindow, toolwndCommandID);
                     mcs.AddCommand(menuToolWin);
+
+                    //DEBUG: Log info..
+                    if (toolwndCommandID == null)
+                        Logger.LogTrace("Initialize(): CommandID- was null!");
+                    else
+                        Logger.LogTrace("Initialize(): CommandID- " + toolwndCommandID.Guid.ToString() + " -- " + toolwndCommandID.ID);
+                    if (menuToolWin == null)
+                        Logger.LogTrace("Initialize(): MenuCommand- was null!");
+                    else
+                        Logger.LogTrace("Initialize(): MenuCommand- " + menuToolWin.OleStatus + " -- " + menuToolWin.Enabled + " -- " + menuToolWin.Supported + " -- " + menuToolWin.Visible);
+                }
+                else
+                {
+                    Logger.LogTrace("Initialize(): OleMenuCommandService was null!");
                 }
 
                 //Attach to the environment to get events..
