@@ -58,6 +58,7 @@
             <Setter Property="Control.IsTabStop" Value="False" />
             <Setter Property="TextBlock.TextTrimming" Value="None" />
             <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
         </Style>
         <Style x:Key="PaddedLabelHighlight">
             <Setter Property="Control.Margin" Value="3" />
@@ -67,6 +68,7 @@
             <Setter Property="Control.IsTabStop" Value="False" />
             <Setter Property="TextBlock.TextTrimming" Value="None" />
             <Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
             <Style.Triggers>
                 <Trigger Property="TextBlock.IsMouseOver" Value="true">
                     <Setter Property="TextBlock.Background" Value="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarMenuBackgroundGradientKey}}" />
@@ -74,6 +76,7 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="RequiredStyle">
+            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
             <Style.Triggers>
                 <Trigger Property="Control.Tag" Value="1">
                     <Setter Property="Control.Background" Value="{StaticResource WarningControlBackground}" />
@@ -190,7 +193,7 @@
             </Setter>
         </Style>
         <Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
@@ -382,24 +385,24 @@
         <DockPanel LastChildFill="True" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Panel.ZIndex="1">
             <ToolBarPanel HorizontalAlignment="Stretch" DockPanel.Dock="Top" Orientation="Horizontal" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandShelfBackgroundGradientKey}}">
                 <ToolBar Name="toolbarIncidentStatus" Loaded="_toolbar_Loaded" Background="{DynamicResource {x:Static vsfx:VsBrushes.CommandBarGradientKey}}" Width="{Binding Path=ActualWidth,RelativeSource={RelativeSource AncestorType={x:Type ToolBarPanel}}}" HorizontalAlignment="Stretch">
-                    <Button  Name="btnSave" IsEnabled="False"  ToolBar.OverflowMode="Never" IsEnabledChanged="toolButton_IsEnabledChanged" Click="btnSave_Click">
+                    <Button Name="btnSave" IsEnabled="False"  ToolBar.OverflowMode="Never" IsEnabledChanged="toolButton_IsEnabledChanged" Click="btnSave_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Name="toolImgSave" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgSave.png" />
-                            <TextBlock Name="toolTxtSave" Margin="2,0,0,0" />
+                            <TextBlock Name="toolTxtSave" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
                         </StackPanel>
                     </Button>
                     <Separator ToolBar.OverflowMode="Never" />
                     <Button DockPanel.Dock="Left" Name="btnRefresh" ToolBar.OverflowMode="Never" Click="btnRefresh_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Name="toolImgRefresh" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgReload.png" />
-                            <TextBlock Name="toolTxtRefresh" Margin="2,0,0,0" />
+                            <TextBlock Name="toolTxtRefresh" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
                         </StackPanel>
                     </Button>
                     <Separator ToolBar.OverflowMode="Never" />
                     <Button DockPanel.Dock="Left" Name="btnLoadWeb" ToolBar.OverflowMode="Never" Click="btnLoadWeb_Click">
                         <StackPanel Orientation="Horizontal">
                             <Image Name="toolImgLoadWeb" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgOpenWeb.png" />
-                            <TextBlock Name="toolTxtLoadWeb" Margin="2,0,0,0" />
+                            <TextBlock Name="toolTxtLoadWeb" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
                         </StackPanel>
                     </Button>
                 </ToolBar>
@@ -475,9 +478,9 @@
                             <!-- ROW4: Planned Effort, Owned By -->
                             <TextBlock Name="lblPlnEffort" Grid.Column="0" Grid.Row="4" Style="{StaticResource PaddedLabel}" />
                             <StackPanel Grid.Column="1" Grid.Row="4" Orientation="Horizontal">
-                                <tk:IntegerUpDown x:Name="cntrlPlnEffortH" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Minimum="0" Maximum="720" />
+                                <tk:IntegerUpDown x:Name="cntrlPlnEffortH" Style="{StaticResource PaddedControl}" Width="60" MinWidth="0" Minimum="0" Maximum="720" />
                                 <TextBlock Style="{StaticResource PaddedLabel}" Name="lblHours" />
-                                <tk:IntegerUpDown x:Name="cntrlPlnEffortM" Style="{StaticResource PaddedControl}" Width="30" MinWidth="0" Minimum="0" Maximum="59" Background="{Binding ElementName=cntrlPlnEffortH, Path=Background}" />
+                                <tk:IntegerUpDown x:Name="cntrlPlnEffortM" Style="{StaticResource PaddedControl}" Width="60" MinWidth="0" Minimum="0" Maximum="59" Background="{Binding ElementName=cntrlPlnEffortH, Path=Background}" />
                                 <TextBlock Style="{StaticResource PaddedLabel}" Name="lblMins" />
                             </StackPanel>
                             <TextBlock  Name="lblOwnedBy" Grid.Column="3" Grid.Row="4" Style="{StaticResource PaddedLabel}" />

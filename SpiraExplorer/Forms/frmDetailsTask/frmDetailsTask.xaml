@@ -51,7 +51,8 @@
 		</LinearGradientBrush>
 		<!-- Styles for Controls -->
 		<Style x:Key="PaddedLabel">
-			<Setter Property="Control.Margin" Value="3" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+            <Setter Property="Control.Margin" Value="3" />
 			<Setter Property="Control.HorizontalAlignment" Value="Stretch" />
 			<Setter Property="TextBlock.TextAlignment" Value="Right" />
 			<Setter Property="Control.VerticalAlignment" Value="Center" />
@@ -60,7 +61,8 @@
 			<Setter Property="TextBlock.TextWrapping" Value="NoWrap" />
 		</Style>
 		<Style x:Key="PaddedLabelHighlight">
-			<Setter Property="Control.Margin" Value="3" />
+            <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+            <Setter Property="Control.Margin" Value="3" />
 			<Setter Property="Control.HorizontalAlignment" Value="Stretch" />
 			<Setter Property="TextBlock.TextAlignment" Value="Right" />
 			<Setter Property="Control.VerticalAlignment" Value="Center" />
@@ -74,7 +76,8 @@
 			</Style.Triggers>
 		</Style>
 		<Style x:Key="RequiredStyle">
-			<Style.Triggers>
+            <Setter Property="Control.Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+            <Style.Triggers>
 				<Trigger Property="Control.Tag" Value="1">
 					<Setter Property="Control.Background" Value="{StaticResource WarningControlBackground}" />
 				</Trigger>
@@ -84,7 +87,7 @@
 			</Style.Triggers>
 		</Style>
 		<Style x:Key="PaddedControlRequiredHighlight">
-			<Setter Property="Control.MinWidth" Value="150" />
+            <Setter Property="Control.MinWidth" Value="150" />
 			<Setter Property="Control.Margin" Value="3" />
 			<Setter Property="Control.HorizontalAlignment" Value="Stretch" />
 			<Setter Property="Control.VerticalAlignment" Value="Stretch" />
@@ -180,8 +183,8 @@
 			</Setter>
 		</Style>
 		<Style x:Key="ExpanderStyle1" TargetType="{x:Type Expander}">
-			<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-			<Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+            <Setter Property="Background" Value="Transparent"/>
 			<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 			<Setter Property="VerticalContentAlignment" Value="Stretch"/>
 			<Setter Property="BorderBrush" Value="Transparent"/>
@@ -375,29 +378,29 @@
 					<Button Name="btnSave" IsEnabled="False"  ToolBar.OverflowMode="Never" IsEnabledChanged="toolButton_IsEnabledChanged" Click="btnSave_Click">
 						<StackPanel Orientation="Horizontal">
 							<Image Name="toolImgSave" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgSave.png" />
-							<TextBlock Name="toolTxtSave" Margin="2,0,0,0" />
-						</StackPanel>
+                            <TextBlock Name="toolTxtSave" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+                        </StackPanel>
 					</Button>
 					<Separator ToolBar.OverflowMode="Never" />
 					<Button DockPanel.Dock="Left" Name="btnRefresh" ToolBar.OverflowMode="Never" Click="btnRefresh_Click">
 						<StackPanel Orientation="Horizontal">
 							<Image Name="toolImgRefresh" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgReload.png" />
-							<TextBlock Name="toolTxtRefresh" Margin="2,0,0,0" />
-						</StackPanel>
+                            <TextBlock Name="toolTxtRefresh" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+                        </StackPanel>
 					</Button>
 					<Separator ToolBar.OverflowMode="Never" />
 					<Button DockPanel.Dock="Left" Name="btnLoadWeb" ToolBar.OverflowMode="Never" Click="btnLoadWeb_Click">
 						<StackPanel Orientation="Horizontal">
 							<Image Name="toolImgLoadWeb" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgOpenWeb.png" />
-							<TextBlock Name="toolTxtLoadWeb" Margin="2,0,0,0" />
-						</StackPanel>
+                            <TextBlock Name="toolTxtLoadWeb" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+                        </StackPanel>
 					</Button>
 					<Separator ToolBar.OverflowMode="Never" />
 					<ToggleButton  Name="btnStartStopTimer" ToolBar.OverflowMode="Never" Checked="btnStartStopTimer_CheckedChanged" Unchecked="btnStartStopTimer_CheckedChanged">
 						<StackPanel Orientation="Horizontal">
 							<Image Name="toolImgTimer" Height="16" Width="16" Source="/SpiraExplorer;component/Resources/imgTimer.png" />
-							<TextBlock Name="toolTxtTimer" Margin="2,0,0,0" />
-						</StackPanel>
+                            <TextBlock Name="toolTxtTimer" Margin="2,0,0,0" Foreground="{DynamicResource {x:Static vsfx:VsBrushes.ToolWindowTextKey}}" />
+                        </StackPanel>
 					</ToggleButton>
 				</ToolBar>
 			</ToolBarPanel>
